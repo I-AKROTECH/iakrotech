@@ -2449,7 +2449,7 @@ body.brand-theme h6 {
 }
 
 body.brand-theme a {
-  color: #fff;
+  color: var(--iak-primary);
 }
 
 body.brand-theme a:hover {
