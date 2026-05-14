@@ -14,7 +14,9 @@
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
@@ -25,7 +27,7 @@
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/style.css?v=20260514" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Flexor - v4.7.0
@@ -35,18 +37,18 @@
   ======================================================== -->
 </head>
 
-<body>
+<body class="brand-theme">
 
   <!-- ======= Top Bar ======= -->
   <section id="topbar" class="d-flex align-items-center">
     <div class="container d-flex justify-content-center justify-content-md-between">
       <div class="contact-info d-flex align-items-center">
         <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:info@iakrotech.com">info@iakrotech.com</a></i>
-        <i class="bi bi-phone d-flex align-items-center ms-4"><span>0507079501</span></i>
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span><a href="tel:0507079501">0507079501</a></span></i>
       </div>
 
       <div class="cta d-none d-md-flex align-items-center">
-        <a href="#contact" class="scrollto">Get Started</a>
+        <a href="#contact" class="scrollto">Book a Consultation</a>
       </div>
     </div>
   </section>
@@ -95,21 +97,73 @@
   </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
-    <div class="container" data-aos="fade-in">
-      <h1><center>Welcome to I-AKROTECH</center></h1>
-      <!-- <h2>I-Akrotech is a dynamic and innovative IT company dedicated to providing cutting-edge solutions to clients worldwide. Our team of skilled software developers and web designers is passionate about delivering exceptional results. </h2> -->
-      <!-- <div class="d-flex align-items-center">
-        <i class="bx bxs-right-arrow-alt get-started-icon"></i>
-        <a href="#contact" class="btn-get-started scrollto">Get Started</a>
-      </div> -->
+  <section id="hero" class="hero-modern d-flex align-items-center">
+    <div class="hero-grid"></div>
+    <div class="container position-relative">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-7" data-aos="fade-right" data-aos-duration="900">
+          <span class="hero-badge"><span class="pulse-dot"></span> Ghana-based software innovation studio</span>
+          <h1>We Build <span>Modern Digital Products</span> That Scale Your Business</h1>
+          <p>
+            I-AKROTECH designs and engineers secure web, mobile, and enterprise solutions that turn your ideas into high-impact digital experiences.
+          </p>
+          <div class="hero-actions d-flex flex-wrap gap-3">
+            <a href="#contact" class="btn-hero btn-hero-primary scrollto">Start Your Project</a>
+            <a href="#portfolio" class="btn-hero btn-hero-outline scrollto">See Our Work</a>
+          </div>
+          <div class="hero-stats row g-3 mt-4">
+            <div class="col-6 col-md-3">
+              <div class="hero-stat-card">
+                <strong>50+</strong>
+                <span>Projects</span>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="hero-stat-card">
+                <strong>99%</strong>
+                <span>Uptime Focus</span>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="hero-stat-card">
+                <strong>24/7</strong>
+                <span>Support</span>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="hero-stat-card">
+                <strong>1 Team</strong>
+                <span>End-to-End</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5" data-aos="fade-left" data-aos-duration="900" data-aos-delay="100">
+          <div class="hero-visual">
+            <img src="assets/img/logo.png" alt="I-AKROTECH Logo" class="hero-logo">
+            <div class="hero-visual-card card-a">
+              <i class="bi bi-shield-check"></i>
+              <div>
+                <small>Security-first delivery</small>
+                <strong>Built for reliability</strong>
+              </div>
+            </div>
+            <div class="hero-visual-card card-b">
+              <i class="bi bi-lightning-charge"></i>
+              <div>
+                <small>Fast execution</small>
+                <strong>Agile implementation</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section><!-- End Hero -->
 
   <main id="main">
 
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
+  <div class="hero-spacer"></div>
   <!-- ======= About Section ======= -->
   <section id="about" class="about section-bg">
       <div class="container">
@@ -503,7 +557,7 @@
             <div class="info-box">
               <i class="bx bx-phone-call"></i>
               <h3>Call Us</h3>
-              <p>0507079501</p> 
+              <p><a href="tel:0507079501">0507079501</a></p> 
             </div>
           </div>
         </div>
@@ -527,7 +581,7 @@
               10 Leeds Street <br>
               Chantan Accra<br>
               Ghana <br><br>
-              <strong>Phone:</strong> 0507079501<br>
+              <strong>Phone:</strong> <a href="tel:0507079501">0507079501</a><br>
               <strong>Email:</strong> <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:info@iakrotech.com">info@iakrotech.com</a></i><br>
             </p>
           </div>
@@ -585,7 +639,7 @@
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=20260514"></script>
 
 </body>
 
