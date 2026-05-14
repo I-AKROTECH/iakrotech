@@ -2444,6 +2444,10 @@ body.brand-theme h6 {
   animation: none;
 }
 
+.contact-theme a {
+  color: var(--iak-primary);
+}
+
 body.brand-theme a {
   color: #fff;
 }
