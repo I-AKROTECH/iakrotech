@@ -2445,7 +2445,7 @@ body.brand-theme h6 {
 }
 
 body.brand-theme a {
-  color: var(--iak-primary);
+  color: #fff;
 }
 
 body.brand-theme a:hover {
