@@ -7,408 +7,347 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap">
 <style>
 :root {
-  --cr: #A50034; --cr-dk: #6B0020; --cr-dp: #3D0012;
-  --cr-pale: #FFF0F4; --cr-glow: #FF8FA8;
-  --bg: #F5EFED; --surf: #FFFFFF; --surf2: #EDE6E3;
-  --bdr: #DDD4CF; --txt: #1A1014; --txt2: #5E4E55; --txt3: #9A8790;
-  --fd: 'Syne', system-ui, sans-serif;
-  --fb: 'DM Sans', system-ui, sans-serif;
-  --fm: 'DM Mono', 'Courier New', monospace;
-  --r: 9px; --rs: 5px;
+  --cr:#A50034;--cr-dk:#6B0020;--cr-dp:#3D0012;
+  --cr-pale:#FFF0F4;--cr-glow:#FF8FA8;
+  --bg:#F5EFED;--surf:#FFFFFF;--surf2:#EDE6E3;
+  --bdr:#DDD4CF;--txt:#1A1014;--txt2:#5E4E55;--txt3:#9A8790;
+  --fd:'Syne',system-ui,sans-serif;
+  --fb:'DM Sans',system-ui,sans-serif;
+  --fm:'DM Mono','Courier New',monospace;
+  --r:9px;--rs:5px;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg:#110810;--surf:#1C1017;--surf2:#251620;--bdr:#3A2430;
-    --txt:#F0E8EE;--txt2:#A88E98;--txt3:#6E5A63;--cr-pale:#2B0A15;
-  }
-}
-:root[data-theme="dark"] {
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#110810;--surf:#1C1017;--surf2:#251620;--bdr:#3A2430;
+  --txt:#F0E8EE;--txt2:#A88E98;--txt3:#6E5A63;--cr-pale:#2B0A15;
+}}
+:root[data-theme="dark"]{
   --bg:#110810;--surf:#1C1017;--surf2:#251620;--bdr:#3A2430;
   --txt:#F0E8EE;--txt2:#A88E98;--txt3:#6E5A63;--cr-pale:#2B0A15;
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--fb);background:var(--bg);color:var(--txt);font-size:14px;line-height:1.6;}
 
-*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
-html { scroll-behavior:smooth; }
-body { font-family:var(--fb); background:var(--bg); color:var(--txt); font-size:14px; line-height:1.6; }
+/* ── Header ── */
+.hdr{background:var(--cr-dk);display:flex;align-items:center;justify-content:space-between;padding:13px 24px;position:sticky;top:0;z-index:50;}
+.hdr-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.hdr-logo{font-family:var(--fd);font-weight:800;font-size:15px;color:#fff;letter-spacing:.03em;}
+.hdr-logo span{color:var(--cr-glow);}
+.hdr-sep{width:1px;height:18px;background:rgba(255,255,255,.2);}
+.hdr-tool{font-family:var(--fd);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);}
+.hdr-back{font-size:12px;color:rgba(255,255,255,.55);text-decoration:none;padding:5px 12px;border:1px solid rgba(255,255,255,.2);border-radius:20px;transition:color .2s,border-color .2s;}
+.hdr-back:hover{color:#fff;border-color:rgba(255,255,255,.5);}
 
-/* Header */
-.hdr {
-  background:var(--cr-dk); display:flex; align-items:center;
-  justify-content:space-between; padding:13px 24px;
-  position:sticky; top:0; z-index:50;
-}
-.hdr-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
-.hdr-logo { font-family:var(--fd); font-weight:800; font-size:15px; color:#fff; letter-spacing:.03em; }
-.hdr-logo span { color:var(--cr-glow); }
-.hdr-sep { width:1px; height:18px; background:rgba(255,255,255,.2); }
-.hdr-tool { font-family:var(--fd); font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.55); }
-.hdr-back { font-size:12px; color:rgba(255,255,255,.55); text-decoration:none; padding:5px 12px; border:1px solid rgba(255,255,255,.2); border-radius:20px; transition:color .2s,border-color .2s; }
-.hdr-back:hover { color:#fff; border-color:rgba(255,255,255,.5); }
-
-/* Two-column layout */
-.wrap { display:grid; grid-template-columns:1fr 370px; min-height:calc(100vh - 46px); }
-@media (max-width:860px) {
-  .wrap { grid-template-columns:1fr; }
-  .results { position:static; height:auto; }
-  .wizard-panel { padding:18px 16px 32px; }
-  .step-title { font-size:1.25rem; }
-  .opt-group { grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); }
-  .wiz-node span { display:none; }
-  .field-row { grid-template-columns:1fr; }
+/* ── Layout ── */
+.wrap{display:grid;grid-template-columns:1fr 370px;min-height:calc(100vh - 46px);}
+@media(max-width:860px){
+  .wrap{grid-template-columns:1fr;}
+  .results{position:static;height:auto;}
+  .wizard-panel{padding:18px 14px 32px;}
+  .step-title{font-size:1.2rem;}
+  .wiz-node span{display:none;}
+  .opt-group{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));}
+  .bath-spec .bath-opts{flex-wrap:wrap;}
+  .field-row{grid-template-columns:1fr;}
 }
 
-/* Wizard panel */
-.wizard-panel { padding:28px 28px 40px; overflow-y:auto; }
+/* ── Wizard panel ── */
+.wizard-panel{padding:28px 28px 40px;overflow-y:auto;}
+.wizard-step{display:none;}
+.wizard-step.active{display:block;}
 
-/* Progress bar */
-.wiz-progress {
-  display:flex; align-items:flex-start; margin-bottom:28px;
-  padding-bottom:22px; border-bottom:1px solid var(--bdr);
-  overflow-x:auto;
-}
-.wiz-node {
-  display:flex; flex-direction:column; align-items:center; gap:5px;
-  flex:1; min-width:52px; position:relative;
-}
-.wiz-node::after {
-  content:''; position:absolute; top:11px; left:calc(50% + 12px);
-  right:calc(-50% + 12px); height:2px; background:var(--bdr); z-index:0;
-  transition:background .3s;
-}
-.wiz-node:last-child::after { display:none; }
-.wiz-node.done::after { background:var(--cr); }
-.wiz-dot {
-  width:24px; height:24px; border-radius:50%;
-  border:2px solid var(--bdr); background:var(--surf);
-  display:flex; align-items:center; justify-content:center;
-  font-size:10px; font-weight:700; color:var(--txt3);
-  position:relative; z-index:1; transition:all .2s; flex-shrink:0;
-}
-.wiz-node.done .wiz-dot { background:var(--cr); border-color:var(--cr); color:#fff; }
-.wiz-node.active .wiz-dot { border-color:var(--cr); color:var(--cr); box-shadow:0 0 0 3px var(--cr-pale); }
-.wiz-lbl {
-  font-size:8.5px; font-weight:600; letter-spacing:.05em; text-transform:uppercase;
-  color:var(--txt3); text-align:center; line-height:1.2;
-}
-.wiz-node.active .wiz-lbl { color:var(--cr); }
-.wiz-node.done .wiz-lbl { color:var(--cr); opacity:.7; }
+/* ── Progress ── */
+.wiz-progress{display:flex;align-items:flex-start;margin-bottom:26px;padding-bottom:22px;border-bottom:1px solid var(--bdr);overflow-x:auto;gap:0;}
+.wiz-node{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;min-width:48px;position:relative;}
+.wiz-node::after{content:'';position:absolute;top:11px;left:calc(50% + 12px);right:calc(-50% + 12px);height:2px;background:var(--bdr);z-index:0;transition:background .3s;}
+.wiz-node:last-child::after{display:none;}
+.wiz-node.done::after{background:var(--cr);}
+.wiz-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--bdr);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--txt3);position:relative;z-index:1;transition:all .2s;flex-shrink:0;}
+.wiz-node.done .wiz-dot{background:var(--cr);border-color:var(--cr);color:#fff;}
+.wiz-node.active .wiz-dot{border-color:var(--cr);color:var(--cr);box-shadow:0 0 0 3px var(--cr-pale);}
+.wiz-lbl{font-size:8px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--txt3);text-align:center;line-height:1.2;}
+.wiz-node.active .wiz-lbl{color:var(--cr);}
+.wiz-node.done .wiz-lbl{color:var(--cr);opacity:.7;}
 
-/* Steps */
-.wizard-step { display:none; }
-.wizard-step.active { display:block; }
+/* ── Step header ── */
+.step-hdr{margin-bottom:22px;}
+.step-title{font-family:var(--fd);font-size:1.4rem;font-weight:700;color:var(--txt);margin-bottom:4px;}
+.step-sub{font-size:13px;color:var(--txt2);}
 
-/* Step header */
-.step-hdr { margin-bottom:22px; }
-.step-title { font-family:var(--fd); font-size:19px; font-weight:700; color:var(--txt); margin-bottom:3px; }
-.step-sub { font-size:12px; color:var(--txt2); }
+/* ── Form elements ── */
+label{font-size:12px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--txt2);}
+select,input[type=number],input[type=text]{
+  width:100%;padding:9px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);
+  background:var(--surf);color:var(--txt);font-family:var(--fb);font-size:14px;
+  transition:border-color .2s;
+}
+select:focus,input:focus{outline:none;border-color:var(--cr);}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.section{margin-bottom:18px;}
+.section-title{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--bdr);}
 
-/* Wizard nav */
-.wizard-nav {
-  display:flex; gap:10px; margin-top:28px;
-  padding-top:20px; border-top:1px solid var(--bdr);
-}
-.btn-back {
-  flex:0 0 auto; padding:10px 22px; background:transparent;
-  border:1.5px solid var(--bdr); border-radius:var(--rs);
-  color:var(--txt2); font-family:var(--fb); font-size:13px; font-weight:500;
-  cursor:pointer; transition:border-color .2s,color .2s;
-}
-.btn-back:hover { border-color:var(--cr); color:var(--cr); }
-.btn-next {
-  flex:1; padding:11px; background:var(--cr); border:none;
-  border-radius:var(--rs); color:#fff; font-family:var(--fb);
-  font-size:13px; font-weight:600; cursor:pointer;
-  letter-spacing:.02em; transition:background .2s;
-}
-.btn-next:hover { background:var(--cr-dk); }
+/* ── Opt cards (radio) ── */
+.opt-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--txt3);display:block;margin-bottom:8px;margin-top:18px;}
+.opt-group{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px;margin-bottom:6px;}
+.opt-card{position:relative;}
+.opt-card input{position:absolute;opacity:0;width:0;height:0;}
+.opt-card label{display:block;padding:10px 12px;border:1.5px solid var(--bdr);border-radius:var(--r);cursor:pointer;transition:all .15s;background:var(--surf);}
+.opt-card input:checked + label{border-color:var(--cr);background:var(--cr-pale);}
+.opt-name{display:block;font-size:13px;font-weight:600;color:var(--txt);}
+.opt-price{display:block;font-size:11px;color:var(--txt3);margin-top:2px;}
+.opt-card input:checked + label .opt-name{color:var(--cr);}
 
-/* Form fields */
-.section { margin-bottom:24px; }
-.section-title {
-  font-family:var(--fd); font-size:10px; font-weight:700;
-  letter-spacing:.14em; text-transform:uppercase; color:var(--txt3);
-  margin-bottom:12px; padding-bottom:7px; border-bottom:1px solid var(--bdr);
-}
-.row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
-.row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:10px; }
-@media (max-width:560px) { .row2,.row3 { grid-template-columns:1fr; } }
-.field { display:flex; flex-direction:column; gap:5px; }
-.field label { font-size:11px; font-weight:500; color:var(--txt2); letter-spacing:.03em; }
-input[type=number], select {
-  font-family:var(--fb); font-size:14px; color:var(--txt);
-  background:var(--surf); border:1.5px solid var(--bdr);
-  border-radius:var(--rs); padding:9px 11px; width:100%;
-  transition:border-color .2s; -webkit-appearance:none; appearance:none;
-}
-input[type=number]:focus, select:focus { outline:none; border-color:var(--cr); }
-select {
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath fill='%239A8790' d='M5 7 0 0h10z'/%3E%3C/svg%3E");
-  background-repeat:no-repeat; background-position:right 10px center; padding-right:28px;
-}
+/* ── Feature checkboxes ── */
+.feat-group{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
+.feat-group-name{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);padding:10px 14px;border-bottom:1px solid var(--bdr);}
+.feat{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--bdr);transition:background .15s;}
+.feat:last-child{border-bottom:none;}
+.feat input[type=checkbox]{margin-top:3px;accent-color:var(--cr);width:16px;height:16px;flex-shrink:0;}
+.feat-info{flex:1;}
+.feat-name{font-size:13px;font-weight:600;color:var(--txt);}
+.feat-amt{font-size:11px;color:var(--txt3);}
+.feat.on{background:var(--cr-pale);}
+.sub-inp{display:none;margin-top:8px;gap:8px;align-items:center;flex-wrap:wrap;}
+.sub-inp.show{display:flex;}
+.sub-inp label{text-transform:none;font-size:12px;font-weight:500;white-space:nowrap;}
+.sub-inp input[type=number]{width:90px;padding:5px 8px;font-size:13px;}
 
-/* Finish level (step 2) */
-.finish-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-bottom:10px; }
-@media (max-width:560px) { .finish-grid { grid-template-columns:repeat(2,1fr); } }
-.finish-opt input { display:none; }
-.finish-opt label {
-  display:flex; flex-direction:column; align-items:center; gap:3px;
-  padding:10px 6px; border:1.5px solid var(--bdr); border-radius:var(--rs);
-  cursor:pointer; text-align:center; font-size:12px; font-weight:500; color:var(--txt2); transition:all .15s;
-}
-.finish-opt label .mult { font-family:var(--fm); font-size:10px; color:var(--txt3); }
-.finish-opt input:checked + label { border-color:var(--cr); background:var(--cr-pale); color:var(--cr); }
-.finish-opt input:checked + label .mult { color:var(--cr); opacity:.8; }
+/* ── Wizard nav ── */
+.wizard-nav{display:flex;justify-content:space-between;margin-top:28px;padding-top:20px;border-top:1px solid var(--bdr);}
+.btn-next{background:var(--cr);color:#fff;border:none;border-radius:var(--r);padding:11px 28px;font-family:var(--fd);font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;}
+.btn-next:hover{background:var(--cr-dk);}
+.btn-back{background:transparent;color:var(--txt2);border:1.5px solid var(--bdr);border-radius:var(--r);padding:11px 22px;font-family:var(--fb);font-size:14px;cursor:pointer;transition:all .2s;}
+.btn-back:hover{border-color:var(--cr);color:var(--cr);}
 
-/* Option cards (radio groups for tiers) */
-.opt-label { font-size:11px; font-weight:500; color:var(--txt2); letter-spacing:.03em; margin-bottom:7px; display:block; }
-.opt-group {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(145px,1fr));
-  gap:6px; margin-bottom:16px;
-}
-.opt-card input { display:none; }
-.opt-card label {
-  display:flex; flex-direction:column; gap:3px; padding:10px 12px;
-  border:1.5px solid var(--bdr); border-radius:var(--rs);
-  cursor:pointer; transition:border-color .15s,background .15s;
-}
-.opt-card label:hover { border-color:var(--cr); }
-.opt-card input:checked + label { border-color:var(--cr); background:var(--cr-pale); }
-.opt-name { font-size:12px; font-weight:500; color:var(--txt); }
-.opt-price { font-family:var(--fm); font-size:10px; color:var(--txt3); }
-.opt-card input:checked + label .opt-price { color:var(--cr); opacity:.85; }
-.opt-card input:checked + label .opt-name { color:var(--cr); }
+/* ── Results panel ── */
+.results{background:var(--cr-dp);padding:28px 24px;position:sticky;top:46px;height:calc(100vh - 46px);overflow-y:auto;}
+.res-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:4px;}
+.res-total{font-family:var(--fd);font-size:2.2rem;font-weight:800;color:#fff;line-height:1.1;margin-bottom:6px;font-variant-numeric:tabular-nums;}
+.cur{font-size:1rem;font-weight:600;margin-right:4px;opacity:.7;}
+.res-note{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:18px;}
+.res-rule{height:1px;background:rgba(255,255,255,.1);margin:16px 0;}
+.res-sub-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:12px;}
+.bk-item{margin-bottom:12px;}
+.bk-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
+.bk-name{font-size:12px;color:rgba(255,255,255,.6);}
+.bk-val{font-family:var(--fm);font-size:13px;font-weight:500;color:#fff;font-variant-numeric:tabular-nums;}
+.bk-track{height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;}
+.bk-fill{height:100%;background:rgba(255,255,255,.35);border-radius:2px;transition:width .4s;}
+.bk-fill.hi{background:var(--cr-glow);}
+.qty-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.qty-cell{background:rgba(255,255,255,.06);border-radius:var(--rs);padding:10px 12px;}
+.qty-num{font-family:var(--fm);font-size:18px;font-weight:500;color:#fff;font-variant-numeric:tabular-nums;}
+.qty-lbl{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;}
+.print-btn{margin-top:14px;}
+.btn-secondary{width:100%;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);border-radius:var(--rs);padding:10px;font-family:var(--fb);font-size:13px;cursor:pointer;transition:background .2s;}
+.btn-secondary:hover{background:rgba(255,255,255,.18);}
+.powered{font-size:10px;color:rgba(255,255,255,.28);text-align:center;margin-top:10px;}
 
-/* Feature toggles (checkboxes) */
-.feat-group { margin-bottom:16px; }
-.feat-group-name { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--txt3); margin-bottom:8px; }
-.feat {
-  display:flex; align-items:flex-start; gap:10px; padding:10px 12px;
-  background:var(--surf); border:1.5px solid var(--bdr);
-  border-radius:var(--rs); margin-bottom:5px; cursor:pointer;
-  transition:border-color .15s,background .15s;
-}
-.feat:hover { border-color:var(--cr); }
-.feat.on { border-color:var(--cr); background:var(--cr-pale); }
-.feat input[type=checkbox] { width:15px; height:15px; accent-color:var(--cr); cursor:pointer; flex-shrink:0; margin-top:2px; }
-.feat-info { flex:1; }
-.feat-name { font-size:13px; font-weight:500; color:var(--txt); }
-.feat-amt { font-family:var(--fm); font-size:11px; color:var(--txt3); margin-top:1px; }
-.sub-inp {
-  display:none; margin-top:8px; padding:10px 12px;
-  background:var(--surf2); border-radius:var(--rs);
-  flex-wrap:wrap; align-items:center; gap:8px 10px;
-}
-.sub-inp.show { display:flex; }
-.sub-inp label { font-size:12px; color:var(--txt2); white-space:nowrap; }
-.sub-inp input[type=number] { width:90px; flex-shrink:0; }
+/* ── Floor Plan Builder ── */
+.fp-info{font-size:13px;color:var(--txt2);margin-bottom:16px;padding:10px 14px;background:var(--surf2);border-radius:var(--rs);border-left:3px solid var(--cr);}
+.floor-block{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--r);margin-bottom:14px;overflow:hidden;}
+.floor-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surf2);border-bottom:1px solid var(--bdr);}
+.floor-name{font-family:var(--fd);font-size:14px;font-weight:700;color:var(--cr);}
+.floor-area-badge{font-family:var(--fm);font-size:12px;color:var(--txt3);}
+.btn-add-room{font-size:12px;font-weight:600;color:var(--cr);background:var(--cr-pale);border:1px solid var(--cr-glow);border-radius:20px;padding:4px 12px;cursor:pointer;transition:background .15s;}
+.btn-add-room:hover{background:var(--cr);color:#fff;}
+.rooms-list{padding:8px 12px 10px;}
+.room-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bdr);flex-wrap:wrap;}
+.room-row:last-child{border-bottom:none;}
+.room-type-sel{flex:2;min-width:120px;padding:6px 8px;font-size:13px;}
+.room-area-wrap{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.room-area{width:68px;padding:6px 8px;font-size:13px;text-align:right;}
+.room-m2{font-size:12px;color:var(--txt3);white-space:nowrap;}
+.room-finish-sel{flex:1;min-width:110px;padding:6px 8px;font-size:12px;}
+.room-del{flex-shrink:0;background:none;border:1px solid var(--bdr);border-radius:50%;width:24px;height:24px;cursor:pointer;color:var(--txt3);font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.room-del:hover{background:#fee;border-color:#c00;color:#c00;}
+.fp-footer{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--surf2);border-top:1px solid var(--bdr);flex-wrap:wrap;}
+.fp-total-wrap{flex:1;}
+.fp-total-lbl{font-size:11px;color:var(--txt3);}
+.fp-total-val{font-family:var(--fm);font-size:18px;font-weight:600;color:var(--cr);}
+.fp-override{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.fp-override label{text-transform:none;font-size:12px;font-weight:500;white-space:nowrap;}
+.fp-override input{width:90px;padding:6px 8px;font-size:13px;}
 
-/* Disclaimer */
-.disc {
-  background:var(--surf2); border-left:3px solid var(--cr);
-  padding:12px 16px; border-radius:0 var(--rs) var(--rs) 0;
-  font-size:12px; color:var(--txt2); line-height:1.55;
-}
-.disc strong { color:var(--txt); font-weight:600; }
+/* ── Bathroom Spec ── */
+.bath-spec{border:1.5px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
+.bath-spec-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--surf2);border-bottom:1px solid var(--bdr);}
+.bath-spec-title{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txt2);}
+.bath-per-lbl{font-size:12px;color:var(--txt3);}
+.bath-per-lbl strong{color:var(--cr);font-family:var(--fm);}
+.bath-row{display:flex;align-items:flex-start;gap:12px;padding:10px 16px;border-bottom:1px solid var(--bdr);}
+.bath-row:last-child{border-bottom:none;}
+.bath-cat{flex-shrink:0;width:90px;font-size:12px;font-weight:600;color:var(--txt2);padding-top:4px;}
+.bath-opts{display:flex;flex-wrap:wrap;gap:6px;flex:1;}
+.bath-opt{display:inline-flex;align-items:center;gap:0;cursor:pointer;}
+.bath-opt input[type=radio]{display:none;}
+.bath-opt-lbl{display:block;padding:5px 10px;border:1.5px solid var(--bdr);border-radius:20px;font-size:12px;font-weight:500;color:var(--txt2);background:var(--surf);transition:all .15s;white-space:nowrap;}
+.bath-opt-price{font-size:10px;color:var(--txt3);margin-left:3px;}
+.bath-opt input:checked + .bath-opt-lbl{border-color:var(--cr);background:var(--cr-pale);color:var(--cr);}
+.bath-opt input:checked + .bath-opt-lbl .bath-opt-price{color:var(--cr);}
 
-/* Extra info note */
-.field-note { font-size:11px; color:var(--txt3); margin-top:-4px; margin-bottom:10px; }
+/* ── Security Checklist ── */
+.sec-list{border:1.5px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
+.sec-list-hdr{padding:10px 16px;background:var(--surf2);border-bottom:1px solid var(--bdr);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txt2);}
+.sec-item{display:flex;align-items:center;padding:11px 16px;border-bottom:1px solid var(--bdr);gap:12px;transition:background .15s;}
+.sec-item:last-child{border-bottom:none;}
+.sec-item.checked{background:var(--cr-pale);}
+.sec-chk-wrap{display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;}
+.sec-chk-wrap input[type=checkbox]{accent-color:var(--cr);width:16px;height:16px;flex-shrink:0;}
+.sec-icon{font-size:18px;flex-shrink:0;}
+.sec-info{flex:1;}
+.sec-name{font-size:13px;font-weight:600;color:var(--txt);}
+.sec-desc{font-size:11px;color:var(--txt3);}
+.sec-price-wrap{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.sec-price-wrap span{font-size:12px;color:var(--txt3);}
+.sec-price-wrap input{width:80px;padding:5px 7px;font-size:13px;font-family:var(--fm);}
 
-/* Results panel */
-.results {
-  background:var(--cr-dk); color:#fff; padding:28px 24px 32px;
-  position:sticky; top:46px; height:calc(100vh - 46px);
-  overflow-y:auto; display:flex; flex-direction:column; gap:0;
-}
-.res-eyebrow { font-family:var(--fd); font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:6px; }
-.res-total { font-family:var(--fm); font-size:34px; font-weight:500; line-height:1.1; font-variant-numeric:tabular-nums; letter-spacing:-.02em; color:#fff; word-break:break-all; }
-.res-total .cur { font-size:18px; opacity:.65; margin-right:4px; }
-.res-note { font-size:11px; color:rgba(255,255,255,.4); margin-top:5px; margin-bottom:20px; }
-.res-rule { height:1px; background:rgba(255,255,255,.1); margin:20px 0; }
-.res-sub-title { font-family:var(--fd); font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:14px; }
-.bk-item { margin-bottom:10px; }
-.bk-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:3px; }
-.bk-name { font-size:12px; color:rgba(255,255,255,.68); }
-.bk-val { font-family:var(--fm); font-size:12px; color:#fff; font-variant-numeric:tabular-nums; }
-.bk-track { height:3px; background:rgba(255,255,255,.12); border-radius:2px; overflow:hidden; }
-.bk-fill { height:100%; border-radius:2px; transition:width .35s ease; background:rgba(255,255,255,.4); }
-.bk-fill.hi { background:var(--cr-glow); }
-.qty-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:14px; }
-.qty-cell { background:rgba(255,255,255,.07); border-radius:var(--rs); padding:10px 12px; }
-.qty-num { font-family:var(--fm); font-size:17px; font-weight:500; color:#fff; font-variant-numeric:tabular-nums; }
-.qty-lbl { font-size:10px; color:rgba(255,255,255,.45); margin-top:2px; letter-spacing:.03em; }
-.print-btn { margin-top:auto; padding-top:20px; display:flex; flex-direction:column; gap:8px; }
-.btn-secondary {
-  display:block; width:100%; padding:10px; background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,255,255,.18); border-radius:var(--rs);
-  color:rgba(255,255,255,.8); font-family:var(--fb); font-size:12px; font-weight:500;
-  cursor:pointer; text-align:center; letter-spacing:.03em; transition:background .2s;
-}
-.btn-secondary:hover { background:rgba(255,255,255,.18); }
-.powered { font-size:10px; color:rgba(255,255,255,.28); text-align:center; margin-top:10px; }
+/* ── Misc ── */
+.disc{background:var(--surf2);border-radius:var(--rs);padding:12px 16px;font-size:12px;color:var(--txt2);line-height:1.6;border-left:3px solid var(--bdr);}
+.disc strong{color:var(--txt);}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="hdr">
-  <a class="hdr-brand" href="index.html" id="homeLink">
-    <span class="hdr-logo">I<span>·</span>AKROTECH</span>
-    <span class="hdr-sep"></span>
-    <span class="hdr-tool">Build Cost Estimator</span>
+  <a class="hdr-brand" href="index.html">
+    <div class="hdr-logo">I-<span>AKRO</span>TECH</div>
+    <div class="hdr-sep"></div>
+    <div class="hdr-tool">Build Cost Estimator</div>
   </a>
-  <a class="hdr-back" href="index.html" id="backBtn">← Company Site</a>
+  <a class="hdr-back" href="index.html">← Company Site</a>
 </header>
 
 <div class="wrap">
-
-  <!-- WIZARD PANEL -->
   <div class="wizard-panel">
 
-    <!-- Progress bar -->
+    <!-- Progress -->
     <div class="wiz-progress" id="wizProgress">
-      <div class="wiz-node active" data-step="1"><div class="wiz-dot">1</div><div class="wiz-lbl">Basics</div></div>
-      <div class="wiz-node" data-step="2"><div class="wiz-dot">2</div><div class="wiz-lbl">Finish</div></div>
-      <div class="wiz-node" data-step="3"><div class="wiz-dot">3</div><div class="wiz-lbl">Flooring &amp; Walls</div></div>
-      <div class="wiz-node" data-step="4"><div class="wiz-dot">4</div><div class="wiz-lbl">Ceilings &amp; Interior</div></div>
-      <div class="wiz-node" data-step="5"><div class="wiz-dot">5</div><div class="wiz-lbl">Systems</div></div>
-      <div class="wiz-node" data-step="6"><div class="wiz-dot">6</div><div class="wiz-lbl">Exterior &amp; Utilities</div></div>
-      <div class="wiz-node" data-step="7"><div class="wiz-dot">7</div><div class="wiz-lbl">Materials &amp; Review</div></div>
+      <div class="wiz-node active" data-step="1"><div class="wiz-dot">1</div><span class="wiz-lbl">Basics</span></div>
+      <div class="wiz-node" data-step="2"><div class="wiz-dot">2</div><span class="wiz-lbl">Floor Plan</span></div>
+      <div class="wiz-node" data-step="3"><div class="wiz-dot">3</div><span class="wiz-lbl">Flooring</span></div>
+      <div class="wiz-node" data-step="4"><div class="wiz-dot">4</div><span class="wiz-lbl">Interiors</span></div>
+      <div class="wiz-node" data-step="5"><div class="wiz-dot">5</div><span class="wiz-lbl">Systems</span></div>
+      <div class="wiz-node" data-step="6"><div class="wiz-dot">6</div><span class="wiz-lbl">Exterior</span></div>
     </div>
 
-    <!-- ── STEP 1: PROJECT BASICS ── -->
+    <!-- ── STEP 1: BASICS ── -->
     <div class="wizard-step active" id="step-1">
       <div class="step-hdr">
         <div class="step-title">Project Basics</div>
-        <div class="step-sub">Tell us about your build — location, size and layout.</div>
+        <div class="step-sub">Region, storey count, and finish baseline. Room details come next.</div>
       </div>
-      <div class="row2">
+
+      <div class="field-row">
         <div class="field">
           <label for="region">Region</label>
-          <select id="region">
-            <option value="1.00">Greater Accra (1.00×)</option>
-            <option value="0.95">Ashanti (0.95×)</option>
-            <option value="0.92">Western (0.92×)</option>
-            <option value="0.90">Eastern (0.90×)</option>
-            <option value="0.88">Central (0.88×)</option>
-            <option value="0.85">Northern / Other (0.85×)</option>
+          <select id="region" onchange="calc()">
+            <option value="1.00">Greater Accra</option>
+            <option value="0.97">Ashanti (Kumasi)</option>
+            <option value="0.93">Western (Takoradi)</option>
+            <option value="0.91">Eastern (Koforidua)</option>
+            <option value="0.90">Central (Cape Coast)</option>
+            <option value="0.88">Brong-Ahafo (Sunyani)</option>
+            <option value="0.87">Volta (Ho)</option>
+            <option value="0.86">Upper East (Bolga)</option>
+            <option value="0.85">Northern (Tamale)</option>
+            <option value="0.85">Upper West (Wa)</option>
           </select>
         </div>
         <div class="field">
           <label for="storeys">Number of Storeys</label>
-          <select id="storeys">
-            <option value="1">1 — Single storey</option>
-            <option value="2" selected>2 — Ground + 1st</option>
-            <option value="3">3 — Three storeys</option>
-            <option value="4">4 — Four storeys</option>
+          <select id="storeys" onchange="onStoreysChange()">
+            <option value="1">1 Storey (Bungalow)</option>
+            <option value="2">2 Storeys</option>
+            <option value="3">3 Storeys</option>
+            <option value="4">4 Storeys</option>
+            <option value="5">5 Storeys</option>
           </select>
         </div>
       </div>
-      <div class="row2">
-        <div class="field">
-          <label for="area">Floor Area per Storey (m²)</label>
-          <input type="number" id="area" value="95" min="20" max="1000" step="5">
+
+      <span class="opt-label">Baseline Finish Level</span>
+      <div class="opt-group">
+        <div class="opt-card"><input type="radio" name="finish" id="fin-eco" value="0.80"><label for="fin-eco"><span class="opt-name">Economy</span><span class="opt-price">×0.80 base rate</span></label></div>
+        <div class="opt-card"><input type="radio" name="finish" id="fin-std" value="1.00" checked><label for="fin-std"><span class="opt-name">Standard</span><span class="opt-price">×1.00 base rate</span></label></div>
+        <div class="opt-card"><input type="radio" name="finish" id="fin-pre" value="1.25"><label for="fin-pre"><span class="opt-name">Premium</span><span class="opt-price">×1.25 base rate</span></label></div>
+        <div class="opt-card"><input type="radio" name="finish" id="fin-lux" value="1.60"><label for="fin-lux"><span class="opt-name">Luxury</span><span class="opt-price">×1.60 base rate</span></label></div>
+      </div>
+
+      <div class="section" style="margin-top:18px;">
+        <div class="section-title">Current Material Prices</div>
+        <div class="field-row">
+          <div class="field">
+            <label for="cement-price">Cement (GHS / bag)</label>
+            <input type="number" id="cement-price" value="90" min="50" max="300" step="1" oninput="calc()">
+          </div>
+          <div class="field">
+            <label for="block-price">6″ Sandcrete Block (GHS / block)</label>
+            <input type="number" id="block-price" value="11" min="5" max="50" step="0.5" oninput="calc()">
+          </div>
         </div>
-        <div class="field">
-          <label for="bedrooms">Bedrooms</label>
-          <select id="bedrooms">
-            <option value="1">1 Bedroom</option>
-            <option value="2">2 Bedrooms</option>
-            <option value="3">3 Bedrooms</option>
-            <option value="4" selected>4 Bedrooms</option>
-            <option value="5">5 Bedrooms</option>
-            <option value="6">6 Bedrooms</option>
-          </select>
+        <div class="field-row">
+          <div class="field">
+            <label for="steel-price">Y12 Iron Rod (GHS / piece)</label>
+            <input type="number" id="steel-price" value="65" min="20" max="300" step="1" oninput="calc()">
+          </div>
+          <div class="field">
+            <label for="sand-price">Sharp Sand (GHS / tipper)</label>
+            <input type="number" id="sand-price" value="1200" min="200" max="5000" step="50" oninput="calc()">
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- ── STEP 2: FINISH LEVEL ── -->
+    <!-- ── STEP 2: FLOOR PLAN BUILDER ── -->
     <div class="wizard-step" id="step-2">
       <div class="step-hdr">
-        <div class="step-title">Finish Level</div>
-        <div class="step-sub">Overall quality multiplier applied to the base construction cost.</div>
+        <div class="step-title">Floor Plan</div>
+        <div class="step-sub">Add rooms per floor. Set each room's type, area, and optional finish override.</div>
       </div>
-      <div class="finish-grid">
-        <div class="finish-opt"><input type="radio" name="finish" id="f-eco" value="0.80"><label for="f-eco">Economy<span class="mult">0.80×</span></label></div>
-        <div class="finish-opt"><input type="radio" name="finish" id="f-std" value="1.00" checked><label for="f-std">Standard<span class="mult">1.00×</span></label></div>
-        <div class="finish-opt"><input type="radio" name="finish" id="f-pre" value="1.30"><label for="f-pre">Premium<span class="mult">1.30×</span></label></div>
-        <div class="finish-opt"><input type="radio" name="finish" id="f-lux" value="1.60"><label for="f-lux">Luxury<span class="mult">1.60×</span></label></div>
+
+      <div class="fp-info">
+        Rooms auto-count your bathrooms and kitchens for the estimate. Each room can inherit the global finish or override it independently.
       </div>
-      <p class="field-note">Base rate: GHS 2,350/m² at Standard (1.00×) in Greater Accra.</p>
+
+      <div id="floor-plan-builder"></div>
+
+      <div class="fp-footer">
+        <div class="fp-total-wrap">
+          <div class="fp-total-lbl">Total floor area (from rooms)</div>
+          <div class="fp-total-val" id="fp-total">— m²</div>
+        </div>
+        <div class="fp-override">
+          <label for="area-override">Override:</label>
+          <input type="number" id="area-override" placeholder="manual m²" min="30" max="5000" oninput="calc()">
+        </div>
+      </div>
     </div>
 
     <!-- ── STEP 3: FLOORING & WALLS ── -->
     <div class="wizard-step" id="step-3">
       <div class="step-hdr">
         <div class="step-title">Flooring &amp; Walls</div>
-        <div class="step-sub">Choose tile type and wall paint / panel treatment.</div>
+        <div class="step-sub">Global defaults — rooms with a finish override use their own tier.</div>
       </div>
 
       <span class="opt-label">Floor Tile Type</span>
       <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="tile-type" id="tile-none" value="0"><label for="tile-none"><span class="opt-name">Screed Only</span><span class="opt-price">No tiles (save)</span></label></div>
-        <div class="opt-card"><input type="radio" name="tile-type" id="tile-ceramic" value="80" checked><label for="tile-ceramic"><span class="opt-name">Ceramic</span><span class="opt-price">GHS 80/m² · standard</span></label></div>
+        <div class="opt-card"><input type="radio" name="tile-type" id="tile-ceramic" value="80" checked><label for="tile-ceramic"><span class="opt-name">Ceramic</span><span class="opt-price">GHS 80/m²</span></label></div>
         <div class="opt-card"><input type="radio" name="tile-type" id="tile-porcelain" value="120"><label for="tile-porcelain"><span class="opt-name">Porcelain</span><span class="opt-price">GHS 120/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="tile-type" id="tile-marble" value="180"><label for="tile-marble"><span class="opt-name">Marble</span><span class="opt-price">GHS 180/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="tile-type" id="tile-granite" value="230"><label for="tile-granite"><span class="opt-name">Granite</span><span class="opt-price">GHS 230/m²</span></label></div>
+        <div class="opt-card"><input type="radio" name="tile-type" id="tile-granite" value="200"><label for="tile-granite"><span class="opt-name">Granite</span><span class="opt-price">GHS 200/m²</span></label></div>
+        <div class="opt-card"><input type="radio" name="tile-type" id="tile-marble" value="320"><label for="tile-marble"><span class="opt-name">Marble</span><span class="opt-price">GHS 320/m²</span></label></div>
+        <div class="opt-card"><input type="radio" name="tile-type" id="tile-vinyl" value="65"><label for="tile-vinyl"><span class="opt-name">Vinyl / LVT</span><span class="opt-price">GHS 65/m²</span></label></div>
+        <div class="opt-card"><input type="radio" name="tile-type" id="tile-screed" value="40"><label for="tile-screed"><span class="opt-name">Plain Screed</span><span class="opt-price">GHS 40/m²</span></label></div>
       </div>
 
       <span class="opt-label">Wall Finishing</span>
       <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-std" value="0" checked><label for="wf-std"><span class="opt-name">Standard Paint</span><span class="opt-price">Included in base</span></label></div>
-        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-prem" value="12"><label for="wf-prem"><span class="opt-name">Premium Emulsion</span><span class="opt-price">+GHS 12/m² of wall</span></label></div>
-        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-tex" value="22"><label for="wf-tex"><span class="opt-name">Textured Paint</span><span class="opt-price">+GHS 22/m² of wall</span></label></div>
-        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-pvc" value="80"><label for="wf-pvc"><span class="opt-name">PVC Wall Panels</span><span class="opt-price">+GHS 80/m² of wall</span></label></div>
-        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-wood" value="140"><label for="wf-wood"><span class="opt-name">Wood Panels</span><span class="opt-price">+GHS 140/m² of wall</span></label></div>
-      </div>
-    </div>
-
-    <!-- ── STEP 4: CEILINGS & INTERIOR ── -->
-    <div class="wizard-step" id="step-4">
-      <div class="step-hdr">
-        <div class="step-title">Ceilings &amp; Interior</div>
-        <div class="step-sub">Ceiling treatment, kitchen cabinets, bathroom spec, and insect screens.</div>
-      </div>
-
-      <span class="opt-label">Ceiling Type</span>
-      <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-none" value="0"><label for="ceil-none"><span class="opt-name">No Ceiling</span><span class="opt-price">Open structure</span></label></div>
-        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-pop" value="45" checked><label for="ceil-pop"><span class="opt-name">POP (Plaster of Paris)</span><span class="opt-price">GHS 45/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-arm" value="55"><label for="ceil-arm"><span class="opt-name">Armstrong / Grid</span><span class="opt-price">GHS 55/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-gyp" value="65"><label for="ceil-gyp"><span class="opt-name">Gypsum Board</span><span class="opt-price">GHS 65/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-wood" value="110"><label for="ceil-wood"><span class="opt-name">Wood / PVC Panels</span><span class="opt-price">GHS 110/m²</span></label></div>
-      </div>
-
-      <span class="opt-label">Kitchen Cabinets</span>
-      <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="cab-type" id="cab-none" value="0"><label for="cab-none"><span class="opt-name">None</span><span class="opt-price">Open shelving</span></label></div>
-        <div class="opt-card"><input type="radio" name="cab-type" id="cab-mdf" value="3500"><label for="cab-mdf"><span class="opt-name">Economy MDF</span><span class="opt-price">GHS 3,500/m</span></label></div>
-        <div class="opt-card"><input type="radio" name="cab-type" id="cab-std" value="5000"><label for="cab-std"><span class="opt-name">Standard</span><span class="opt-price">GHS 5,000/m</span></label></div>
-        <div class="opt-card"><input type="radio" name="cab-type" id="cab-lux" value="7000" checked><label for="cab-lux"><span class="opt-name">Luxury Solid Wood</span><span class="opt-price">GHS 7,000/m</span></label></div>
-        <div class="opt-card"><input type="radio" name="cab-type" id="cab-cust" value="12000"><label for="cab-cust"><span class="opt-name">Custom Premium</span><span class="opt-price">GHS 12,000/m</span></label></div>
-      </div>
-      <div class="section" id="cab-m-row">
-        <div class="row2">
-          <div class="field">
-            <label for="cab-m">Cabinet metres per kitchen</label>
-            <input type="number" id="cab-m" value="3" min="1" max="12" oninput="calc()">
-          </div>
-        </div>
-      </div>
-
-      <div class="feat-group">
-        <div class="feat-group-name">Premium Bathrooms</div>
-        <label class="feat on" id="lbl-bath">
-          <input type="checkbox" id="bath" checked onchange="toggleSub('bath','lbl-bath','bath-sub')">
-          <div class="feat-info">
-            <div class="feat-name">Premium Bathrooms (+ Bathtub, ensuite)</div>
-            <div class="feat-amt">Cost per bathroom</div>
-            <div class="sub-inp show" id="bath-sub">
-              <label for="bath-rate">GHS/bathroom:</label>
-              <input type="number" id="bath-rate" value="8500" min="1000" max="50000" step="500" oninput="calc()">
-            </div>
-          </div>
-        </label>
+        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-paint" value="0" checked><label for="wf-paint"><span class="opt-name">Emulsion Paint</span><span class="opt-price">Included in base</span></label></div>
+        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-tex" value="18"><label for="wf-tex"><span class="opt-name">Textured Paint</span><span class="opt-price">+GHS 18/m²</span></label></div>
+        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-panel" value="45"><label for="wf-panel"><span class="opt-name">Wall Panels (POP)</span><span class="opt-price">+GHS 45/m²</span></label></div>
+        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-tile" value="75"><label for="wf-tile"><span class="opt-name">Wall Tile (feature)</span><span class="opt-price">+GHS 75/m²</span></label></div>
+        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-stone" value="120"><label for="wf-stone"><span class="opt-name">Stone Cladding</span><span class="opt-price">+GHS 120/m²</span></label></div>
       </div>
 
       <span class="opt-label">Insect / Mosquito Screens</span>
@@ -420,11 +359,127 @@ select {
       </div>
     </div>
 
+    <!-- ── STEP 4: INTERIOR FINISHES ── -->
+    <div class="wizard-step" id="step-4">
+      <div class="step-hdr">
+        <div class="step-title">Interior Finishes</div>
+        <div class="step-sub">Ceiling, kitchen cabinets, and bathroom specification per room.</div>
+      </div>
+
+      <span class="opt-label">Ceiling Treatment</span>
+      <div class="opt-group">
+        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-none" value="0"><label for="ceil-none"><span class="opt-name">None / Painted slab</span><span class="opt-price">–</span></label></div>
+        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-board" value="35"><label for="ceil-board"><span class="opt-name">Plasterboard</span><span class="opt-price">GHS 35/m²</span></label></div>
+        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-pop" value="45" checked><label for="ceil-pop"><span class="opt-name">POP / Gypsum</span><span class="opt-price">GHS 45/m²</span></label></div>
+        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-pop2" value="65"><label for="ceil-pop2"><span class="opt-name">Decorative POP</span><span class="opt-price">GHS 65/m²</span></label></div>
+        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-wood" value="95"><label for="ceil-wood"><span class="opt-name">Timber Coffered</span><span class="opt-price">GHS 95/m²</span></label></div>
+      </div>
+
+      <span class="opt-label">Kitchen Cabinets</span>
+      <div class="opt-group">
+        <div class="opt-card"><input type="radio" name="cab-type" id="cab-none" value="0"><label for="cab-none"><span class="opt-name">None</span><span class="opt-price">Open shelving</span></label></div>
+        <div class="opt-card"><input type="radio" name="cab-type" id="cab-mdf" value="3500"><label for="cab-mdf"><span class="opt-name">Economy MDF</span><span class="opt-price">GHS 3,500/m run</span></label></div>
+        <div class="opt-card"><input type="radio" name="cab-type" id="cab-std" value="5000"><label for="cab-std"><span class="opt-name">Standard</span><span class="opt-price">GHS 5,000/m run</span></label></div>
+        <div class="opt-card"><input type="radio" name="cab-type" id="cab-lux" value="7000" checked><label for="cab-lux"><span class="opt-name">Luxury Solid Wood</span><span class="opt-price">GHS 7,000/m run</span></label></div>
+        <div class="opt-card"><input type="radio" name="cab-type" id="cab-cust" value="12000"><label for="cab-cust"><span class="opt-name">Custom Premium</span><span class="opt-price">GHS 12,000/m run</span></label></div>
+      </div>
+      <div class="field-row" style="margin-top:10px;margin-bottom:0;">
+        <div class="field">
+          <label for="cab-m">Cabinet run (metres per kitchen)</label>
+          <input type="number" id="cab-m" value="3" min="1" max="12" oninput="calc()">
+        </div>
+      </div>
+
+      <!-- Bathroom Spec Builder -->
+      <div class="opt-label" style="margin-top:22px;">Bathroom Specification <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--txt3);">— applies to each bathroom</span></div>
+      <div class="bath-spec">
+        <div class="bath-spec-hdr">
+          <span class="bath-spec-title">Select components per bathroom</span>
+          <span class="bath-per-lbl">Cost/bath: <strong id="bath-per-cost">—</strong></span>
+        </div>
+
+        <div class="bath-row">
+          <div class="bath-cat">Toilet</div>
+          <div class="bath-opts">
+            <label class="bath-opt"><input type="radio" name="bath-toilet" value="800" checked onchange="calc()"><span class="bath-opt-lbl">Basic WC <span class="bath-opt-price">GHS 800</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-toilet" value="1500" onchange="calc()"><span class="bath-opt-lbl">Close-coupled <span class="bath-opt-price">GHS 1,500</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-toilet" value="3500" onchange="calc()"><span class="bath-opt-lbl">Wall-hung <span class="bath-opt-price">GHS 3,500</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-toilet" value="8000" onchange="calc()"><span class="bath-opt-lbl">Smart toilet <span class="bath-opt-price">GHS 8,000</span></span></label>
+          </div>
+        </div>
+
+        <div class="bath-row">
+          <div class="bath-cat">Shower</div>
+          <div class="bath-opts">
+            <label class="bath-opt"><input type="radio" name="bath-shower" value="0" onchange="calc()"><span class="bath-opt-lbl">None</span></label>
+            <label class="bath-opt"><input type="radio" name="bath-shower" value="1200" checked onchange="calc()"><span class="bath-opt-lbl">Standard rose <span class="bath-opt-price">GHS 1,200</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-shower" value="2800" onchange="calc()"><span class="bath-opt-lbl">Rain shower <span class="bath-opt-price">GHS 2,800</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-shower" value="9000" onchange="calc()"><span class="bath-opt-lbl">Steam cabin <span class="bath-opt-price">GHS 9,000</span></span></label>
+          </div>
+        </div>
+
+        <div class="bath-row">
+          <div class="bath-cat">Bathtub</div>
+          <div class="bath-opts">
+            <label class="bath-opt"><input type="radio" name="bath-tub" value="0" checked onchange="calc()"><span class="bath-opt-lbl">None</span></label>
+            <label class="bath-opt"><input type="radio" name="bath-tub" value="3500" onchange="calc()"><span class="bath-opt-lbl">Alcove <span class="bath-opt-price">GHS 3,500</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-tub" value="8000" onchange="calc()"><span class="bath-opt-lbl">Freestanding <span class="bath-opt-price">GHS 8,000</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-tub" value="15000" onchange="calc()"><span class="bath-opt-lbl">Jacuzzi <span class="bath-opt-price">GHS 15,000</span></span></label>
+          </div>
+        </div>
+
+        <div class="bath-row">
+          <div class="bath-cat">Vanity &amp; Sink</div>
+          <div class="bath-opts">
+            <label class="bath-opt"><input type="radio" name="bath-vanity" value="600" checked onchange="calc()"><span class="bath-opt-lbl">Basic pedestal <span class="bath-opt-price">GHS 600</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-vanity" value="1800" onchange="calc()"><span class="bath-opt-lbl">Countertop standard <span class="bath-opt-price">GHS 1,800</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-vanity" value="4000" onchange="calc()"><span class="bath-opt-lbl">Marble-top premium <span class="bath-opt-price">GHS 4,000</span></span></label>
+          </div>
+        </div>
+
+        <div class="bath-row">
+          <div class="bath-cat">Floor Tiles</div>
+          <div class="bath-opts">
+            <label class="bath-opt"><input type="radio" name="bath-floor" value="0" checked onchange="calc()"><span class="bath-opt-lbl">Ceramic (base) <span class="bath-opt-price">Included</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-floor" value="800" onchange="calc()"><span class="bath-opt-lbl">Porcelain <span class="bath-opt-price">+GHS 800</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-floor" value="2000" onchange="calc()"><span class="bath-opt-lbl">Natural stone <span class="bath-opt-price">+GHS 2,000</span></span></label>
+          </div>
+        </div>
+
+        <div class="bath-row">
+          <div class="bath-cat">Wall Tiles</div>
+          <div class="bath-opts">
+            <label class="bath-opt"><input type="radio" name="bath-wall" value="900" checked onchange="calc()"><span class="bath-opt-lbl">Half-height <span class="bath-opt-price">GHS 900</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-wall" value="2000" onchange="calc()"><span class="bath-opt-lbl">Full-height ceramic <span class="bath-opt-price">GHS 2,000</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-wall" value="4500" onchange="calc()"><span class="bath-opt-lbl">Full-height porcelain <span class="bath-opt-price">GHS 4,500</span></span></label>
+          </div>
+        </div>
+
+        <div class="bath-row">
+          <div class="bath-cat">Fittings</div>
+          <div class="bath-opts">
+            <label class="bath-opt"><input type="radio" name="bath-fit" value="500" checked onchange="calc()"><span class="bath-opt-lbl">Chrome standard <span class="bath-opt-price">GHS 500</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-fit" value="1200" onchange="calc()"><span class="bath-opt-lbl">Brushed nickel <span class="bath-opt-price">GHS 1,200</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-fit" value="2800" onchange="calc()"><span class="bath-opt-lbl">Brushed gold <span class="bath-opt-price">GHS 2,800</span></span></label>
+          </div>
+        </div>
+
+        <div class="bath-row">
+          <div class="bath-cat">Accessories</div>
+          <div class="bath-opts">
+            <label class="bath-opt"><input type="radio" name="bath-acc" value="400" checked onchange="calc()"><span class="bath-opt-lbl">Basic set <span class="bath-opt-price">GHS 400</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-acc" value="1500" onchange="calc()"><span class="bath-opt-lbl">Illuminated mirror + rails <span class="bath-opt-price">GHS 1,500</span></span></label>
+            <label class="bath-opt"><input type="radio" name="bath-acc" value="3000" onchange="calc()"><span class="bath-opt-lbl">Premium set <span class="bath-opt-price">GHS 3,000</span></span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ── STEP 5: SYSTEMS & SECURITY ── -->
     <div class="wizard-step" id="step-5">
       <div class="step-hdr">
         <div class="step-title">Systems &amp; Security</div>
-        <div class="step-sub">HVAC, fans, and security / home automation.</div>
+        <div class="step-sub">HVAC, fans, and security — combine any options you need.</div>
       </div>
 
       <div class="feat-group">
@@ -433,11 +488,11 @@ select {
           <input type="checkbox" id="ac" onchange="toggleSub('ac','lbl-ac','ac-sub')">
           <div class="feat-info">
             <div class="feat-name">Air Conditioning (Split units)</div>
-            <div class="feat-amt">GHS 4,500 per unit installed</div>
+            <div class="feat-amt">Supply + installation per unit</div>
             <div class="sub-inp" id="ac-sub">
-              <label for="ac-units">Units:</label>
+              <label>Units:</label>
               <input type="number" id="ac-units" value="2" min="1" max="20" oninput="calc()">
-              <label for="ac-rate">GHS/unit:</label>
+              <label>GHS/unit:</label>
               <input type="number" id="ac-rate" value="4500" min="1000" max="20000" step="500" oninput="calc()">
             </div>
           </div>
@@ -446,46 +501,115 @@ select {
           <input type="checkbox" id="fans" onchange="toggleSub('fans','lbl-fans','fans-sub')">
           <div class="feat-info">
             <div class="feat-name">Ceiling Fans</div>
-            <div class="feat-amt">GHS 500 per fan installed</div>
+            <div class="feat-amt">Supply + installation per fan</div>
             <div class="sub-inp" id="fans-sub">
-              <label for="fan-units">Fans:</label>
+              <label>Fans:</label>
               <input type="number" id="fan-units" value="6" min="1" max="30" oninput="calc()">
-              <label for="fan-rate">GHS/fan:</label>
+              <label>GHS/fan:</label>
               <input type="number" id="fan-rate" value="500" min="100" max="3000" step="50" oninput="calc()">
             </div>
           </div>
         </label>
       </div>
 
-      <span class="opt-label">Security System</span>
-      <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="sec-type" id="sec-none" value="0"><label for="sec-none"><span class="opt-name">None</span><span class="opt-price">–</span></label></div>
-        <div class="opt-card"><input type="radio" name="sec-type" id="sec-basic" value="5000"><label for="sec-basic"><span class="opt-name">Basic CCTV</span><span class="opt-price">GHS 5,000 · 4 cameras</span></label></div>
-        <div class="opt-card"><input type="radio" name="sec-type" id="sec-std" value="10000"><label for="sec-std"><span class="opt-name">CCTV + Alarm</span><span class="opt-price">GHS 10,000</span></label></div>
-        <div class="opt-card"><input type="radio" name="sec-type" id="sec-adv" value="15000" checked><label for="sec-adv"><span class="opt-name">Advanced + Auto</span><span class="opt-price">GHS 15,000</span></label></div>
-        <div class="opt-card"><input type="radio" name="sec-type" id="sec-smart" value="25000"><label for="sec-smart"><span class="opt-name">Smart Home</span><span class="opt-price">GHS 25,000</span></label></div>
+      <!-- Security multi-select checklist -->
+      <div class="opt-label">Security &amp; Home Automation <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--txt3);">— select all that apply</span></div>
+      <div class="sec-list">
+        <div class="sec-list-hdr">Tick each item to include in your estimate</div>
+
+        <div class="sec-item" id="si-cctv">
+          <label class="sec-chk-wrap">
+            <input type="checkbox" id="sec-cctv" onchange="secToggle('si-cctv');calc()">
+            <span class="sec-icon">📹</span>
+            <div class="sec-info"><div class="sec-name">CCTV System</div><div class="sec-desc">DVR + 4 cameras, night vision, remote viewing</div></div>
+          </label>
+          <div class="sec-price-wrap"><span>GHS</span><input type="number" id="sec-cctv-rate" value="5000" min="500" max="50000" step="500" oninput="calc()"></div>
+        </div>
+
+        <div class="sec-item" id="si-alarm">
+          <label class="sec-chk-wrap">
+            <input type="checkbox" id="sec-alarm" onchange="secToggle('si-alarm');calc()">
+            <span class="sec-icon">🚨</span>
+            <div class="sec-info"><div class="sec-name">Burglar Alarm System</div><div class="sec-desc">PIR sensors, door contacts, siren, keypad</div></div>
+          </label>
+          <div class="sec-price-wrap"><span>GHS</span><input type="number" id="sec-alarm-rate" value="3000" min="500" max="30000" step="500" oninput="calc()"></div>
+        </div>
+
+        <div class="sec-item" id="si-gate">
+          <label class="sec-chk-wrap">
+            <input type="checkbox" id="sec-gate" onchange="secToggle('si-gate');calc()">
+            <span class="sec-icon">🚪</span>
+            <div class="sec-info"><div class="sec-name">Automated Gate</div><div class="sec-desc">Electric sliding or swing gate with motor, remote &amp; manual override</div></div>
+          </label>
+          <div class="sec-price-wrap"><span>GHS</span><input type="number" id="sec-gate-rate" value="8000" min="1000" max="60000" step="500" oninput="calc()"></div>
+        </div>
+
+        <div class="sec-item" id="si-intercom">
+          <label class="sec-chk-wrap">
+            <input type="checkbox" id="sec-intercom" onchange="secToggle('si-intercom');calc()">
+            <span class="sec-icon">📞</span>
+            <div class="sec-info"><div class="sec-name">Intercom / Video Doorbell</div><div class="sec-desc">Two-way audio/video entry panel linked to indoor monitors</div></div>
+          </label>
+          <div class="sec-price-wrap"><span>GHS</span><input type="number" id="sec-intercom-rate" value="2500" min="500" max="20000" step="500" oninput="calc()"></div>
+        </div>
+
+        <div class="sec-item" id="si-motion">
+          <label class="sec-chk-wrap">
+            <input type="checkbox" id="sec-motion" onchange="secToggle('si-motion');calc()">
+            <span class="sec-icon">💡</span>
+            <div class="sec-info"><div class="sec-name">Motion Sensor Lights</div><div class="sec-desc">Perimeter flood lights with PIR activation</div></div>
+          </label>
+          <div class="sec-price-wrap"><span>GHS</span><input type="number" id="sec-motion-rate" value="1500" min="200" max="10000" step="200" oninput="calc()"></div>
+        </div>
+
+        <div class="sec-item" id="si-efence">
+          <label class="sec-chk-wrap">
+            <input type="checkbox" id="sec-efence" onchange="secToggle('si-efence');calc()">
+            <span class="sec-icon">⚡</span>
+            <div class="sec-info"><div class="sec-name">Electric Perimeter Fence</div><div class="sec-desc">Energized wire on compound wall with energizer unit</div></div>
+          </label>
+          <div class="sec-price-wrap"><span>GHS</span><input type="number" id="sec-efence-rate" value="6000" min="1000" max="40000" step="500" oninput="calc()"></div>
+        </div>
+
+        <div class="sec-item" id="si-smart">
+          <label class="sec-chk-wrap">
+            <input type="checkbox" id="sec-smart" onchange="secToggle('si-smart');calc()">
+            <span class="sec-icon">🏠</span>
+            <div class="sec-info"><div class="sec-name">Smart Home Control Panel</div><div class="sec-desc">Centralized automation — lighting, gate, HVAC, security on one app</div></div>
+          </label>
+          <div class="sec-price-wrap"><span>GHS</span><input type="number" id="sec-smart-rate" value="12000" min="2000" max="80000" step="1000" oninput="calc()"></div>
+        </div>
+
+        <div class="sec-item" id="si-access">
+          <label class="sec-chk-wrap">
+            <input type="checkbox" id="sec-access" onchange="secToggle('si-access');calc()">
+            <span class="sec-icon">🔑</span>
+            <div class="sec-info"><div class="sec-name">Access Control / Biometrics</div><div class="sec-desc">Fingerprint or card reader on entrance doors</div></div>
+          </label>
+          <div class="sec-price-wrap"><span>GHS</span><input type="number" id="sec-access-rate" value="3500" min="500" max="25000" step="500" oninput="calc()"></div>
+        </div>
       </div>
     </div>
 
-    <!-- ── STEP 6: EXTERIOR & UTILITIES ── -->
+    <!-- ── STEP 6: EXTERIOR, ROOFING & UTILITIES ── -->
     <div class="wizard-step" id="step-6">
       <div class="step-hdr">
-        <div class="step-title">Exterior &amp; Utilities</div>
-        <div class="step-sub">Compound wall, site prep, gutters, roofing, water systems.</div>
+        <div class="step-title">Exterior, Roofing &amp; Utilities</div>
+        <div class="step-sub">Compound wall, roofing, solar, water systems, and borehole.</div>
       </div>
 
       <div class="feat-group">
-        <div class="feat-group-name">Compound Wall &amp; Gates</div>
-        <label class="feat on" id="lbl-fence">
-          <input type="checkbox" id="fence" checked onchange="toggleSub('fence','lbl-fence','fence-sub')">
+        <div class="feat-group-name">Compound &amp; Exterior</div>
+        <label class="feat" id="lbl-fence">
+          <input type="checkbox" id="fence" onchange="toggleSub('fence','lbl-fence','fence-sub')">
           <div class="feat-info">
-            <div class="feat-name">Compound Wall &amp; Gates (Main + Pedestrian)</div>
-            <div class="feat-amt">GHS 600/m (includes gates)</div>
-            <div class="sub-inp show" id="fence-sub">
-              <label for="fence-m">Length (m):</label>
-              <input type="number" id="fence-m" value="55" min="5" max="500" oninput="calc()">
-              <label for="fence-rate">GHS/m:</label>
-              <input type="number" id="fence-rate" value="600" min="100" max="3000" step="50" oninput="calc()">
+            <div class="feat-name">Compound Wall / Fence</div>
+            <div class="feat-amt">Sandcrete block perimeter wall</div>
+            <div class="sub-inp" id="fence-sub">
+              <label>Perimeter (m):</label>
+              <input type="number" id="fence-m" value="55" min="10" max="500" oninput="calc()">
+              <label>GHS/m:</label>
+              <input type="number" id="fence-rate" value="600" min="100" max="5000" step="50" oninput="calc()">
             </div>
           </div>
         </label>
@@ -493,64 +617,18 @@ select {
 
       <span class="opt-label">Site Preparation</span>
       <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="site-type" id="site-none" value="0"><label for="site-none"><span class="opt-name">None / Already Cleared</span><span class="opt-price">–</span></label></div>
-        <div class="opt-card"><input type="radio" name="site-type" id="site-min" value="5000"><label for="site-min"><span class="opt-name">Minimal (flat site)</span><span class="opt-price">GHS 5,000</span></label></div>
-        <div class="opt-card"><input type="radio" name="site-type" id="site-std" value="10000"><label for="site-std"><span class="opt-name">Standard Clearance</span><span class="opt-price">GHS 10,000</span></label></div>
-        <div class="opt-card"><input type="radio" name="site-type" id="site-ext" value="20000" checked><label for="site-ext"><span class="opt-name">Extensive + Fill</span><span class="opt-price">GHS 20,000</span></label></div>
-        <div class="opt-card"><input type="radio" name="site-type" id="site-heavy" value="35000"><label for="site-heavy"><span class="opt-name">Heavy Earthworks</span><span class="opt-price">GHS 35,000</span></label></div>
+        <div class="opt-card"><input type="radio" name="site-type" id="site-flat" value="10000"><label for="site-flat"><span class="opt-name">Level site</span><span class="opt-price">GHS 10,000</span></label></div>
+        <div class="opt-card"><input type="radio" name="site-type" id="site-clear" value="20000" checked><label for="site-clear"><span class="opt-name">Clear &amp; level</span><span class="opt-price">GHS 20,000</span></label></div>
+        <div class="opt-card"><input type="radio" name="site-type" id="site-rocky" value="45000"><label for="site-rocky"><span class="opt-name">Rocky / hilly</span><span class="opt-price">GHS 45,000</span></label></div>
+        <div class="opt-card"><input type="radio" name="site-type" id="site-swamp" value="70000"><label for="site-swamp"><span class="opt-name">Swampy / fill</span><span class="opt-price">GHS 70,000</span></label></div>
       </div>
 
-      <span class="opt-label">Gutters &amp; Downpipes</span>
+      <span class="opt-label">Gutters &amp; Drainage</span>
       <div class="opt-group">
         <div class="opt-card"><input type="radio" name="gutter-type" id="gut-none" value="0"><label for="gut-none"><span class="opt-name">None</span><span class="opt-price">–</span></label></div>
-        <div class="opt-card"><input type="radio" name="gutter-type" id="gut-pvc" value="35" checked><label for="gut-pvc"><span class="opt-name">PVC Gutters</span><span class="opt-price">GHS 35/m perimeter</span></label></div>
-        <div class="opt-card"><input type="radio" name="gutter-type" id="gut-al" value="55"><label for="gut-al"><span class="opt-name">Aluminum</span><span class="opt-price">GHS 55/m perimeter</span></label></div>
-        <div class="opt-card"><input type="radio" name="gutter-type" id="gut-stl" value="75"><label for="gut-stl"><span class="opt-name">Galvanised Steel</span><span class="opt-price">GHS 75/m perimeter</span></label></div>
-      </div>
-
-      <div class="feat-group">
-        <div class="feat-group-name">Water &amp; Sanitation</div>
-        <label class="feat on" id="lbl-borehole">
-          <input type="checkbox" id="borehole" checked onchange="toggleSub('borehole','lbl-borehole','borehole-sub')">
-          <div class="feat-info">
-            <div class="feat-name">Borehole Water System</div>
-            <div class="feat-amt">Drilling + pump + overhead tank</div>
-            <div class="sub-inp show" id="borehole-sub">
-              <label for="borehole-cost">Total (GHS):</label>
-              <input type="number" id="borehole-cost" value="30000" min="5000" max="150000" step="1000" oninput="calc()">
-            </div>
-          </div>
-        </label>
-        <label class="feat on" id="lbl-septic">
-          <input type="checkbox" id="septic" checked onchange="toggleSub('septic','lbl-septic','septic-sub')">
-          <div class="feat-info">
-            <div class="feat-name">Septic System &amp; Drainage</div>
-            <div class="feat-amt">Tank + soakaway pits + drainage pipes</div>
-            <div class="sub-inp show" id="septic-sub">
-              <label for="septic-cost">Total (GHS):</label>
-              <input type="number" id="septic-cost" value="42000" min="5000" max="200000" step="1000" oninput="calc()">
-            </div>
-          </div>
-        </label>
-        <label class="feat on" id="lbl-soil">
-          <input type="checkbox" id="soil" checked onchange="toggleSub('soil','lbl-soil','soil-sub')">
-          <div class="feat-info">
-            <div class="feat-name">Professional Soil Test</div>
-            <div class="feat-amt">Before construction</div>
-            <div class="sub-inp show" id="soil-sub">
-              <label for="soil-cost">Total (GHS):</label>
-              <input type="number" id="soil-cost" value="2500" min="500" max="20000" step="500" oninput="calc()">
-            </div>
-          </div>
-        </label>
-      </div>
-    </div>
-
-    <!-- ── STEP 7: ROOFING, ENERGY & MATERIALS ── -->
-    <div class="wizard-step" id="step-7">
-      <div class="step-hdr">
-        <div class="step-title">Roofing, Energy &amp; Materials</div>
-        <div class="step-sub">Roofing type, water heating, and current material market prices.</div>
+        <div class="opt-card"><input type="radio" name="gutter-type" id="gut-conc" value="25"><label for="gut-conc"><span class="opt-name">Concrete channel</span><span class="opt-price">GHS 25/m</span></label></div>
+        <div class="opt-card"><input type="radio" name="gutter-type" id="gut-uPVC" value="35" checked><label for="gut-uPVC"><span class="opt-name">uPVC guttering</span><span class="opt-price">GHS 35/m</span></label></div>
+        <div class="opt-card"><input type="radio" name="gutter-type" id="gut-alum" value="55"><label for="gut-alum"><span class="opt-name">Aluminium box</span><span class="opt-price">GHS 55/m</span></label></div>
       </div>
 
       <span class="opt-label">Roofing Type</span>
@@ -571,38 +649,62 @@ select {
         <div class="opt-card"><input type="radio" name="wh-type" id="wh-hp" value="12000"><label for="wh-hp"><span class="opt-name">Heat Pump</span><span class="opt-price">GHS 12,000</span></label></div>
       </div>
 
-      <div class="section">
-        <div class="section-title">Material Prices (Current Market)</div>
-        <div class="row2">
-          <div class="field">
-            <label for="cement-price">Cement (GHS / bag)</label>
-            <input type="number" id="cement-price" value="90" min="50" max="300" step="1">
+      <div class="feat-group" style="margin-top:18px;">
+        <div class="feat-group-name">Utilities &amp; Services</div>
+        <label class="feat" id="lbl-solar">
+          <input type="checkbox" id="solar" onchange="toggleSub('solar','lbl-solar','solar-sub')">
+          <div class="feat-info">
+            <div class="feat-name">Solar PV System</div>
+            <div class="feat-amt">Panels + inverter + battery bank</div>
+            <div class="sub-inp" id="solar-sub">
+              <label>kWp capacity:</label>
+              <input type="number" id="solar-kw" value="5" min="1" max="50" oninput="calc()">
+              <label>GHS/kWp:</label>
+              <input type="number" id="solar-rate" value="8000" min="2000" max="20000" step="500" oninput="calc()">
+            </div>
           </div>
-          <div class="field">
-            <label for="block-price">6″ Sandcrete Block (GHS / block)</label>
-            <input type="number" id="block-price" value="11" min="5" max="50" step="0.5">
+        </label>
+        <label class="feat" id="lbl-borehole">
+          <input type="checkbox" id="borehole" onchange="toggleSub('borehole','lbl-borehole','borehole-sub')">
+          <div class="feat-info">
+            <div class="feat-name">Borehole / Well</div>
+            <div class="feat-amt">Drilling + pump + header tank</div>
+            <div class="sub-inp" id="borehole-sub">
+              <label>Total cost (GHS):</label>
+              <input type="number" id="borehole-cost" value="30000" min="5000" max="200000" step="1000" oninput="calc()">
+            </div>
           </div>
-        </div>
-        <div class="row2">
-          <div class="field">
-            <label for="steel-price">Y12 Iron Rod (GHS / piece)</label>
-            <input type="number" id="steel-price" value="65" min="20" max="300" step="1">
+        </label>
+        <label class="feat" id="lbl-septic">
+          <input type="checkbox" id="septic" onchange="toggleSub('septic','lbl-septic','septic-sub')">
+          <div class="feat-info">
+            <div class="feat-name">Septic Tank System</div>
+            <div class="feat-amt">Concrete septic + soak-away</div>
+            <div class="sub-inp" id="septic-sub">
+              <label>Total cost (GHS):</label>
+              <input type="number" id="septic-cost" value="42000" min="5000" max="150000" step="1000" oninput="calc()">
+            </div>
           </div>
-          <div class="field">
-            <label for="sand-price">Sharp Sand (GHS / tipper load)</label>
-            <input type="number" id="sand-price" value="1200" min="200" max="5000" step="50">
+        </label>
+        <label class="feat" id="lbl-soil">
+          <input type="checkbox" id="soil" onchange="toggleSub('soil','lbl-soil','soil-sub')">
+          <div class="feat-info">
+            <div class="feat-name">Soil / Geotechnical Test</div>
+            <div class="feat-amt">Bearing capacity test report</div>
+            <div class="sub-inp" id="soil-sub">
+              <label>Total cost (GHS):</label>
+              <input type="number" id="soil-cost" value="2500" min="500" max="20000" step="500" oninput="calc()">
+            </div>
           </div>
-        </div>
+        </label>
       </div>
 
-      <div class="section">
-        <div class="disc">
-          <strong>Important:</strong> This estimate is illustrative, based on published Greater Accra market rates and regional multipliers. An authoritative figure requires a licensed quantity surveyor's Bill of Quantities prepared from stamped architectural drawings, plus at least two contractor quotations. Land costs, building permits, professional fees, and VAT are excluded.
-        </div>
+      <div class="disc" style="margin-top:16px;">
+        <strong>Note:</strong> This estimate is illustrative, based on published Greater Accra market rates and regional multipliers. An authoritative figure requires a licensed quantity surveyor's Bill of Quantities prepared from stamped architectural drawings, plus at least two contractor quotations. Land costs, building permits, professional fees, and VAT are excluded.
       </div>
     </div>
 
-    <!-- Wizard navigation -->
+    <!-- Nav -->
     <div class="wizard-nav">
       <button class="btn-back" id="wizBack" onclick="wizNav(-1)" style="display:none">← Back</button>
       <button class="btn-next" id="wizNext" onclick="wizNav(1)">Next Step →</button>
@@ -615,10 +717,8 @@ select {
     <div class="res-eyebrow">Total Estimated Cost</div>
     <div class="res-total"><span class="cur">GHS</span><span id="total-val">—</span></div>
     <div class="res-note" id="res-config">Adjust options to see your estimate</div>
-
     <div class="res-rule"></div>
     <div class="res-sub-title">Cost Breakdown</div>
-
     <div class="bk-item">
       <div class="bk-row"><span class="bk-name">Base Construction</span><span class="bk-val" id="bk-base">—</span></div>
       <div class="bk-track"><div class="bk-fill hi" id="bar-base" style="width:0%"></div></div>
@@ -632,21 +732,25 @@ select {
       <div class="bk-track"><div class="bk-fill" id="bar-addons" style="width:0%"></div></div>
     </div>
     <div class="bk-item">
-      <div class="bk-row"><span class="bk-name">Materials (Cement + Blocks)</span><span class="bk-val" id="bk-mats">—</span></div>
+      <div class="bk-row"><span class="bk-name">Material Adjustment</span><span class="bk-val" id="bk-mats">—</span></div>
       <div class="bk-track"><div class="bk-fill" id="bar-mats" style="width:0%"></div></div>
     </div>
-
+    <div class="bk-item">
+      <div class="bk-row"><span class="bk-name">Security Systems</span><span class="bk-val" id="bk-sec">—</span></div>
+      <div class="bk-track"><div class="bk-fill" id="bar-sec" style="width:0%"></div></div>
+    </div>
     <div class="res-rule"></div>
     <div class="res-sub-title">Estimated Quantities</div>
-
     <div class="qty-grid">
       <div class="qty-cell"><div class="qty-num" id="q-blocks">—</div><div class="qty-lbl">Blocks (6″)</div></div>
       <div class="qty-cell"><div class="qty-num" id="q-cement">—</div><div class="qty-lbl">Cement (bags)</div></div>
-      <div class="qty-cell"><div class="qty-num" id="q-steel">—</div><div class="qty-lbl">Iron Rods Y12 (pcs)</div></div>
-      <div class="qty-cell"><div class="qty-num" id="q-roof">—</div><div class="qty-lbl">Roofing Sheets</div></div>
+      <div class="qty-cell"><div class="qty-num" id="q-steel">—</div><div class="qty-lbl">Iron Rods Y12</div></div>
+      <div class="qty-cell"><div class="qty-num" id="q-baths">—</div><div class="qty-lbl">Bathrooms</div></div>
     </div>
-
-    <div class="print-btn">
+    <div class="res-rule"></div>
+    <div class="res-sub-title">Floor Plan Summary</div>
+    <div id="fp-summary" style="font-size:12px;color:rgba(255,255,255,.5);">Configure rooms in Step 2</div>
+    <div class="print-btn" style="margin-top:14px;">
       <button class="btn-secondary" onclick="window.print()">Print / Save as PDF</button>
     </div>
     <div class="powered">Powered by I-AKROTECH · Ghana Build Cost Tool</div>
@@ -655,173 +759,374 @@ select {
 </div><!-- /wrap -->
 
 <script>
-(function() {
-  const BASE_RATE = 2350;
-  const LABOUR_RATIO = 0.112;
+(function(){
+'use strict';
 
-  function fmt(n) { return n.toLocaleString('en-GH', {maximumFractionDigits:0}); }
-  function getNum(id, def) { const v = parseFloat(document.getElementById(id)?.value); return isNaN(v) ? def : v; }
-  function getChecked(id) { const el = document.getElementById(id); return el ? el.checked : false; }
-  function getRadioVal(name, def) {
-    const el = document.querySelector('input[name="'+name+'"]:checked');
-    return el ? parseFloat(el.value) : def;
+// ── Constants ──
+const BASE_RATE = 2350;
+const LABOUR_RATIO = 0.112;
+
+const ROOM_TYPES = [
+  {key:'living',   label:'Living Room',     area:25},
+  {key:'dining',   label:'Dining Room',     area:16},
+  {key:'kitchen',  label:'Kitchen',         area:18},
+  {key:'master',   label:'Master Bedroom',  area:22},
+  {key:'bedroom',  label:'Bedroom',         area:16},
+  {key:'bathroom', label:'Bathroom',        area:7 },
+  {key:'study',    label:'Study / Office',  area:12},
+  {key:'store',    label:'Storeroom',       area:6 },
+  {key:'passage',  label:'Passage / Hall',  area:10},
+  {key:'garage',   label:'Garage',          area:28},
+  {key:'balcony',  label:'Balcony / Porch', area:10},
+  {key:'laundry',  label:'Laundry',         area:6 },
+  {key:'other',    label:'Other',           area:10},
+];
+
+const FLOOR_NAMES = ['Ground Floor','1st Floor','2nd Floor','3rd Floor','4th Floor','5th Floor'];
+
+const FINISH_MUL = {inherit:null, economy:0.80, standard:1.00, premium:1.25, luxury:1.60};
+
+// ── State ──
+let uid_counter = 0;
+function uid(){ return 'r'+(++uid_counter); }
+
+let floorPlan = [];
+
+// ── Helpers ──
+function fmt(n){ return Math.round(n).toLocaleString('en-GH'); }
+function getNum(id, def){ const v=parseFloat(document.getElementById(id)?.value); return isNaN(v)?def:v; }
+function getChecked(id){ const el=document.getElementById(id); return el?el.checked:false; }
+function getRadioVal(name, def){
+  const el=document.querySelector('input[name="'+name+'"]:checked');
+  return el?parseFloat(el.value):def;
+}
+function getGlobalFinish(){ return getRadioVal('finish',1.00); }
+
+// ── Security toggle ──
+window.secToggle = function(itemId){
+  const item = document.getElementById(itemId);
+  const chk  = item?.querySelector('input[type=checkbox]');
+  if(item && chk) item.classList.toggle('checked', chk.checked);
+};
+
+// ── Feature checkbox toggle (sub-inputs) ──
+window.toggleSub = function(checkId, lblId, subId){
+  const on = document.getElementById(checkId)?.checked;
+  const sub = document.getElementById(subId);
+  const lbl = document.getElementById(lblId);
+  if(sub) sub.classList.toggle('show', on);
+  if(lbl) lbl.classList.toggle('on', on);
+  calc();
+};
+
+// ── Floor Plan ──
+function defaultRooms(floorIdx){
+  if(floorIdx === 0) return [
+    {id:uid(),type:'living',  area:25,finish:'inherit'},
+    {id:uid(),type:'dining',  area:16,finish:'inherit'},
+    {id:uid(),type:'kitchen', area:18,finish:'inherit'},
+    {id:uid(),type:'bathroom',area:7, finish:'inherit'},
+  ];
+  return [
+    {id:uid(),type:'master',  area:22,finish:'inherit'},
+    {id:uid(),type:'bedroom', area:16,finish:'inherit'},
+    {id:uid(),type:'bathroom',area:7, finish:'inherit'},
+  ];
+}
+
+function syncFloors(n){
+  while(floorPlan.length < n){
+    const i = floorPlan.length;
+    floorPlan.push({name:FLOOR_NAMES[i]||'Floor '+(i+1), rooms:defaultRooms(i)});
   }
-  function getFinish() { return getRadioVal('finish', 1.0); }
+  floorPlan = floorPlan.slice(0, n);
+  renderFloors();
+}
 
-  window.calc = function() {
-    const region     = parseFloat(document.getElementById('region')?.value) || 1.0;
-    const storeys    = parseInt(document.getElementById('storeys')?.value) || 1;
-    const area       = getNum('area', 95);
-    const beds       = parseInt(document.getElementById('bedrooms')?.value) || 4;
-    const finish     = getFinish();
-    const cementPx   = getNum('cement-price', 90);
-    const blockPx    = getNum('block-price', 11);
+function typeOptions(selected){
+  return ROOM_TYPES.map(t=>`<option value="${t.key}"${t.key===selected?' selected':''}>${t.label}</option>`).join('');
+}
 
-    const totalArea  = area * storeys;
-    const wallArea   = area * storeys * 4.5;
-    const storeyFactor = 1 + (storeys - 1) * 0.14;
-    const kitchens   = Math.max(1, Math.floor(beds / 2));
-    const baths      = beds;
+function finishOptions(selected){
+  return [
+    ['inherit','↑ Inherit Global'],
+    ['economy','Economy'],
+    ['standard','Standard'],
+    ['premium','Premium'],
+    ['luxury','Luxury'],
+  ].map(([v,l])=>`<option value="${v}"${v===selected?' selected':''}>${l}</option>`).join('');
+}
 
-    const baseConst  = totalArea * BASE_RATE * finish * region * storeyFactor;
-    const labour     = baseConst * LABOUR_RATIO;
+function renderFloors(){
+  const container = document.getElementById('floor-plan-builder');
+  if(!container) return;
+  container.innerHTML = floorPlan.map((floor,fi)=>{
+    const floorArea = floor.rooms.reduce((s,r)=>s+(parseFloat(r.area)||0),0);
+    return `
+    <div class="floor-block">
+      <div class="floor-hdr">
+        <span class="floor-name">${floor.name}</span>
+        <span class="floor-area-badge">${floorArea.toFixed(0)} m²</span>
+        <button class="btn-add-room" onclick="addRoom(${fi})">+ Add Room</button>
+      </div>
+      <div class="rooms-list" id="rooms-${fi}">
+        ${floor.rooms.map((room,ri)=>`
+        <div class="room-row" id="room-${room.id}">
+          <select class="room-type-sel" onchange="setRoomType(${fi},${ri},this.value)">${typeOptions(room.type)}</select>
+          <div class="room-area-wrap">
+            <input type="number" class="room-area" value="${room.area}" min="3" max="500"
+                   onchange="setRoomArea(${fi},${ri},+this.value)" oninput="setRoomArea(${fi},${ri},+this.value)">
+            <span class="room-m2">m²</span>
+          </div>
+          <select class="room-finish-sel" onchange="setRoomFinish(${fi},${ri},this.value)">${finishOptions(room.finish)}</select>
+          <button class="room-del" onclick="delRoom(${fi},${ri})" title="Remove room">×</button>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  updateAreaTotal();
+  calc();
+}
 
-    const blocks     = Math.round(totalArea * 25.5);
-    const cement     = Math.round(totalArea * 1.49);
-    const steelY12   = Math.round(totalArea * 8.4);
-    const roofSh     = Math.round((area / 2.2) * storeys * 0.55);
+window.addRoom = function(fi){
+  floorPlan[fi].rooms.push({id:uid(),type:'bedroom',area:16,finish:'inherit'});
+  renderFloors();
+};
 
-    const blockBase  = 11, cementBase = 90;
-    const matAdj     = (blocks * (blockPx - blockBase)) + (cement * (cementPx - cementBase));
+window.delRoom = function(fi,ri){
+  if(floorPlan[fi].rooms.length <= 1) return;
+  floorPlan[fi].rooms.splice(ri,1);
+  renderFloors();
+};
 
-    let addons = 0;
+window.setRoomType = function(fi,ri,val){
+  floorPlan[fi].rooms[ri].type = val;
+  const t = ROOM_TYPES.find(t=>t.key===val);
+  if(t){ floorPlan[fi].rooms[ri].area = t.area; }
+  renderFloors();
+};
 
-    // Flooring
-    const tilePx = getRadioVal('tile-type', 80);
-    addons += tilePx * totalArea;
+window.setRoomArea = function(fi,ri,val){
+  floorPlan[fi].rooms[ri].area = val||0;
+  updateAreaTotal();
+  calc();
+};
 
-    // Wall finish
-    const wallFinPx = getRadioVal('wall-fin', 0);
-    addons += wallFinPx * wallArea;
+window.setRoomFinish = function(fi,ri,val){
+  floorPlan[fi].rooms[ri].finish = val;
+  calc();
+};
 
-    // Ceiling
-    const ceilPx = getRadioVal('ceil-type', 45);
-    addons += ceilPx * totalArea;
+function updateAreaTotal(){
+  let total = 0;
+  floorPlan.forEach(f=>f.rooms.forEach(r=>total+=(parseFloat(r.area)||0)));
+  const el = document.getElementById('fp-total');
+  if(el) el.textContent = total.toFixed(0)+' m²';
+  return total;
+}
 
-    // Cabinets
-    const cabCostPerM = getRadioVal('cab-type', 7000);
-    if (cabCostPerM > 0) addons += cabCostPerM * getNum('cab-m', 3) * kitchens;
+function getTotalArea(){
+  const override = parseFloat(document.getElementById('area-override')?.value);
+  if(override>0) return override;
+  let total=0;
+  floorPlan.forEach(f=>f.rooms.forEach(r=>total+=(parseFloat(r.area)||0)));
+  return total>0?total:120;
+}
 
-    // Premium bathrooms
-    if (getChecked('bath')) addons += getNum('bath-rate', 8500) * baths;
+function getNumBaths(){
+  let n=0;
+  floorPlan.forEach(f=>f.rooms.forEach(r=>{ if(r.type==='bathroom') n++; }));
+  return n>0?n:1;
+}
 
-    // Insect screens (~30% of wall area is openings)
-    const screenPx = getRadioVal('screen-type', 85);
-    addons += screenPx * wallArea * 0.3;
+function getNumKitchens(){
+  let n=0;
+  floorPlan.forEach(f=>f.rooms.forEach(r=>{ if(r.type==='kitchen') n++; }));
+  return n>0?n:1;
+}
 
-    // HVAC
-    if (getChecked('ac'))   addons += getNum('ac-rate', 4500) * getNum('ac-units', 2);
-    if (getChecked('fans')) addons += getNum('fan-rate', 500)  * getNum('fan-units', 6);
+// Per-room weighted finish multiplier
+function getWeightedFinishMul(){
+  const globalFin = getGlobalFinish();
+  let totalArea=0, weightedSum=0;
+  floorPlan.forEach(f=>f.rooms.forEach(r=>{
+    const a = parseFloat(r.area)||0;
+    const mul = (r.finish==='inherit'||!FINISH_MUL[r.finish])
+      ? globalFin
+      : FINISH_MUL[r.finish];
+    totalArea += a;
+    weightedSum += a * mul;
+  }));
+  if(totalArea===0) return globalFin;
+  return weightedSum/totalArea;
+}
 
-    // Security
-    addons += getRadioVal('sec-type', 15000);
+// ── storey change ──
+window.onStoreysChange = function(){
+  const n = parseInt(document.getElementById('storeys')?.value)||1;
+  syncFloors(n);
+};
 
-    // Fence / compound wall
-    if (getChecked('fence')) addons += getNum('fence-rate', 600) * getNum('fence-m', 55);
+// ── Bathroom cost per room ──
+function getBathCostPerRoom(){
+  const components = ['bath-toilet','bath-shower','bath-tub','bath-vanity','bath-floor','bath-wall','bath-fit','bath-acc'];
+  return components.reduce((s,name)=>s+getRadioVal(name,0),0);
+}
 
-    // Site prep
-    addons += getRadioVal('site-type', 20000);
+// ── Main calc ──
+window.calc = function(){
+  const region      = parseFloat(document.getElementById('region')?.value)||1.0;
+  const storeys     = parseInt(document.getElementById('storeys')?.value)||1;
+  const cementPx    = getNum('cement-price',90);
+  const blockPx     = getNum('block-price',11);
 
-    // Gutters (perimeter ≈ 4 × √area × 1.1)
-    const gutterRate = getRadioVal('gutter-type', 35);
-    addons += gutterRate * Math.sqrt(area) * 4 * 1.1;
+  const area        = getTotalArea();               // single-storey floor plate
+  const totalArea   = area * storeys;               // all floors combined
+  const wallArea    = area * storeys * 4.5;
+  const storeyFact  = 1 + (storeys-1)*0.14;
+  const finMul      = getWeightedFinishMul();
+  const numBaths    = getNumBaths();
+  const numKitchens = getNumKitchens();
 
-    // Borehole / septic / soil
-    if (getChecked('borehole')) addons += getNum('borehole-cost', 30000);
-    if (getChecked('septic'))   addons += getNum('septic-cost', 42000);
-    if (getChecked('soil'))     addons += getNum('soil-cost', 2500);
+  // Base + labour
+  const baseConst   = totalArea * BASE_RATE * finMul * region * storeyFact;
+  const labour      = baseConst * LABOUR_RATIO;
 
-    // Roofing upgrade
-    addons += getRadioVal('roof-type', 0);
+  // Quantities
+  const blocks      = Math.round(totalArea * 25.5);
+  const cement      = Math.round(totalArea * 1.49);
+  const steelY12    = Math.round(totalArea * 8.4);
 
-    // Water heater
-    addons += getRadioVal('wh-type', 6500);
+  // Material price adjustment vs baseline
+  const blockBase=11, cementBase=90;
+  const matAdj = (blocks*(blockPx-blockBase)) + (cement*(cementPx-cementBase));
 
-    const total  = baseConst + addons + matAdj;
-    const maxVal = Math.max(total, 1);
+  let addons = 0;
 
-    document.getElementById('total-val').textContent = fmt(total);
-    const regionTxt = document.getElementById('region');
-    const regionName = regionTxt ? regionTxt.options[regionTxt.selectedIndex].text.split('(')[0].trim() : 'Accra';
-    const finishName = {0.80:'Economy',1.00:'Standard',1.30:'Premium',1.60:'Luxury'}[finish] || 'Standard';
-    document.getElementById('res-config').textContent =
-      `${totalArea} m² · ${storeys} storey${storeys>1?'s':''} · ${finishName} · ${regionName}`;
+  // Flooring
+  addons += getRadioVal('tile-type',80) * totalArea;
 
-    const bkBase = baseConst - labour;
-    document.getElementById('bk-base').textContent   = 'GHS ' + fmt(bkBase);
-    document.getElementById('bk-labour').textContent = 'GHS ' + fmt(labour);
-    document.getElementById('bk-addons').textContent = 'GHS ' + fmt(addons + matAdj);
-    document.getElementById('bk-mats').textContent   = 'GHS ' + fmt(blocks * blockPx + cement * cementPx);
+  // Wall finish
+  addons += getRadioVal('wall-fin',0) * wallArea;
 
-    document.getElementById('bar-base').style.width   = (bkBase / maxVal * 100).toFixed(1) + '%';
-    document.getElementById('bar-labour').style.width = (labour / maxVal * 100).toFixed(1) + '%';
-    document.getElementById('bar-addons').style.width = ((addons + matAdj) / maxVal * 100).toFixed(1) + '%';
-    document.getElementById('bar-mats').style.width   = ((blocks * blockPx + cement * cementPx) / maxVal * 100).toFixed(1) + '%';
+  // Screens (~30% of wall area = openings)
+  addons += getRadioVal('screen-type',85) * wallArea * 0.3;
 
-    document.getElementById('q-blocks').textContent  = fmt(blocks);
-    document.getElementById('q-cement').textContent  = fmt(cement);
-    document.getElementById('q-steel').textContent   = fmt(steelY12);
-    document.getElementById('q-roof').textContent    = fmt(roofSh);
-  };
+  // Ceiling
+  addons += getRadioVal('ceil-type',45) * totalArea;
 
-  // ── Wizard navigation ───────────────────────────────────────────────────────
-  let currentStep = 1;
-  const totalSteps = 7;
+  // Kitchen cabinets
+  const cabPerM = getRadioVal('cab-type',7000);
+  if(cabPerM>0) addons += cabPerM * getNum('cab-m',3) * numKitchens;
 
-  function updateProgress() {
-    document.querySelectorAll('.wiz-node').forEach(node => {
-      const s = parseInt(node.dataset.step);
-      node.classList.toggle('done', s < currentStep);
-      node.classList.toggle('active', s === currentStep);
-    });
-    document.getElementById('wizBack').style.display = currentStep > 1 ? '' : 'none';
-    document.getElementById('wizNext').textContent =
-      currentStep === totalSteps ? '✓ View Full Estimate' : 'Next Step →';
+  // Bathrooms — component spec
+  const bathPerRoom = getBathCostPerRoom();
+  addons += bathPerRoom * numBaths;
+  const bathEl = document.getElementById('bath-per-cost');
+  if(bathEl) bathEl.textContent = 'GHS '+fmt(bathPerRoom);
+
+  // HVAC
+  if(getChecked('ac'))   addons += getNum('ac-rate',4500) * getNum('ac-units',2);
+  if(getChecked('fans')) addons += getNum('fan-rate',500)  * getNum('fan-units',6);
+
+  // Security (multi-select)
+  const secIds = ['sec-cctv','sec-alarm','sec-gate','sec-intercom','sec-motion','sec-efence','sec-smart','sec-access'];
+  let secTotal = 0;
+  secIds.forEach(id=>{ if(getChecked(id)) secTotal += getNum(id+'-rate',0); });
+
+  // Fence
+  if(getChecked('fence')) addons += getNum('fence-rate',600)*getNum('fence-m',55);
+
+  // Site prep + gutters
+  addons += getRadioVal('site-type',20000);
+  const gutterRate = getRadioVal('gutter-type',35);
+  addons += gutterRate * Math.sqrt(area) * 4 * 1.1;
+
+  // Roofing + water heater
+  addons += getRadioVal('roof-type',0);
+  addons += getRadioVal('wh-type',6500);
+
+  // Solar
+  if(getChecked('solar')) addons += getNum('solar-rate',8000)*getNum('solar-kw',5);
+
+  // Utilities
+  if(getChecked('borehole')) addons += getNum('borehole-cost',30000);
+  if(getChecked('septic'))   addons += getNum('septic-cost',42000);
+  if(getChecked('soil'))     addons += getNum('soil-cost',2500);
+
+  // Total
+  const total = baseConst + addons + matAdj + secTotal;
+
+  // ── Update UI ──
+  document.getElementById('total-val').textContent = fmt(total);
+  document.getElementById('res-config').textContent =
+    area.toFixed(0)+' m² · '+storeys+' storey'+( storeys>1?'s':'')+' · '+numBaths+' bath'+( numBaths!==1?'s':'');
+
+  document.getElementById('bk-base').textContent    = 'GHS '+fmt(baseConst);
+  document.getElementById('bk-labour').textContent  = 'GHS '+fmt(labour);
+  document.getElementById('bk-addons').textContent  = 'GHS '+fmt(addons);
+  document.getElementById('bk-mats').textContent    = (matAdj>=0?'+':'')+'GHS '+fmt(Math.abs(matAdj));
+  document.getElementById('bk-sec').textContent     = secTotal>0?'GHS '+fmt(secTotal):'—';
+
+  const pct = (v)=>Math.min(100,Math.round(v/total*100))+'%';
+  document.getElementById('bar-base').style.width   = pct(baseConst);
+  document.getElementById('bar-labour').style.width = pct(labour);
+  document.getElementById('bar-addons').style.width = pct(addons);
+  document.getElementById('bar-mats').style.width   = pct(Math.abs(matAdj));
+  document.getElementById('bar-sec').style.width    = pct(secTotal);
+
+  document.getElementById('q-blocks').textContent  = fmt(blocks);
+  document.getElementById('q-cement').textContent  = fmt(cement);
+  document.getElementById('q-steel').textContent   = fmt(steelY12);
+  document.getElementById('q-baths').textContent   = numBaths;
+
+  // Floor plan summary
+  const fpSumEl = document.getElementById('fp-summary');
+  if(fpSumEl){
+    if(floorPlan.length===0){
+      fpSumEl.textContent='Configure rooms in Step 2';
+    } else {
+      fpSumEl.innerHTML = floorPlan.map(f=>{
+        const a=f.rooms.reduce((s,r)=>s+(parseFloat(r.area)||0),0);
+        return `<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.06);">
+          <span>${f.name}</span><span style="font-family:var(--fm);color:#fff;">${a.toFixed(0)} m² · ${f.rooms.length} rooms</span></div>`;
+      }).join('');
+    }
   }
+};
 
-  window.wizNav = function(dir) {
-    const next = currentStep + dir;
-    if (next < 1 || next > totalSteps) return;
-    document.getElementById('step-' + currentStep).classList.remove('active');
-    currentStep = next;
-    document.getElementById('step-' + currentStep).classList.add('active');
-    updateProgress();
-    calc();
-    document.querySelector('.wizard-panel').scrollTo(0, 0);
-  };
+// ── Wizard ──
+let currentStep = 1;
+const totalSteps = 6;
 
-  // ── Checkbox helpers ────────────────────────────────────────────────────────
-  window.toggle = function(id, lblId) {
-    document.getElementById(lblId).classList.toggle('on', document.getElementById(id).checked);
-    calc();
-  };
-  window.toggleSub = function(id, lblId, subId) {
-    const checked = document.getElementById(id).checked;
-    document.getElementById(lblId).classList.toggle('on', checked);
-    const sub = document.getElementById(subId);
-    if (sub) sub.classList.toggle('show', checked);
-    calc();
-  };
-
-  // ── Wire all inputs ─────────────────────────────────────────────────────────
-  document.querySelectorAll('input, select').forEach(el => {
-    el.addEventListener('change', calc);
-    el.addEventListener('input', calc);
+function updateProgress(){
+  document.querySelectorAll('.wiz-node').forEach(node=>{
+    const s=parseInt(node.dataset.step);
+    node.classList.toggle('done',s<currentStep);
+    node.classList.toggle('active',s===currentStep);
   });
+  document.getElementById('wizBack').style.display = currentStep>1?'':'none';
+  document.getElementById('wizNext').textContent =
+    currentStep===totalSteps?'✓ View Full Estimate':'Next Step →';
+}
 
-  // Initial render
+window.wizNav = function(dir){
+  const next = currentStep+dir;
+  if(next<1||next>totalSteps) return;
+  document.getElementById('step-'+currentStep).classList.remove('active');
+  currentStep=next;
+  document.getElementById('step-'+currentStep).classList.add('active');
   updateProgress();
   calc();
+  document.querySelector('.wizard-panel').scrollTo(0,0);
+};
+
+// ── Init ──
+syncFloors(1);   // start with 1 storey = 1 floor
+updateProgress();
+calc();
+
 })();
 </script>
-</body></html>
+</body>
+</html>
