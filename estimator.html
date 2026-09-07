@@ -1,0 +1,805 @@
+<title>Ghana Build Cost — I-AKROTECH</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --cr: #A50034;
+  --cr-dk: #6B0020;
+  --cr-dp: #3D0012;
+  --cr-pale: #FFF0F4;
+  --cr-glow: #FF8FA8;
+
+  --bg: #F5EFED;
+  --surf: #FFFFFF;
+  --surf2: #EDE6E3;
+  --bdr: #DDD4CF;
+  --txt: #1A1014;
+  --txt2: #5E4E55;
+  --txt3: #9A8790;
+
+  --fd: 'Syne', system-ui, sans-serif;
+  --fb: 'DM Sans', system-ui, sans-serif;
+  --fm: 'DM Mono', 'Courier New', monospace;
+  --r: 9px;
+  --rs: 5px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #110810; --surf: #1C1017; --surf2: #251620; --bdr: #3A2430;
+    --txt: #F0E8EE; --txt2: #A88E98; --txt3: #6E5A63; --cr-pale: #2B0A15;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #110810; --surf: #1C1017; --surf2: #251620; --bdr: #3A2430;
+  --txt: #F0E8EE; --txt2: #A88E98; --txt3: #6E5A63; --cr-pale: #2B0A15;
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--fb);
+  background: var(--bg);
+  color: var(--txt);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ─── Header ─── */
+.hdr {
+  background: var(--cr-dk);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.hdr-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.hdr-logo {
+  font-family: var(--fd);
+  font-weight: 800;
+  font-size: 15px;
+  color: #fff;
+  letter-spacing: 0.03em;
+}
+.hdr-logo span { color: var(--cr-glow); }
+.hdr-sep { width: 1px; height: 18px; background: rgba(255,255,255,.2); }
+.hdr-tool {
+  font-family: var(--fd);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+}
+.hdr-back {
+  font-size: 12px;
+  color: rgba(255,255,255,.55);
+  text-decoration: none;
+  padding: 5px 12px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 20px;
+  transition: color .2s, border-color .2s;
+}
+.hdr-back:hover { color: #fff; border-color: rgba(255,255,255,.5); }
+
+/* ─── Two-column layout ─── */
+.wrap {
+  display: grid;
+  grid-template-columns: 1fr 370px;
+  min-height: calc(100vh - 46px);
+}
+@media (max-width: 860px) {
+  .wrap { grid-template-columns: 1fr; }
+  .results { position: static; height: auto; }
+}
+
+/* ─── Form panel ─── */
+.form-panel {
+  padding: 32px 28px 60px;
+  overflow-y: auto;
+}
+
+.section {
+  margin-bottom: 34px;
+}
+.section-title {
+  font-family: var(--fd);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--txt3);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--bdr);
+}
+
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+@media (max-width: 560px) {
+  .row2, .row3 { grid-template-columns: 1fr; }
+}
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--txt2);
+  letter-spacing: .03em;
+}
+
+input[type=number], select {
+  font-family: var(--fb);
+  font-size: 14px;
+  color: var(--txt);
+  background: var(--surf);
+  border: 1.5px solid var(--bdr);
+  border-radius: var(--rs);
+  padding: 9px 11px;
+  width: 100%;
+  transition: border-color .2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type=number]:focus, select:focus {
+  outline: none;
+  border-color: var(--cr);
+}
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath fill='%239A8790' d='M5 7 0 0h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+
+/* ─── Finish level ─── */
+.finish-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 10px;
+}
+@media (max-width: 560px) { .finish-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.finish-opt input { display: none; }
+.finish-opt label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 6px;
+  border: 1.5px solid var(--bdr);
+  border-radius: var(--rs);
+  cursor: pointer;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--txt2);
+  transition: all .15s;
+}
+.finish-opt label .mult {
+  font-family: var(--fm);
+  font-size: 10px;
+  color: var(--txt3);
+}
+.finish-opt input:checked + label {
+  border-color: var(--cr);
+  background: var(--cr-pale);
+  color: var(--cr);
+}
+.finish-opt input:checked + label .mult { color: var(--cr); opacity: .8; }
+
+/* ─── Feature toggles ─── */
+.feat-group { margin-bottom: 18px; }
+.feat-group-name {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--txt3);
+  margin-bottom: 8px;
+}
+
+.feat {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surf);
+  border: 1.5px solid var(--bdr);
+  border-radius: var(--rs);
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.feat:hover { border-color: var(--cr); }
+.feat.on { border-color: var(--cr); background: var(--cr-pale); }
+
+.feat input[type=checkbox] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--cr);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.feat-info { flex: 1; }
+.feat-name { font-size: 13px; font-weight: 500; color: var(--txt); }
+.feat-amt {
+  font-family: var(--fm);
+  font-size: 11px;
+  color: var(--txt3);
+  margin-top: 1px;
+}
+
+.sub-inp {
+  display: none;
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--surf2);
+  border-radius: var(--rs);
+  align-items: center;
+  gap: 10px;
+}
+.sub-inp.show { display: flex; }
+.sub-inp label { font-size: 12px; color: var(--txt2); white-space: nowrap; min-width: 0; }
+.sub-inp input[type=number] { width: 90px; flex-shrink: 0; }
+
+/* ─── Disclaimer ─── */
+.disc {
+  background: var(--surf2);
+  border-left: 3px solid var(--cr);
+  padding: 12px 16px;
+  border-radius: 0 var(--rs) var(--rs) 0;
+  font-size: 12px;
+  color: var(--txt2);
+  line-height: 1.55;
+}
+.disc strong { color: var(--txt); font-weight: 600; }
+
+/* ─── Results panel ─── */
+.results {
+  background: var(--cr-dk);
+  color: #fff;
+  padding: 28px 24px 32px;
+  position: sticky;
+  top: 46px;
+  height: calc(100vh - 46px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.res-eyebrow {
+  font-family: var(--fd);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+  margin-bottom: 6px;
+}
+
+.res-total {
+  font-family: var(--fm);
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+  color: #fff;
+  word-break: break-all;
+}
+.res-total .cur { font-size: 18px; opacity: .65; margin-right: 4px; }
+
+.res-note {
+  font-size: 11px;
+  color: rgba(255,255,255,.4);
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+/* Breakdown */
+.res-rule { height: 1px; background: rgba(255,255,255,.1); margin: 20px 0; }
+
+.res-sub-title {
+  font-family: var(--fd);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  margin-bottom: 14px;
+}
+
+.bk-item { margin-bottom: 10px; }
+.bk-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 3px;
+}
+.bk-name { font-size: 12px; color: rgba(255,255,255,.68); }
+.bk-val { font-family: var(--fm); font-size: 12px; color: #fff; font-variant-numeric: tabular-nums; }
+.bk-track { height: 3px; background: rgba(255,255,255,.12); border-radius: 2px; overflow: hidden; }
+.bk-fill { height: 100%; border-radius: 2px; transition: width .35s ease; background: rgba(255,255,255,.4); }
+.bk-fill.hi { background: var(--cr-glow); }
+
+/* Quantities */
+.qty-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-top: 14px;
+}
+.qty-cell {
+  background: rgba(255,255,255,.07);
+  border-radius: var(--rs);
+  padding: 10px 12px;
+}
+.qty-num {
+  font-family: var(--fm);
+  font-size: 17px;
+  font-weight: 500;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.qty-lbl { font-size: 10px; color: rgba(255,255,255,.45); margin-top: 2px; letter-spacing: .03em; }
+
+/* Print btn */
+.print-btn {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.btn-secondary {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: var(--rs);
+  color: rgba(255,255,255,.8);
+  font-family: var(--fb);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: .03em;
+  transition: background .2s;
+}
+.btn-secondary:hover { background: rgba(255,255,255,.18); }
+
+.powered {
+  font-size: 10px;
+  color: rgba(255,255,255,.28);
+  text-align: center;
+  margin-top: 10px;
+}
+</style>
+
+<!-- HEADER -->
+<header class="hdr">
+  <a class="hdr-brand" href="index.html" id="homeLink">
+    <span class="hdr-logo">I<span>·</span>AKROTECH</span>
+    <span class="hdr-sep"></span>
+    <span class="hdr-tool">Build Cost Estimator</span>
+  </a>
+  <a class="hdr-back" href="index.html" id="backBtn">← Company Site</a>
+</header>
+
+<div class="wrap">
+
+  <!-- FORM PANEL -->
+  <div class="form-panel">
+
+    <div class="section">
+      <div class="section-title">Project Basics</div>
+      <div class="row2">
+        <div class="field">
+          <label for="region">Region</label>
+          <select id="region">
+            <option value="1.00">Greater Accra (1.00×)</option>
+            <option value="0.95">Ashanti (0.95×)</option>
+            <option value="0.92">Western (0.92×)</option>
+            <option value="0.90">Eastern (0.90×)</option>
+            <option value="0.88">Central (0.88×)</option>
+            <option value="0.85">Northern / Other (0.85×)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="storeys">Number of Storeys</label>
+          <select id="storeys">
+            <option value="1">1 — Single storey</option>
+            <option value="2" selected>2 — Ground + 1st</option>
+            <option value="3">3 — Three storeys</option>
+            <option value="4">4 — Four storeys</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="area">Floor Area per Storey (m²)</label>
+          <input type="number" id="area" value="95" min="20" max="1000" step="5">
+        </div>
+        <div class="field">
+          <label for="bedrooms">Bedrooms</label>
+          <select id="bedrooms">
+            <option value="1">1 Bedroom</option>
+            <option value="2">2 Bedrooms</option>
+            <option value="3">3 Bedrooms</option>
+            <option value="4" selected>4 Bedrooms</option>
+            <option value="5">5 Bedrooms</option>
+            <option value="6">6 Bedrooms</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Finish Level</div>
+      <div class="finish-grid">
+        <div class="finish-opt"><input type="radio" name="finish" id="f-eco" value="0.80"><label for="f-eco">Economy<span class="mult">0.80×</span></label></div>
+        <div class="finish-opt"><input type="radio" name="finish" id="f-std" value="1.00" checked><label for="f-std">Standard<span class="mult">1.00×</span></label></div>
+        <div class="finish-opt"><input type="radio" name="finish" id="f-pre" value="1.30"><label for="f-pre">Premium<span class="mult">1.30×</span></label></div>
+        <div class="finish-opt"><input type="radio" name="finish" id="f-lux" value="1.60"><label for="f-lux">Luxury<span class="mult">1.60×</span></label></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Material Prices (Current Market)</div>
+      <div class="row2">
+        <div class="field">
+          <label for="cement-price">Cement (GHS / bag)</label>
+          <input type="number" id="cement-price" value="90" min="50" max="300" step="1">
+        </div>
+        <div class="field">
+          <label for="block-price">6″ Sandcrete Block (GHS / block)</label>
+          <input type="number" id="block-price" value="11" min="5" max="50" step="0.5">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Features & Add-Ons</div>
+
+      <div class="feat-group">
+        <div class="feat-group-name">Water & Sanitation</div>
+        <label class="feat" id="lbl-septic">
+          <input type="checkbox" id="septic" checked onchange="toggle('septic','lbl-septic')">
+          <div class="feat-info">
+            <div class="feat-name">Septic System & Drainage</div>
+            <div class="feat-amt">Tank + soakaway pits + drainage pipes — GHS 42,000</div>
+          </div>
+        </label>
+        <label class="feat on" id="lbl-borehole">
+          <input type="checkbox" id="borehole" checked onchange="toggle('borehole','lbl-borehole')">
+          <div class="feat-info">
+            <div class="feat-name">Borehole Water System</div>
+            <div class="feat-amt">Drilling + pump + overhead tank — GHS 30,000</div>
+          </div>
+        </label>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-name">HVAC & Comfort</div>
+        <label class="feat" id="lbl-ac">
+          <input type="checkbox" id="ac" onchange="toggleSub('ac','lbl-ac','ac-sub')">
+          <div class="feat-info">
+            <div class="feat-name">Air Conditioning (AC Units)</div>
+            <div class="feat-amt" id="ac-amt">GHS 4,500 per unit</div>
+            <div class="sub-inp" id="ac-sub">
+              <label for="ac-units">Units:</label>
+              <input type="number" id="ac-units" value="2" min="1" max="20" oninput="calc()">
+            </div>
+          </div>
+        </label>
+        <label class="feat" id="lbl-fans">
+          <input type="checkbox" id="fans" onchange="toggleSub('fans','lbl-fans','fans-sub')">
+          <div class="feat-info">
+            <div class="feat-name">Ceiling Fans</div>
+            <div class="feat-amt" id="fans-amt">GHS 500 per fan</div>
+            <div class="sub-inp" id="fans-sub">
+              <label for="fan-units">Fans:</label>
+              <input type="number" id="fan-units" value="6" min="1" max="30" oninput="calc()">
+            </div>
+          </div>
+        </label>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-name">Interior Finishes</div>
+        <label class="feat" id="lbl-lux-tiles">
+          <input type="checkbox" id="lux-tiles" checked onchange="toggle('lux-tiles','lbl-lux-tiles')">
+          <div class="feat-info">
+            <div class="feat-name">Luxury / Marble Floor Tiles</div>
+            <div class="feat-amt">GHS 150/m² (upgrade over standard 80/m²)</div>
+          </div>
+        </label>
+        <label class="feat on" id="lbl-pop">
+          <input type="checkbox" id="pop" checked onchange="toggle('pop','lbl-pop')">
+          <div class="feat-info">
+            <div class="feat-name">POP Plaster of Paris Ceiling</div>
+            <div class="feat-amt">GHS 45/m² of floor area</div>
+          </div>
+        </label>
+        <label class="feat" id="lbl-cabinets">
+          <input type="checkbox" id="cabinets" checked onchange="toggle('cabinets','lbl-cabinets')">
+          <div class="feat-info">
+            <div class="feat-name">Luxury Built-in Kitchen Cabinets</div>
+            <div class="feat-amt" id="cab-amt">GHS 7,000/m × 3m per kitchen</div>
+          </div>
+        </label>
+        <label class="feat on" id="lbl-bath">
+          <input type="checkbox" id="bath" checked onchange="toggle('bath','lbl-bath')">
+          <div class="feat-info">
+            <div class="feat-name">Premium Bathrooms (+ Bathtub)</div>
+            <div class="feat-amt">GHS 8,500 per bathroom</div>
+          </div>
+        </label>
+        <label class="feat" id="lbl-screens">
+          <input type="checkbox" id="screens" checked onchange="toggle('screens','lbl-screens')">
+          <div class="feat-info">
+            <div class="feat-name">Retractable Mosquito / Insect Screens</div>
+            <div class="feat-amt">GHS 85/m² of wall</div>
+          </div>
+        </label>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-name">Security & Technology</div>
+        <label class="feat on" id="lbl-sec">
+          <input type="checkbox" id="sec" checked onchange="toggle('sec','lbl-sec')">
+          <div class="feat-info">
+            <div class="feat-name">Advanced Security System + Automation</div>
+            <div class="feat-amt">GHS 15,000</div>
+          </div>
+        </label>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-name">Exterior & Site</div>
+        <label class="feat on" id="lbl-fence">
+          <input type="checkbox" id="fence" checked onchange="toggleSub('fence','lbl-fence','fence-sub')">
+          <div class="feat-info">
+            <div class="feat-name">Compound Wall & Gates (Main + Pedestrian)</div>
+            <div class="feat-amt">GHS 600/m (includes gates)</div>
+            <div class="sub-inp show" id="fence-sub">
+              <label for="fence-m">Length (m):</label>
+              <input type="number" id="fence-m" value="55" min="5" max="500" oninput="calc()">
+            </div>
+          </div>
+        </label>
+        <label class="feat on" id="lbl-site">
+          <input type="checkbox" id="site" checked onchange="toggle('site','lbl-site')">
+          <div class="feat-info">
+            <div class="feat-name">Extensive Site Preparation (Clearance + Fill)</div>
+            <div class="feat-amt">GHS 20,000</div>
+          </div>
+        </label>
+        <label class="feat" id="lbl-gutters">
+          <input type="checkbox" id="gutters" checked onchange="toggle('gutters','lbl-gutters')">
+          <div class="feat-info">
+            <div class="feat-name">PVC Gutters & Downpipes</div>
+            <div class="feat-amt">GHS 35/m of roof perimeter</div>
+          </div>
+        </label>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-name">Roofing & Energy</div>
+        <label class="feat on" id="lbl-roof">
+          <input type="checkbox" id="roof" checked onchange="toggle('roof','lbl-roof')">
+          <div class="feat-info">
+            <div class="feat-name">Stone-Coated Roofing Sheets</div>
+            <div class="feat-amt">+GHS 3,500 over standard</div>
+          </div>
+        </label>
+        <label class="feat on" id="lbl-solar">
+          <input type="checkbox" id="solar" checked onchange="toggle('solar','lbl-solar')">
+          <div class="feat-info">
+            <div class="feat-name">Solar Water Heater (Whole House)</div>
+            <div class="feat-amt">GHS 6,500</div>
+          </div>
+        </label>
+        <label class="feat" id="lbl-soil">
+          <input type="checkbox" id="soil" checked onchange="toggle('soil','lbl-soil')">
+          <div class="feat-info">
+            <div class="feat-name">Professional Soil Test</div>
+            <div class="feat-amt">GHS 2,500</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="disc">
+        <strong>Important:</strong> This estimate is illustrative, based on published Greater Accra market rates and regional multipliers. An authoritative figure requires a licensed quantity surveyor's Bill of Quantities prepared from stamped architectural drawings, plus at least two contractor quotations. Land costs, building permits, professional fees, and VAT are excluded.
+      </div>
+    </div>
+
+  </div><!-- /form-panel -->
+
+  <!-- RESULTS PANEL -->
+  <aside class="results">
+    <div class="res-eyebrow">Total Estimated Cost</div>
+    <div class="res-total"><span class="cur">GHS</span><span id="total-val">741,542</span></div>
+    <div class="res-note" id="res-config">190 m² · 2 storeys · Standard · Greater Accra</div>
+
+    <div class="res-rule"></div>
+    <div class="res-sub-title">Cost Breakdown</div>
+
+    <div class="bk-item">
+      <div class="bk-row"><span class="bk-name">Base Construction</span><span class="bk-val" id="bk-base">—</span></div>
+      <div class="bk-track"><div class="bk-fill hi" id="bar-base" style="width:0%"></div></div>
+    </div>
+    <div class="bk-item">
+      <div class="bk-row"><span class="bk-name">Labour (included)</span><span class="bk-val" id="bk-labour">—</span></div>
+      <div class="bk-track"><div class="bk-fill" id="bar-labour" style="width:0%"></div></div>
+    </div>
+    <div class="bk-item">
+      <div class="bk-row"><span class="bk-name">Selected Add-ons</span><span class="bk-val" id="bk-addons">—</span></div>
+      <div class="bk-track"><div class="bk-fill" id="bar-addons" style="width:0%"></div></div>
+    </div>
+    <div class="bk-item">
+      <div class="bk-row"><span class="bk-name">Materials (Cement + Blocks)</span><span class="bk-val" id="bk-mats">—</span></div>
+      <div class="bk-track"><div class="bk-fill" id="bar-mats" style="width:0%"></div></div>
+    </div>
+
+    <div class="res-rule"></div>
+    <div class="res-sub-title">Estimated Quantities</div>
+
+    <div class="qty-grid">
+      <div class="qty-cell"><div class="qty-num" id="q-blocks">—</div><div class="qty-lbl">Blocks (6″)</div></div>
+      <div class="qty-cell"><div class="qty-num" id="q-cement">—</div><div class="qty-lbl">Cement (bags)</div></div>
+      <div class="qty-cell"><div class="qty-num" id="q-steel">—</div><div class="qty-lbl">Iron Rods Y12 (pcs)</div></div>
+      <div class="qty-cell"><div class="qty-num" id="q-roof">—</div><div class="qty-lbl">Roofing Sheets</div></div>
+    </div>
+
+    <div class="print-btn">
+      <button class="btn-secondary" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+    <div class="powered">Powered by I-AKROTECH · Ghana Build Cost Tool</div>
+  </aside>
+
+</div><!-- /wrap -->
+
+<script>
+(function() {
+  // Rate per m² base (Greater Accra, standard finish, single storey, structure only)
+  const BASE_RATE = 2350; // GHS per m² of total floor area
+  const LABOUR_RATIO = 0.112; // Labour as share of base construction
+
+  function fmt(n) {
+    return n.toLocaleString('en-GH', { maximumFractionDigits: 0 });
+  }
+
+  function getChecked(id) {
+    return document.getElementById(id).checked;
+  }
+  function getNum(id, def) {
+    return parseFloat(document.getElementById(id).value) || def;
+  }
+  function getFinish() {
+    const r = document.querySelector('input[name="finish"]:checked');
+    return r ? parseFloat(r.value) : 1.0;
+  }
+
+  window.calc = function() {
+    const region    = parseFloat(document.getElementById('region').value) || 1.0;
+    const storeys   = parseInt(document.getElementById('storeys').value) || 1;
+    const area      = getNum('area', 95);
+    const beds      = parseInt(document.getElementById('bedrooms').value) || 4;
+    const finish    = getFinish();
+    const cementPx  = getNum('cement-price', 90);
+    const blockPx   = getNum('block-price', 11);
+
+    const totalArea = area * storeys;
+    const wallArea  = (area * storeys * 4.5);   // approx perimeter wall area
+    const storeyFactor = 1 + (storeys - 1) * 0.14;
+    const kitchens  = Math.max(1, Math.floor(beds / 2));
+    const baths     = beds; // ensuite
+
+    // Base construction (structure, blockwork, roofing, electrical, plumbing base, finishes base)
+    const baseConst = totalArea * BASE_RATE * finish * region * storeyFactor;
+    const labour    = baseConst * LABOUR_RATIO;
+
+    // Material quantities (approximate engineering ratios for block construction)
+    const blocks   = Math.round(totalArea * 25.5);
+    const cement   = Math.round(totalArea * 1.49);
+    const steelY12 = Math.round(totalArea * 8.4);
+    const roofSh   = Math.round((area / 2.2) * storeys * 0.55);
+
+    // Material cost adjustment based on custom prices vs baseline
+    const blockBase = 11, cementBase = 90;
+    const matAdj = (blocks * (blockPx - blockBase)) + (cement * (cementPx - cementBase));
+
+    // Add-ons
+    let addons = 0;
+    if (getChecked('septic'))   addons += 42000;
+    if (getChecked('borehole')) addons += 30000;
+    if (getChecked('ac'))       addons += 4500 * getNum('ac-units', 2);
+    if (getChecked('fans'))     addons += 500  * getNum('fan-units', 6);
+    if (getChecked('lux-tiles'))addons += (150 - 80) * totalArea;
+    if (getChecked('pop'))      addons += 45   * totalArea;
+    if (getChecked('cabinets')) addons += 7000 * 3 * kitchens;
+    if (getChecked('bath'))     addons += 8500 * baths;
+    if (getChecked('screens'))  addons += 85   * wallArea * 0.3; // ~30% of wall area
+    if (getChecked('sec'))      addons += 15000;
+    if (getChecked('fence'))    addons += 600  * getNum('fence-m', 55);
+    if (getChecked('site'))     addons += 20000;
+    if (getChecked('gutters'))  addons += 35   * Math.sqrt(area) * 4 * 1.1;
+    if (getChecked('roof'))     addons += 3500;
+    if (getChecked('solar'))    addons += 6500;
+    if (getChecked('soil'))     addons += 2500;
+
+    const total = baseConst + addons + matAdj;
+    const maxVal = total;
+
+    // Update DOM
+    document.getElementById('total-val').textContent = fmt(total);
+    document.getElementById('res-config').textContent =
+      `${totalArea} m² · ${storeys} storey${storeys>1?'s':''} · ${
+        {0.80:'Economy',1.00:'Standard',1.30:'Premium',1.60:'Luxury'}[finish] || 'Standard'
+      } · ${document.getElementById('region').options[document.getElementById('region').selectedIndex].text.split('(')[0].trim()}`;
+
+    const bkBase = baseConst - labour;
+    document.getElementById('bk-base').textContent    = 'GHS ' + fmt(bkBase);
+    document.getElementById('bk-labour').textContent  = 'GHS ' + fmt(labour);
+    document.getElementById('bk-addons').textContent  = 'GHS ' + fmt(addons + matAdj);
+    document.getElementById('bk-mats').textContent    =
+      'GHS ' + fmt(blocks * blockPx + cement * cementPx);
+
+    document.getElementById('bar-base').style.width   = (bkBase / maxVal * 100).toFixed(1) + '%';
+    document.getElementById('bar-labour').style.width = (labour / maxVal * 100).toFixed(1) + '%';
+    document.getElementById('bar-addons').style.width = ((addons + matAdj) / maxVal * 100).toFixed(1) + '%';
+    document.getElementById('bar-mats').style.width   =
+      ((blocks * blockPx + cement * cementPx) / maxVal * 100).toFixed(1) + '%';
+
+    document.getElementById('q-blocks').textContent  = fmt(blocks);
+    document.getElementById('q-cement').textContent  = fmt(cement);
+    document.getElementById('q-steel').textContent   = fmt(steelY12);
+    document.getElementById('q-roof').textContent    = fmt(roofSh);
+  };
+
+  window.toggle = function(id, lblId) {
+    const checked = document.getElementById(id).checked;
+    document.getElementById(lblId).classList.toggle('on', checked);
+    calc();
+  };
+
+  window.toggleSub = function(id, lblId, subId) {
+    const checked = document.getElementById(id).checked;
+    document.getElementById(lblId).classList.toggle('on', checked);
+    const sub = document.getElementById(subId);
+    if (sub) sub.classList.toggle('show', checked);
+    calc();
+  };
+
+  // Set initial checked states visually
+  ['septic','borehole','lux-tiles','pop','cabinets','bath','screens',
+   'sec','fence','site','gutters','roof','solar','soil'].forEach(id => {
+    const el = document.getElementById(id);
+    const lbl = document.getElementById('lbl-' + id);
+    if (el && lbl) lbl.classList.toggle('on', el.checked);
+  });
+
+  // Attach listeners to all inputs
+  document.querySelectorAll('input[type=number], select, input[type=radio]').forEach(el => {
+    el.addEventListener('change', calc);
+    el.addEventListener('input', calc);
+  });
+
+  calc();
+})();
+</script>
