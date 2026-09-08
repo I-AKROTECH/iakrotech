@@ -158,6 +158,11 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
 .room-area-wrap{display:flex;align-items:center;gap:4px;flex-shrink:0;}
 .room-area{width:68px;padding:6px 8px;font-size:13px;text-align:right;}
 .room-m2{font-size:12px;color:var(--txt3);white-space:nowrap;}
+.room-unit-sel{padding:5px 4px;font-size:11px;border:1px solid var(--bdr);border-radius:6px;background:var(--surf2);color:var(--txt);cursor:pointer;flex-shrink:0;}
+.room-dims{display:flex;align-items:center;gap:3px;flex-shrink:0;}
+.room-dims .room-area{width:54px;}
+.room-dims-sep{font-size:12px;color:var(--txt3);font-weight:700;}
+.room-m2-hint{font-size:11px;color:var(--cr);font-weight:600;white-space:nowrap;min-width:44px;}
 .room-finish-sel{flex:1;min-width:110px;padding:6px 8px;font-size:12px;}
 .room-del{flex-shrink:0;background:none;border:1px solid var(--bdr);border-radius:50%;width:24px;height:24px;cursor:pointer;color:var(--txt3);font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .room-del:hover{background:#fee;border-color:#c00;color:#c00;}
@@ -822,15 +827,15 @@ window.toggleSub = function(checkId, lblId, subId){
 // ── Floor Plan ──
 function defaultRooms(floorIdx){
   if(floorIdx === 0) return [
-    {id:uid(),type:'living',  area:25,finish:'inherit'},
-    {id:uid(),type:'dining',  area:16,finish:'inherit'},
-    {id:uid(),type:'kitchen', area:18,finish:'inherit'},
-    {id:uid(),type:'bathroom',area:7, finish:'inherit'},
+    {id:uid(),type:'living',  area:25,finish:'inherit',unit:'m2',dimL:0,dimW:0},
+    {id:uid(),type:'dining',  area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0},
+    {id:uid(),type:'kitchen', area:18,finish:'inherit',unit:'m2',dimL:0,dimW:0},
+    {id:uid(),type:'bathroom',area:7, finish:'inherit',unit:'m2',dimL:0,dimW:0},
   ];
   return [
-    {id:uid(),type:'master',  area:22,finish:'inherit'},
-    {id:uid(),type:'bedroom', area:16,finish:'inherit'},
-    {id:uid(),type:'bathroom',area:7, finish:'inherit'},
+    {id:uid(),type:'master',  area:22,finish:'inherit',unit:'m2',dimL:0,dimW:0},
+    {id:uid(),type:'bedroom', area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0},
+    {id:uid(),type:'bathroom',area:7, finish:'inherit',unit:'m2',dimL:0,dimW:0},
   ];
 }
 
@@ -857,6 +862,32 @@ function finishOptions(selected){
   ].map(([v,l])=>`<option value="${v}"${v===selected?' selected':''}>${l}</option>`).join('');
 }
 
+function roomAreaHTML(fi,ri,room){
+  const u = room.unit||'m2';
+  const FT = 0.0929;
+  const unitSel = `<select class="room-unit-sel" title="Area unit" onchange="setRoomUnit(${fi},${ri},this.value)">
+    <option value="m2"${u==='m2'?' selected':''}>m²</option>
+    <option value="ft2"${u==='ft2'?' selected':''}>ft²</option>
+    <option value="mxm"${u==='mxm'?' selected':''}>m × m</option>
+    <option value="ftxft"${u==='ftxft'?' selected':''}>ft × ft</option>
+  </select>`;
+  if(u==='m2'){
+    return `${unitSel}<div class="room-area-wrap"><input type="number" class="room-area" value="${room.area.toFixed(1)}" min="1" max="2000" step="0.5" oninput="setRoomArea(${fi},${ri},+this.value)"><span class="room-m2">m²</span></div>`;
+  }
+  if(u==='ft2'){
+    const ftVal = (room.area/FT).toFixed(0);
+    return `${unitSel}<div class="room-area-wrap"><input type="number" class="room-area" value="${ftVal}" min="10" max="22000" oninput="setRoomArea(${fi},${ri},+this.value*${FT})"><span class="room-m2">ft²</span><span class="room-m2-hint">= ${room.area.toFixed(1)}m²</span></div>`;
+  }
+  if(u==='mxm'){
+    const l = room.dimL||+Math.sqrt(room.area).toFixed(1);
+    const w = room.dimW||+Math.sqrt(room.area).toFixed(1);
+    return `${unitSel}<div class="room-dims"><input type="number" class="room-area" value="${l}" min="0.5" max="200" step="0.1" oninput="setRoomDims(${fi},${ri},'L',+this.value,'mxm')"><span class="room-dims-sep">×</span><input type="number" class="room-area" value="${w}" min="0.5" max="200" step="0.1" oninput="setRoomDims(${fi},${ri},'W',+this.value,'mxm')"><span class="room-m2">m</span><span class="room-m2-hint">= ${room.area.toFixed(1)}m²</span></div>`;
+  }
+  const ftL = room.dimL||+Math.sqrt(room.area/FT).toFixed(0);
+  const ftW = room.dimW||+Math.sqrt(room.area/FT).toFixed(0);
+  return `${unitSel}<div class="room-dims"><input type="number" class="room-area" value="${ftL}" min="2" max="700" oninput="setRoomDims(${fi},${ri},'L',+this.value,'ftxft')"><span class="room-dims-sep">×</span><input type="number" class="room-area" value="${ftW}" min="2" max="700" oninput="setRoomDims(${fi},${ri},'W',+this.value,'ftxft')"><span class="room-m2">ft</span><span class="room-m2-hint">= ${room.area.toFixed(1)}m²</span></div>`;
+}
+
 function renderFloors(){
   const container = document.getElementById('floor-plan-builder');
   if(!container) return;
@@ -873,11 +904,7 @@ function renderFloors(){
         ${floor.rooms.map((room,ri)=>`
         <div class="room-row" id="room-${room.id}">
           <select class="room-type-sel" onchange="setRoomType(${fi},${ri},this.value)">${typeOptions(room.type)}</select>
-          <div class="room-area-wrap">
-            <input type="number" class="room-area" value="${room.area}" min="3" max="500"
-                   onchange="setRoomArea(${fi},${ri},+this.value)" oninput="setRoomArea(${fi},${ri},+this.value)">
-            <span class="room-m2">m²</span>
-          </div>
+          ${roomAreaHTML(fi,ri,room)}
           <select class="room-finish-sel" onchange="setRoomFinish(${fi},${ri},this.value)">${finishOptions(room.finish)}</select>
           <button class="room-del" onclick="delRoom(${fi},${ri})" title="Remove room">×</button>
         </div>`).join('')}
@@ -889,7 +916,7 @@ function renderFloors(){
 }
 
 window.addRoom = function(fi){
-  floorPlan[fi].rooms.push({id:uid(),type:'bedroom',area:16,finish:'inherit'});
+  floorPlan[fi].rooms.push({id:uid(),type:'bedroom',area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0});
   renderFloors();
 };
 
@@ -902,12 +929,42 @@ window.delRoom = function(fi,ri){
 window.setRoomType = function(fi,ri,val){
   floorPlan[fi].rooms[ri].type = val;
   const t = ROOM_TYPES.find(t=>t.key===val);
-  if(t){ floorPlan[fi].rooms[ri].area = t.area; }
+  if(t){ floorPlan[fi].rooms[ri].area = t.area; floorPlan[fi].rooms[ri].dimL=0; floorPlan[fi].rooms[ri].dimW=0; }
   renderFloors();
 };
 
 window.setRoomArea = function(fi,ri,val){
-  floorPlan[fi].rooms[ri].area = val||0;
+  const room = floorPlan[fi].rooms[ri];
+  room.area = val||0;
+  const hint = document.querySelector('#room-'+room.id+' .room-m2-hint');
+  if(hint) hint.textContent = '= '+room.area.toFixed(1)+'m²';
+  updateAreaTotal();
+  calc();
+};
+
+window.setRoomUnit = function(fi,ri,unit){
+  const room = floorPlan[fi].rooms[ri];
+  const FT = 0.0929;
+  room.unit = unit;
+  if(unit==='mxm'){
+    if(!room.dimL) room.dimL = +Math.sqrt(room.area).toFixed(1);
+    if(!room.dimW) room.dimW = +Math.sqrt(room.area).toFixed(1);
+  } else if(unit==='ftxft'){
+    if(!room.dimL) room.dimL = +Math.sqrt(room.area/FT).toFixed(0);
+    if(!room.dimW) room.dimW = +Math.sqrt(room.area/FT).toFixed(0);
+  }
+  renderFloors();
+};
+
+window.setRoomDims = function(fi,ri,which,val,unit){
+  const room = floorPlan[fi].rooms[ri];
+  const FT = 0.0929;
+  if(which==='L') room.dimL = val; else room.dimW = val;
+  const l = room.dimL||0;
+  const w = room.dimW||0;
+  room.area = unit==='ftxft' ? +(l*w*FT).toFixed(2) : +(l*w).toFixed(2);
+  const hint = document.querySelector('#room-'+room.id+' .room-m2-hint');
+  if(hint) hint.textContent = '= '+room.area.toFixed(1)+'m²';
   updateAreaTotal();
   calc();
 };
