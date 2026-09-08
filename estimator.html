@@ -163,6 +163,23 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
 .room-dims .room-area{width:54px;}
 .room-dims-sep{font-size:12px;color:var(--txt3);font-weight:700;}
 .room-m2-hint{font-size:11px;color:var(--cr);font-weight:600;white-space:nowrap;min-width:44px;}
+@keyframes resFlash{0%,100%{outline:none}40%{outline:3px solid var(--cr-glow)}}
+.results.res-flash{animation:resFlash .5s ease 2;}
+.room-cfg-btn{background:none;border:1px solid var(--bdr);border-radius:5px;padding:3px 7px;font-size:11px;color:var(--txt2);cursor:pointer;flex-shrink:0;transition:background .15s;}
+.room-cfg-btn:hover,.room-cfg-btn.open{background:var(--cr-pale);border-color:var(--cr);color:var(--cr);}
+.room-cfg-panel{display:none;background:var(--surf2);border:1px solid var(--bdr);border-radius:8px;margin:4px 0 8px 0;padding:12px 14px;}
+.room-cfg-panel.open{display:block;}
+.room-cfg-panel .bath-row{padding:5px 0;font-size:12px;}
+.room-cfg-panel .bath-cat{font-size:11px;color:var(--txt3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+.room-cfg-panel .bath-opts{display:flex;flex-wrap:wrap;gap:4px;}
+.room-cfg-panel .bath-opt{font-size:11px;}
+.room-cfg-panel .bath-opt-lbl{padding:3px 7px;font-size:11px;}
+.room-cfg-panel .bath-opt-price{font-size:10px;}
+.room-cfg-panel .field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+.room-cfg-panel label.cfg-lbl{font-size:11px;color:var(--txt3);}
+.room-cfg-panel .cfg-sel{width:100%;padding:5px 7px;font-size:12px;border:1px solid var(--bdr);border-radius:6px;background:var(--surf);color:var(--txt);}
+.room-cfg-panel .cfg-inp{width:100%;padding:5px 7px;font-size:12px;border:1px solid var(--bdr);border-radius:6px;background:var(--surf);color:var(--txt);text-align:right;}
+.room-cfg-summary{font-size:10px;color:var(--cr);margin-top:4px;}
 .room-finish-sel{flex:1;min-width:110px;padding:6px 8px;font-size:12px;}
 .room-del{flex-shrink:0;background:none;border:1px solid var(--bdr);border-radius:50%;width:24px;height:24px;cursor:pointer;color:var(--txt3);font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .room-del:hover{background:#fee;border-color:#c00;color:#c00;}
@@ -827,15 +844,15 @@ window.toggleSub = function(checkId, lblId, subId){
 // ── Floor Plan ──
 function defaultRooms(floorIdx){
   if(floorIdx === 0) return [
-    {id:uid(),type:'living',  area:25,finish:'inherit',unit:'m2',dimL:0,dimW:0},
-    {id:uid(),type:'dining',  area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0},
-    {id:uid(),type:'kitchen', area:18,finish:'inherit',unit:'m2',dimL:0,dimW:0},
-    {id:uid(),type:'bathroom',area:7, finish:'inherit',unit:'m2',dimL:0,dimW:0},
+    {id:uid(),type:'living',  area:25,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
+    {id:uid(),type:'dining',  area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
+    {id:uid(),type:'kitchen', area:18,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
+    {id:uid(),type:'bathroom',area:7, finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
   ];
   return [
-    {id:uid(),type:'master',  area:22,finish:'inherit',unit:'m2',dimL:0,dimW:0},
-    {id:uid(),type:'bedroom', area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0},
-    {id:uid(),type:'bathroom',area:7, finish:'inherit',unit:'m2',dimL:0,dimW:0},
+    {id:uid(),type:'master',  area:22,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
+    {id:uid(),type:'bedroom', area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
+    {id:uid(),type:'bathroom',area:7, finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
   ];
 }
 
@@ -862,6 +879,105 @@ function finishOptions(selected){
   ].map(([v,l])=>`<option value="${v}"${v===selected?' selected':''}>${l}</option>`).join('');
 }
 
+const BATH_COMPS = [
+  {key:'toilet', label:'Toilet',      defs:[800,1500,3500,8000],   opts:[['800','Basic WC'],['1500','Close-coupled'],['3500','Wall-hung'],['8000','Smart']]},
+  {key:'shower', label:'Shower',      defs:[0,1200,2800,9000],     opts:[['0','None'],['1200','Standard'],['2800','Rain shower'],['9000','Steam cabin']]},
+  {key:'tub',    label:'Bathtub',     defs:[0,3500,8000,15000],    opts:[['0','None'],['3500','Alcove'],['8000','Freestanding'],['15000','Jacuzzi']]},
+  {key:'vanity', label:'Vanity',      defs:[600,1800,4000],        opts:[['600','Basic'],['1800','Standard'],['4000','Premium marble']]},
+  {key:'floor',  label:'Floor Tiles', defs:[0,800,2000],           opts:[['0','Ceramic (base)'],['800','Porcelain +'],['2000','Natural stone +']]},
+  {key:'wall',   label:'Wall Tiles',  defs:[900,2000,4500],        opts:[['900','Half-height'],['2000','Full ceramic'],['4500','Full porcelain']]},
+  {key:'fit',    label:'Fittings',    defs:[500,1200,2800],        opts:[['500','Chrome std'],['1200','Brushed nickel'],['2800','Brushed gold']]},
+  {key:'acc',    label:'Accessories', defs:[400,1500,3000],        opts:[['400','Basic set'],['1500','Mirror+rails'],['3000','Premium set']]},
+];
+function defaultBathConfig(){
+  const cfg={};
+  BATH_COMPS.forEach(c=>{ cfg[c.key]=c.defs[0]; });
+  // Sensible bathroom defaults: basic WC, standard shower, basic vanity, half-height wall, chrome fittings, basic acc
+  cfg.toilet=800; cfg.shower=1200; cfg.vanity=600; cfg.wall=900; cfg.fit=500; cfg.acc=400;
+  return cfg;
+}
+function defaultKitchenConfig(){
+  return {cabType:7000, cabM:3};
+}
+function getBathCostFromCfg(cfg){
+  if(!cfg) return getBathCostPerRoom(); // fallback to global
+  return BATH_COMPS.reduce((s,c)=>s+(+(cfg[c.key]||0)),0);
+}
+function getKitchenCostFromCfg(cfg){
+  if(!cfg) return getRadioVal('cab-type',7000)*getNum('cab-m',3);
+  return (+(cfg.cabType||0))*(+(cfg.cabM||0));
+}
+function roomCfgPanelHTML(fi,ri,room){
+  const open = room.cfgOpen;
+  const cfg  = room.config;
+  if(room.type==='bathroom'){
+    const c = cfg || defaultBathConfig();
+    const total = getBathCostFromCfg(c);
+    const rows = BATH_COMPS.map(comp=>{
+      const opts = comp.opts.map(([v,lbl])=>{
+        const checked = String(c[comp.key])===v;
+        return `<label class="bath-opt"><input type="radio" name="rcfg-${room.id}-${comp.key}" value="${v}" ${checked?'checked':''} onchange="setRoomBathCfg(${fi},${ri},'${comp.key}',+this.value)"><span class="bath-opt-lbl">${lbl}<span class="bath-opt-price"> GHS ${parseInt(v)>0?parseInt(v).toLocaleString():'incl'}</span></span></label>`;
+      }).join('');
+      return `<div class="bath-row"><div class="bath-cat">${comp.label}</div><div class="bath-opts">${opts}</div></div>`;
+    }).join('');
+    return `<div class="room-cfg-panel${open?' open':''}" id="cfg-${room.id}">
+      <div style="font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:8px;">Bathroom Spec — per room <span class="room-cfg-summary">Total: GHS ${total.toLocaleString()}/bath</span></div>
+      ${rows}
+      <div style="margin-top:8px;text-align:right"><button onclick="clearRoomCfg(${fi},${ri})" style="font-size:10px;background:none;border:none;color:var(--txt3);cursor:pointer;text-decoration:underline">↩ Use global spec</button></div>
+    </div>`;
+  }
+  if(room.type==='kitchen'){
+    const c = cfg || defaultKitchenConfig();
+    const cabTypes=[['0','None (open shelving)'],['3500','Economy MDF — GHS 3,500/m'],['5000','Standard — GHS 5,000/m'],['7000','Luxury Solid Wood — GHS 7,000/m'],['12000','Custom Premium — GHS 12,000/m']];
+    const cabOpts = cabTypes.map(([v,l])=>`<option value="${v}"${String(c.cabType)===v?' selected':''}>${l}</option>`).join('');
+    const total = (+(c.cabType||0))*(+(c.cabM||0));
+    return `<div class="room-cfg-panel${open?' open':''}" id="cfg-${room.id}">
+      <div style="font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:8px;">Kitchen Configuration <span class="room-cfg-summary">Total: GHS ${total.toLocaleString()}</span></div>
+      <div class="field-row">
+        <div><label class="cfg-lbl">Cabinet type</label>
+          <select class="cfg-sel" onchange="setRoomKitchenCfg(${fi},${ri},'cabType',+this.value)">${cabOpts}</select></div>
+        <div><label class="cfg-lbl">Cabinet run length (m)</label>
+          <input type="number" class="cfg-inp" value="${c.cabM}" min="0" max="20" step="0.5" oninput="setRoomKitchenCfg(${fi},${ri},'cabM',+this.value)"></div>
+      </div>
+      <div style="margin-top:8px;text-align:right"><button onclick="clearRoomCfg(${fi},${ri})" style="font-size:10px;background:none;border:none;color:var(--txt3);cursor:pointer;text-decoration:underline">↩ Use global spec</button></div>
+    </div>`;
+  }
+  return '';
+}
+
+window.toggleRoomCfg = function(fi,ri){
+  const room = floorPlan[fi].rooms[ri];
+  room.cfgOpen = !room.cfgOpen;
+  if(room.cfgOpen && !room.config){
+    room.config = room.type==='bathroom' ? defaultBathConfig() : defaultKitchenConfig();
+  }
+  renderFloors();
+};
+
+window.setRoomBathCfg = function(fi,ri,key,val){
+  const room = floorPlan[fi].rooms[ri];
+  if(!room.config) room.config = defaultBathConfig();
+  room.config[key] = val;
+  // update summary without full re-render
+  const summary = document.querySelector('#cfg-'+room.id+' .room-cfg-summary');
+  if(summary) summary.textContent = 'Total: GHS '+(getBathCostFromCfg(room.config)).toLocaleString()+'/bath';
+  calc();
+};
+
+window.setRoomKitchenCfg = function(fi,ri,key,val){
+  const room = floorPlan[fi].rooms[ri];
+  if(!room.config) room.config = defaultKitchenConfig();
+  room.config[key] = val;
+  const summary = document.querySelector('#cfg-'+room.id+' .room-cfg-summary');
+  if(summary) summary.textContent = 'Total: GHS '+((+(room.config.cabType||0))*(+(room.config.cabM||0))).toLocaleString();
+  calc();
+};
+
+window.clearRoomCfg = function(fi,ri){
+  floorPlan[fi].rooms[ri].config = null;
+  floorPlan[fi].rooms[ri].cfgOpen = false;
+  renderFloors();
+};
 function roomAreaHTML(fi,ri,room){
   const u = room.unit||'m2';
   const FT = 0.0929;
@@ -901,13 +1017,21 @@ function renderFloors(){
         <button class="btn-add-room" onclick="addRoom(${fi})">+ Add Room</button>
       </div>
       <div class="rooms-list" id="rooms-${fi}">
-        ${floor.rooms.map((room,ri)=>`
+        ${floor.rooms.map((room,ri)=>{
+          const isSpec = room.type==='bathroom'||room.type==='kitchen';
+          const cfgBtn = isSpec
+            ? `<button class="room-cfg-btn${room.cfgOpen?' open':''}" onclick="toggleRoomCfg(${fi},${ri})" title="Configure this ${room.type}">⚙ Config</button>`
+            : '';
+          const cfgPanel = isSpec ? roomCfgPanelHTML(fi,ri,room) : '';
+          return `
         <div class="room-row" id="room-${room.id}">
           <select class="room-type-sel" onchange="setRoomType(${fi},${ri},this.value)">${typeOptions(room.type)}</select>
           ${roomAreaHTML(fi,ri,room)}
           <select class="room-finish-sel" onchange="setRoomFinish(${fi},${ri},this.value)">${finishOptions(room.finish)}</select>
+          ${cfgBtn}
           <button class="room-del" onclick="delRoom(${fi},${ri})" title="Remove room">×</button>
-        </div>`).join('')}
+        </div>${cfgPanel}`;
+        }).join('')}
       </div>
     </div>`;
   }).join('');
@@ -916,7 +1040,7 @@ function renderFloors(){
 }
 
 window.addRoom = function(fi){
-  floorPlan[fi].rooms.push({id:uid(),type:'bedroom',area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0});
+  floorPlan[fi].rooms.push({id:uid(),type:'bedroom',area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false});
   renderFloors();
 };
 
@@ -929,7 +1053,7 @@ window.delRoom = function(fi,ri){
 window.setRoomType = function(fi,ri,val){
   floorPlan[fi].rooms[ri].type = val;
   const t = ROOM_TYPES.find(t=>t.key===val);
-  if(t){ floorPlan[fi].rooms[ri].area = t.area; floorPlan[fi].rooms[ri].dimL=0; floorPlan[fi].rooms[ri].dimW=0; }
+  if(t){ floorPlan[fi].rooms[ri].area = t.area; floorPlan[fi].rooms[ri].dimL=0; floorPlan[fi].rooms[ri].dimW=0; floorPlan[fi].rooms[ri].config=null; floorPlan[fi].rooms[ri].cfgOpen=false; }
   renderFloors();
 };
 
@@ -1037,9 +1161,9 @@ window.calc = function(){
   const cementPx    = getNum('cement-price',90);
   const blockPx     = getNum('block-price',11);
 
-  const area        = getTotalArea();               // single-storey floor plate
-  const totalArea   = area * storeys;               // all floors combined
-  const wallArea    = area * storeys * 4.5;
+  const area        = getTotalArea();               // total built area (all floors)
+  const totalArea   = area;                          // floor plan already sums all floors
+  const wallArea    = area * 4.5;                   // estimated from total built area
   const storeyFact  = 1 + (storeys-1)*0.14;
   const finMul      = getWeightedFinishMul();
   const numBaths    = getNumBaths();
@@ -1072,15 +1196,26 @@ window.calc = function(){
   // Ceiling
   addons += getRadioVal('ceil-type',45) * totalArea;
 
-  // Kitchen cabinets
-  const cabPerM = getRadioVal('cab-type',7000);
-  if(cabPerM>0) addons += cabPerM * getNum('cab-m',3) * numKitchens;
+  // Kitchen cabinets — per room (or global if no room override)
+  let kitchenAddon = 0;
+  floorPlan.forEach(f=>f.rooms.forEach(r=>{
+    if(r.type==='kitchen') kitchenAddon += getKitchenCostFromCfg(r.config);
+  }));
+  if(kitchenAddon===0){
+    const cabPerM = getRadioVal('cab-type',7000);
+    if(cabPerM>0) kitchenAddon = cabPerM * getNum('cab-m',3) * numKitchens;
+  }
+  addons += kitchenAddon;
 
-  // Bathrooms — component spec
-  const bathPerRoom = getBathCostPerRoom();
-  addons += bathPerRoom * numBaths;
+  // Bathrooms — per room (or global if no room override)
+  let bathAddon = 0;
+  floorPlan.forEach(f=>f.rooms.forEach(r=>{
+    if(r.type==='bathroom') bathAddon += getBathCostFromCfg(r.config);
+  }));
+  if(bathAddon===0) bathAddon = getBathCostPerRoom() * numBaths;
+  addons += bathAddon;
   const bathEl = document.getElementById('bath-per-cost');
-  if(bathEl) bathEl.textContent = 'GHS '+fmt(bathPerRoom);
+  if(bathEl) bathEl.textContent = 'GHS '+fmt(bathAddon/Math.max(numBaths,1));
 
   // HVAC
   if(getChecked('ac'))   addons += getNum('ac-rate',4500) * getNum('ac-units',2);
@@ -1169,7 +1304,17 @@ function updateProgress(){
 
 window.wizNav = function(dir){
   const next = currentStep+dir;
-  if(next<1||next>totalSteps) return;
+  if(next<1) return;
+  if(next>totalSteps){
+    // "View Full Estimate" — scroll results into view and flash it
+    const res = document.querySelector('.results');
+    if(res){
+      res.scrollIntoView({behavior:'smooth',block:'start'});
+      res.classList.add('res-flash');
+      setTimeout(()=>res.classList.remove('res-flash'),1200);
+    }
+    return;
+  }
   document.getElementById('step-'+currentStep).classList.remove('active');
   currentStep=next;
   document.getElementById('step-'+currentStep).classList.add('active');
