@@ -227,6 +227,43 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
 /* ── Misc ── */
 .disc{background:var(--surf2);border-radius:var(--rs);padding:12px 16px;font-size:12px;color:var(--txt2);line-height:1.6;border-left:3px solid var(--bdr);}
 .disc strong{color:var(--txt);}
+
+/* ── Full Estimate Modal ── */
+.est-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:24px 12px;}
+.est-overlay.open{display:flex;}
+.est-modal{background:var(--surf);border-radius:14px;width:100%;max-width:720px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.5);animation:modalIn .2s ease;}
+@keyframes modalIn{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+.est-modal-head{background:var(--cr-dp);padding:22px 28px;position:relative;}
+.est-modal-logo{font-family:var(--fd);font-size:12px;font-weight:700;letter-spacing:.06em;color:rgba(255,255,255,.45);margin-bottom:6px;}
+.est-modal-total{font-family:var(--fd);font-size:2.6rem;font-weight:800;color:#fff;line-height:1;margin-bottom:6px;font-variant-numeric:tabular-nums;}
+.est-modal-sub{font-size:13px;color:rgba(255,255,255,.55);}
+.est-modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.7);border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.est-modal-close:hover{background:rgba(255,255,255,.22);color:#fff;}
+.est-modal-body{padding:24px 28px;}
+.est-sec-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--txt3);margin-bottom:12px;margin-top:18px;padding-bottom:6px;border-bottom:1px solid var(--bdr);}
+.est-sec-title:first-child{margin-top:0;}
+.est-breakdown-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--bdr);}
+.est-breakdown-row:last-child{border-bottom:none;}
+.est-breakdown-row.total-row{background:var(--cr-pale);margin:0 -8px;padding:10px 8px;border-radius:var(--rs);font-weight:700;border:none;}
+.est-bd-label{font-size:13px;color:var(--txt2);}
+.est-bd-val{font-family:var(--fm);font-size:14px;font-weight:600;color:var(--txt);font-variant-numeric:tabular-nums;}
+.est-bd-val.cr{color:var(--cr);}
+.est-qty-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:6px;}
+.est-qty-cell{background:var(--surf2);border-radius:var(--rs);padding:12px 14px;}
+.est-qty-num{font-family:var(--fm);font-size:22px;font-weight:600;color:var(--cr);font-variant-numeric:tabular-nums;}
+.est-qty-lbl{font-size:11px;color:var(--txt3);margin-top:3px;}
+.est-floor-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--bdr);}
+.est-floor-row:last-child{border-bottom:none;}
+.est-floor-name{font-size:13px;font-weight:600;color:var(--txt);}
+.est-room-list{font-size:11px;color:var(--txt3);margin-top:3px;}
+.est-floor-stat{font-family:var(--fm);font-size:12px;color:var(--txt2);text-align:right;flex-shrink:0;margin-left:12px;}
+.est-modal-footer{padding:16px 28px 24px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--bdr);}
+.est-btn-print{flex:1;min-width:140px;background:var(--cr);color:#fff;border:none;border-radius:var(--r);padding:11px 20px;font-family:var(--fd);font-size:14px;font-weight:700;cursor:pointer;}
+.est-btn-print:hover{background:var(--cr-dk);}
+.est-btn-close{flex:1;min-width:140px;background:var(--surf2);color:var(--txt2);border:1.5px solid var(--bdr);border-radius:var(--r);padding:11px 20px;font-family:var(--fb);font-size:14px;cursor:pointer;}
+.est-btn-close:hover{border-color:var(--cr);color:var(--cr);}
+.est-disc{font-size:11px;color:var(--txt3);line-height:1.6;padding:10px 14px;background:var(--surf2);border-radius:var(--rs);margin-top:14px;border-left:3px solid var(--bdr);}
+@media print{.est-overlay{background:none;position:static;display:block;padding:0;}.est-modal{box-shadow:none;border-radius:0;max-width:none;}.est-modal-close,.est-modal-footer{display:none!important;}}
 </style>
 </head>
 <body>
@@ -385,7 +422,7 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
     <div class="wizard-step" id="step-4">
       <div class="step-hdr">
         <div class="step-title">Interior Finishes</div>
-        <div class="step-sub">Ceiling, kitchen cabinets, and bathroom specification per room.</div>
+        <div class="step-sub">Ceiling treatment and kitchen cabinets. Configure bathrooms per room in the Floor Plan step.</div>
       </div>
 
       <span class="opt-label">Ceiling Treatment</span>
@@ -412,89 +449,6 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
         </div>
       </div>
 
-      <!-- Bathroom Spec Builder -->
-      <div class="opt-label" style="margin-top:22px;">Bathroom Specification <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--txt3);">— applies to each bathroom</span></div>
-      <div class="bath-spec">
-        <div class="bath-spec-hdr">
-          <span class="bath-spec-title">Select components per bathroom</span>
-          <span class="bath-per-lbl">Cost/bath: <strong id="bath-per-cost">—</strong></span>
-        </div>
-
-        <div class="bath-row">
-          <div class="bath-cat">Toilet</div>
-          <div class="bath-opts">
-            <label class="bath-opt"><input type="radio" name="bath-toilet" value="800" checked onchange="calc()"><span class="bath-opt-lbl">Basic WC <span class="bath-opt-price">GHS 800</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-toilet" value="1500" onchange="calc()"><span class="bath-opt-lbl">Close-coupled <span class="bath-opt-price">GHS 1,500</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-toilet" value="3500" onchange="calc()"><span class="bath-opt-lbl">Wall-hung <span class="bath-opt-price">GHS 3,500</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-toilet" value="8000" onchange="calc()"><span class="bath-opt-lbl">Smart toilet <span class="bath-opt-price">GHS 8,000</span></span></label>
-          </div>
-        </div>
-
-        <div class="bath-row">
-          <div class="bath-cat">Shower</div>
-          <div class="bath-opts">
-            <label class="bath-opt"><input type="radio" name="bath-shower" value="0" onchange="calc()"><span class="bath-opt-lbl">None</span></label>
-            <label class="bath-opt"><input type="radio" name="bath-shower" value="1200" checked onchange="calc()"><span class="bath-opt-lbl">Standard rose <span class="bath-opt-price">GHS 1,200</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-shower" value="2800" onchange="calc()"><span class="bath-opt-lbl">Rain shower <span class="bath-opt-price">GHS 2,800</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-shower" value="9000" onchange="calc()"><span class="bath-opt-lbl">Steam cabin <span class="bath-opt-price">GHS 9,000</span></span></label>
-          </div>
-        </div>
-
-        <div class="bath-row">
-          <div class="bath-cat">Bathtub</div>
-          <div class="bath-opts">
-            <label class="bath-opt"><input type="radio" name="bath-tub" value="0" checked onchange="calc()"><span class="bath-opt-lbl">None</span></label>
-            <label class="bath-opt"><input type="radio" name="bath-tub" value="3500" onchange="calc()"><span class="bath-opt-lbl">Alcove <span class="bath-opt-price">GHS 3,500</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-tub" value="8000" onchange="calc()"><span class="bath-opt-lbl">Freestanding <span class="bath-opt-price">GHS 8,000</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-tub" value="15000" onchange="calc()"><span class="bath-opt-lbl">Jacuzzi <span class="bath-opt-price">GHS 15,000</span></span></label>
-          </div>
-        </div>
-
-        <div class="bath-row">
-          <div class="bath-cat">Vanity &amp; Sink</div>
-          <div class="bath-opts">
-            <label class="bath-opt"><input type="radio" name="bath-vanity" value="600" checked onchange="calc()"><span class="bath-opt-lbl">Basic pedestal <span class="bath-opt-price">GHS 600</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-vanity" value="1800" onchange="calc()"><span class="bath-opt-lbl">Countertop standard <span class="bath-opt-price">GHS 1,800</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-vanity" value="4000" onchange="calc()"><span class="bath-opt-lbl">Marble-top premium <span class="bath-opt-price">GHS 4,000</span></span></label>
-          </div>
-        </div>
-
-        <div class="bath-row">
-          <div class="bath-cat">Floor Tiles</div>
-          <div class="bath-opts">
-            <label class="bath-opt"><input type="radio" name="bath-floor" value="0" checked onchange="calc()"><span class="bath-opt-lbl">Ceramic (base) <span class="bath-opt-price">Included</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-floor" value="800" onchange="calc()"><span class="bath-opt-lbl">Porcelain <span class="bath-opt-price">+GHS 800</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-floor" value="2000" onchange="calc()"><span class="bath-opt-lbl">Natural stone <span class="bath-opt-price">+GHS 2,000</span></span></label>
-          </div>
-        </div>
-
-        <div class="bath-row">
-          <div class="bath-cat">Wall Tiles</div>
-          <div class="bath-opts">
-            <label class="bath-opt"><input type="radio" name="bath-wall" value="900" checked onchange="calc()"><span class="bath-opt-lbl">Half-height <span class="bath-opt-price">GHS 900</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-wall" value="2000" onchange="calc()"><span class="bath-opt-lbl">Full-height ceramic <span class="bath-opt-price">GHS 2,000</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-wall" value="4500" onchange="calc()"><span class="bath-opt-lbl">Full-height porcelain <span class="bath-opt-price">GHS 4,500</span></span></label>
-          </div>
-        </div>
-
-        <div class="bath-row">
-          <div class="bath-cat">Fittings</div>
-          <div class="bath-opts">
-            <label class="bath-opt"><input type="radio" name="bath-fit" value="500" checked onchange="calc()"><span class="bath-opt-lbl">Chrome standard <span class="bath-opt-price">GHS 500</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-fit" value="1200" onchange="calc()"><span class="bath-opt-lbl">Brushed nickel <span class="bath-opt-price">GHS 1,200</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-fit" value="2800" onchange="calc()"><span class="bath-opt-lbl">Brushed gold <span class="bath-opt-price">GHS 2,800</span></span></label>
-          </div>
-        </div>
-
-        <div class="bath-row">
-          <div class="bath-cat">Accessories</div>
-          <div class="bath-opts">
-            <label class="bath-opt"><input type="radio" name="bath-acc" value="400" checked onchange="calc()"><span class="bath-opt-lbl">Basic set <span class="bath-opt-price">GHS 400</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-acc" value="1500" onchange="calc()"><span class="bath-opt-lbl">Illuminated mirror + rails <span class="bath-opt-price">GHS 1,500</span></span></label>
-            <label class="bath-opt"><input type="radio" name="bath-acc" value="3000" onchange="calc()"><span class="bath-opt-lbl">Premium set <span class="bath-opt-price">GHS 3,000</span></span></label>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- ── STEP 5: SYSTEMS & SECURITY ── -->
@@ -780,6 +734,37 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
 
 </div><!-- /wrap -->
 
+<!-- ── Full Estimate Modal ── -->
+<div class="est-overlay" id="estOverlay" onclick="closeEstModal(event)">
+  <div class="est-modal" id="estModal">
+    <div class="est-modal-head">
+      <div class="est-modal-logo">I-AKROTECH · Ghana Build Cost Estimator</div>
+      <div class="est-modal-total"><span style="font-size:1rem;font-weight:600;opacity:.7;margin-right:4px;">GHS</span><span id="em-total">—</span></div>
+      <div class="est-modal-sub" id="em-config">—</div>
+      <button class="est-modal-close" onclick="closeEstModal()">×</button>
+    </div>
+    <div class="est-modal-body">
+      <div class="est-sec-title">Cost Breakdown</div>
+      <div id="em-breakdown"></div>
+
+      <div class="est-sec-title">Estimated Material Quantities</div>
+      <div class="est-qty-grid" id="em-qty"></div>
+
+      <div class="est-sec-title">Floor Plan</div>
+      <div id="em-floors"></div>
+
+      <div class="est-disc">
+        <strong>Important:</strong> This is a budgetary estimate based on published Greater Accra market rates and regional multipliers. Actual costs require a licensed quantity surveyor's Bill of Quantities prepared from stamped architectural drawings, plus contractor quotations. Land, permits, professional fees, and VAT are excluded.
+      </div>
+    </div>
+    <div class="est-modal-footer">
+      <button class="est-btn-print" onclick="window.print()">🖨 Print / Save PDF</button>
+      <button class="est-btn-close" onclick="closeEstModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+
 <script>
 (function(){
 'use strict';
@@ -1014,7 +999,10 @@ function renderFloors(){
       <div class="floor-hdr">
         <span class="floor-name">${floor.name}</span>
         <span class="floor-area-badge">${floorArea.toFixed(0)} m²</span>
-        <button class="btn-add-room" onclick="addRoom(${fi})">+ Add Room</button>
+        <div style="display:flex;gap:6px;">
+          <button class="btn-add-room" style="background:var(--surf2);border-color:var(--bdr);color:var(--txt2);" onclick="duplicateFloor(${fi})" title="Duplicate this floor's room layout as a new floor">⧉ Duplicate</button>
+          <button class="btn-add-room" onclick="addRoom(${fi})">+ Add Room</button>
+        </div>
       </div>
       <div class="rooms-list" id="rooms-${fi}">
         ${floor.rooms.map((room,ri)=>{
@@ -1287,6 +1275,96 @@ window.calc = function(){
   }
 };
 
+
+// ── Duplicate Floor ──
+window.duplicateFloor = function(fi){
+  const src = floorPlan[fi];
+  const newRooms = src.rooms.map(r=>({
+    id:uid(), type:r.type, area:r.area, finish:r.finish,
+    unit:r.unit, dimL:r.dimL, dimW:r.dimW,
+    config:r.config ? JSON.parse(JSON.stringify(r.config)) : null,
+    cfgOpen:false
+  }));
+  const newIdx = floorPlan.length;
+  floorPlan.push({name:FLOOR_NAMES[newIdx]||'Floor '+(newIdx+1), rooms:newRooms});
+  // Sync storeys selector upward if needed (max 5)
+  const storeysSel = document.getElementById('storeys');
+  if(storeysSel && floorPlan.length > parseInt(storeysSel.value)){
+    const cap = Math.min(floorPlan.length, 5);
+    storeysSel.value = String(cap);
+  }
+  renderFloors();
+};
+
+// ── Full Estimate Modal ──
+window.showEstimateModal = function(){
+  calc(); // ensure fresh numbers
+  const overlay = document.getElementById('estOverlay');
+  if(!overlay) return;
+
+  // Header
+  const totalEl = document.getElementById('total-val');
+  document.getElementById('em-total').textContent = totalEl ? totalEl.textContent : '—';
+  const cfgEl = document.getElementById('res-config');
+  document.getElementById('em-config').textContent = cfgEl ? cfgEl.textContent : '';
+
+  // Breakdown
+  const bkItems = [
+    ['Base Construction', 'bk-base'],
+    ['Labour (included in base)', 'bk-labour'],
+    ['Finishes & Add-ons', 'bk-addons'],
+    ['Material Adjustment', 'bk-mats'],
+    ['Security Systems', 'bk-sec'],
+  ];
+  const total = totalEl ? totalEl.textContent : '—';
+  let bdHTML = bkItems.map(([label, id]) => {
+    const val = document.getElementById(id)?.textContent || '—';
+    return `<div class="est-breakdown-row"><span class="est-bd-label">${label}</span><span class="est-bd-val">${val}</span></div>`;
+  }).join('');
+  bdHTML += `<div class="est-breakdown-row total-row"><span class="est-bd-label" style="font-size:14px;color:var(--txt);font-weight:700;">Total Estimate</span><span class="est-bd-val cr" style="font-size:16px;">GHS ${total}</span></div>`;
+  document.getElementById('em-breakdown').innerHTML = bdHTML;
+
+  // Quantities
+  const qtyCells = [
+    [document.getElementById('q-blocks')?.textContent||'—', 'Blocks (6″)'],
+    [document.getElementById('q-cement')?.textContent||'—', 'Cement (bags)'],
+    [document.getElementById('q-steel')?.textContent||'—', 'Iron Rods Y12'],
+    [document.getElementById('q-baths')?.textContent||'—', 'Bathrooms'],
+  ];
+  document.getElementById('em-qty').innerHTML = qtyCells.map(([num, lbl]) =>
+    `<div class="est-qty-cell"><div class="est-qty-num">${num}</div><div class="est-qty-lbl">${lbl}</div></div>`
+  ).join('');
+
+  // Floor plan
+  let fpHTML = '';
+  if(floorPlan.length === 0){
+    fpHTML = '<p style="font-size:13px;color:var(--txt3);">No floor plan configured.</p>';
+  } else {
+    fpHTML = floorPlan.map(f=>{
+      const a = f.rooms.reduce((s,r)=>s+(parseFloat(r.area)||0),0);
+      const roomList = f.rooms.map(r=>{
+        const t = ROOM_TYPES.find(t=>t.key===r.type);
+        return (t?t.label:r.type)+' ('+r.area.toFixed(0)+' m²)';
+      }).join(' · ');
+      return `<div class="est-floor-row">
+        <div><div class="est-floor-name">${f.name}</div><div class="est-room-list">${roomList}</div></div>
+        <div class="est-floor-stat">${a.toFixed(0)} m²<br><span style="font-size:10px;color:var(--txt3);">${f.rooms.length} rooms</span></div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('em-floors').innerHTML = fpHTML;
+
+  overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+};
+
+window.closeEstModal = function(evt){
+  if(evt && evt.target !== document.getElementById('estOverlay')) return;
+  const overlay = document.getElementById('estOverlay');
+  if(overlay) overlay.classList.remove('open');
+  document.body.style.overflow='';
+};
+
 // ── Wizard ──
 let currentStep = 1;
 const totalSteps = 6;
@@ -1306,13 +1384,7 @@ window.wizNav = function(dir){
   const next = currentStep+dir;
   if(next<1) return;
   if(next>totalSteps){
-    // "View Full Estimate" — scroll results into view and flash it
-    const res = document.querySelector('.results');
-    if(res){
-      res.scrollIntoView({behavior:'smooth',block:'start'});
-      res.classList.add('res-flash');
-      setTimeout(()=>res.classList.remove('res-flash'),1200);
-    }
+    showEstimateModal();
     return;
   }
   document.getElementById('step-'+currentStep).classList.remove('active');
