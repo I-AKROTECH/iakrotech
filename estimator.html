@@ -262,8 +262,32 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
 .est-btn-print:hover{background:var(--cr-dk);}
 .est-btn-close{flex:1;min-width:140px;background:var(--surf2);color:var(--txt2);border:1.5px solid var(--bdr);border-radius:var(--r);padding:11px 20px;font-family:var(--fb);font-size:14px;cursor:pointer;}
 .est-btn-close:hover{border-color:var(--cr);color:var(--cr);}
+
+.est-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:4px;}
+.est-tbl th{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--txt3);padding:5px 8px;border-bottom:2px solid var(--bdr);text-align:left;}
+.est-tbl th.est-right,.est-tbl td.est-right{text-align:right;font-family:var(--fm);font-variant-numeric:tabular-nums;}
+.est-tbl td{padding:6px 8px;border-bottom:1px solid var(--bdr);color:var(--txt2);vertical-align:top;}
+.est-tbl tr:last-child td{border-bottom:none;}
+.est-tbl tr.est-total-row td{background:var(--cr-pale);font-weight:700;color:var(--txt);font-size:14px;border-top:2px solid var(--cr);}
+.est-room-spec{font-size:10px;color:var(--txt3);margin-top:3px;line-height:1.4;}
+
 .est-disc{font-size:11px;color:var(--txt3);line-height:1.6;padding:10px 14px;background:var(--surf2);border-radius:var(--rs);margin-top:14px;border-left:3px solid var(--bdr);}
-@media print{.est-overlay{background:none;position:static;display:block;padding:0;}.est-modal{box-shadow:none;border-radius:0;max-width:none;}.est-modal-close,.est-modal-footer{display:none!important;}}
+@media print{
+  body > *:not(#estOverlay){display:none!important;}
+  #estOverlay{display:block!important;position:static!important;overflow:visible!important;padding:0!important;background:#fff!important;}
+  .est-modal{box-shadow:none!important;border-radius:0!important;max-width:none!important;width:100%!important;animation:none!important;}
+  .est-modal-close,.est-modal-footer,.btn-secondary,.hdr,.wizard-panel,.results{display:none!important;}
+  .est-overlay{position:static!important;}
+  .est-modal-body{padding:16px!important;}
+  .est-modal-head{padding:16px 20px!important;}
+  .est-room-tbl{font-size:10px;}
+  * {-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+
+/* ── Room Comfort Config ── */
+.room-comfort-btn{background:none;border:1px solid var(--bdr);border-radius:5px;padding:3px 7px;font-size:11px;color:var(--txt2);cursor:pointer;flex-shrink:0;transition:background .15s;}
+.room-comfort-btn:hover,.room-comfort-btn.open{background:#e8f4fd;border-color:#3b82f6;color:#1d4ed8;}
+
 </style>
 </head>
 <body>
@@ -459,7 +483,7 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
       </div>
 
       <div class="feat-group">
-        <div class="feat-group-name">HVAC &amp; Comfort</div>
+        <div class="feat-group-name">HVAC &amp; Comfort <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;color:var(--txt3);">— global fallback (configure per room in Step 2)</span></div>
         <label class="feat" id="lbl-ac">
           <input type="checkbox" id="ac" onchange="toggleSub('ac','lbl-ac','ac-sub')">
           <div class="feat-info">
@@ -829,15 +853,15 @@ window.toggleSub = function(checkId, lblId, subId){
 // ── Floor Plan ──
 function defaultRooms(floorIdx){
   if(floorIdx === 0) return [
-    {id:uid(),type:'living',  area:25,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
-    {id:uid(),type:'dining',  area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
-    {id:uid(),type:'kitchen', area:18,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
-    {id:uid(),type:'bathroom',area:7, finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
+    {id:uid(),type:'living',  area:25,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false,comfort:null,comfortOpen:false},
+    {id:uid(),type:'dining',  area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false,comfort:null,comfortOpen:false},
+    {id:uid(),type:'kitchen', area:18,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false,comfort:null,comfortOpen:false},
+    {id:uid(),type:'bathroom',area:7, finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false,comfort:null,comfortOpen:false},
   ];
   return [
-    {id:uid(),type:'master',  area:22,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
-    {id:uid(),type:'bedroom', area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
-    {id:uid(),type:'bathroom',area:7, finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false},
+    {id:uid(),type:'master',  area:22,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false,comfort:null,comfortOpen:false},
+    {id:uid(),type:'bedroom', area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false,comfort:null,comfortOpen:false},
+    {id:uid(),type:'bathroom',area:7, finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false,comfort:null,comfortOpen:false},
   ];
 }
 
@@ -963,6 +987,55 @@ window.clearRoomCfg = function(fi,ri){
   floorPlan[fi].rooms[ri].cfgOpen = false;
   renderFloors();
 };
+
+// ── Room Comfort (AC / Fan) ──
+function defaultComfortCfg(){
+  return {ac:0, acRate:4500, fan:0, fanRate:500};
+}
+function roomComfortPanelHTML(fi,ri,room){
+  const open = room.comfortOpen;
+  const cfg  = room.comfort || defaultComfortCfg();
+  const acOpts = [0,1,2,3].map(n=>`<option value="${n}"${cfg.ac===n?' selected':''}>` +(n===0?'None':n+' unit'+(n>1?'s':''))+`</option>`).join('');
+  const fanOpts= [0,1,2,3].map(n=>`<option value="${n}"${cfg.fan===n?' selected':''}>` +(n===0?'None':n+' fan'+(n>1?'s':''))+`</option>`).join('');
+  const total = cfg.ac*(+(cfg.acRate||4500)) + cfg.fan*(+(cfg.fanRate||500));
+  return `<div class="room-cfg-panel${open?' open':''}" id="comfort-${room.id}">
+    <div style="font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:8px;">Comfort — Air Conditioning &amp; Fans <span class="room-cfg-summary">Total: GHS ${total.toLocaleString()}</span></div>
+    <div class="field-row">
+      <div><label class="cfg-lbl">AC Split Units</label>
+        <select class="cfg-sel" onchange="setRoomComfort(${fi},${ri},'ac',+this.value)">${acOpts}</select></div>
+      <div><label class="cfg-lbl">GHS per AC unit</label>
+        <input type="number" class="cfg-inp" value="${cfg.acRate}" min="1000" max="30000" step="500" oninput="setRoomComfort(${fi},${ri},'acRate',+this.value)"></div>
+    </div>
+    <div class="field-row">
+      <div><label class="cfg-lbl">Ceiling Fans</label>
+        <select class="cfg-sel" onchange="setRoomComfort(${fi},${ri},'fan',+this.value)">${fanOpts}</select></div>
+      <div><label class="cfg-lbl">GHS per fan</label>
+        <input type="number" class="cfg-inp" value="${cfg.fanRate}" min="100" max="5000" step="50" oninput="setRoomComfort(${fi},${ri},'fanRate',+this.value)"></div>
+    </div>
+    <div style="margin-top:8px;text-align:right"><button onclick="clearRoomComfort(${fi},${ri})" style="font-size:10px;background:none;border:none;color:var(--txt3);cursor:pointer;text-decoration:underline">↩ Use global HVAC settings</button></div>
+  </div>`;
+}
+window.toggleRoomComfort = function(fi,ri){
+  const room = floorPlan[fi].rooms[ri];
+  room.comfortOpen = !room.comfortOpen;
+  if(room.comfortOpen && !room.comfort) room.comfort = defaultComfortCfg();
+  renderFloors();
+};
+window.setRoomComfort = function(fi,ri,key,val){
+  const room = floorPlan[fi].rooms[ri];
+  if(!room.comfort) room.comfort = defaultComfortCfg();
+  room.comfort[key] = val;
+  const summary = document.querySelector('#comfort-'+room.id+' .room-cfg-summary');
+  const total = room.comfort.ac*(+(room.comfort.acRate||4500)) + room.comfort.fan*(+(room.comfort.fanRate||500));
+  if(summary) summary.textContent = 'Total: GHS '+total.toLocaleString();
+  calc();
+};
+window.clearRoomComfort = function(fi,ri){
+  floorPlan[fi].rooms[ri].comfort = null;
+  floorPlan[fi].rooms[ri].comfortOpen = false;
+  renderFloors();
+};
+
 function roomAreaHTML(fi,ri,room){
   const u = room.unit||'m2';
   const FT = 0.0929;
@@ -1011,14 +1084,17 @@ function renderFloors(){
             ? `<button class="room-cfg-btn${room.cfgOpen?' open':''}" onclick="toggleRoomCfg(${fi},${ri})" title="Configure this ${room.type}">⚙ Config</button>`
             : '';
           const cfgPanel = isSpec ? roomCfgPanelHTML(fi,ri,room) : '';
+          const hasComfort = !!room.comfort;
+          const comfortBtn = `<button class="room-comfort-btn${room.comfortOpen?' open':''}${hasComfort?' open':''}" onclick="toggleRoomComfort(${fi},${ri})" title="Set AC / fan for this room">🌡${hasComfort?' ✓':''}</button>`;
+          const comfortPanel = roomComfortPanelHTML(fi,ri,room);
           return `
         <div class="room-row" id="room-${room.id}">
           <select class="room-type-sel" onchange="setRoomType(${fi},${ri},this.value)">${typeOptions(room.type)}</select>
           ${roomAreaHTML(fi,ri,room)}
           <select class="room-finish-sel" onchange="setRoomFinish(${fi},${ri},this.value)">${finishOptions(room.finish)}</select>
-          ${cfgBtn}
+          ${cfgBtn}${comfortBtn}
           <button class="room-del" onclick="delRoom(${fi},${ri})" title="Remove room">×</button>
-        </div>${cfgPanel}`;
+        </div>${cfgPanel}${comfortPanel}`;
         }).join('')}
       </div>
     </div>`;
@@ -1028,7 +1104,7 @@ function renderFloors(){
 }
 
 window.addRoom = function(fi){
-  floorPlan[fi].rooms.push({id:uid(),type:'bedroom',area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false});
+  floorPlan[fi].rooms.push({id:uid(),type:'bedroom',area:16,finish:'inherit',unit:'m2',dimL:0,dimW:0,config:null,cfgOpen:false,comfort:null,comfortOpen:false});
   renderFloors();
 };
 
@@ -1041,7 +1117,7 @@ window.delRoom = function(fi,ri){
 window.setRoomType = function(fi,ri,val){
   floorPlan[fi].rooms[ri].type = val;
   const t = ROOM_TYPES.find(t=>t.key===val);
-  if(t){ floorPlan[fi].rooms[ri].area = t.area; floorPlan[fi].rooms[ri].dimL=0; floorPlan[fi].rooms[ri].dimW=0; floorPlan[fi].rooms[ri].config=null; floorPlan[fi].rooms[ri].cfgOpen=false; }
+  if(t){ floorPlan[fi].rooms[ri].area = t.area; floorPlan[fi].rooms[ri].dimL=0; floorPlan[fi].rooms[ri].dimW=0; floorPlan[fi].rooms[ri].config=null; floorPlan[fi].rooms[ri].cfgOpen=false; floorPlan[fi].rooms[ri].comfort=null; floorPlan[fi].rooms[ri].comfortOpen=false; }
   renderFloors();
 };
 
@@ -1205,9 +1281,17 @@ window.calc = function(){
   const bathEl = document.getElementById('bath-per-cost');
   if(bathEl) bathEl.textContent = 'GHS '+fmt(bathAddon/Math.max(numBaths,1));
 
-  // HVAC
-  if(getChecked('ac'))   addons += getNum('ac-rate',4500) * getNum('ac-units',2);
-  if(getChecked('fans')) addons += getNum('fan-rate',500)  * getNum('fan-units',6);
+  // HVAC — per room first; fall back to global if no rooms configured
+  let hvacAddon = 0;
+  let hasPerRoomComfort = false;
+  floorPlan.forEach(f=>f.rooms.forEach(r=>{
+    if(r.comfort){ hasPerRoomComfort=true; hvacAddon += r.comfort.ac*(+(r.comfort.acRate||4500)) + r.comfort.fan*(+(r.comfort.fanRate||500)); }
+  }));
+  if(!hasPerRoomComfort){
+    if(getChecked('ac'))   hvacAddon += getNum('ac-rate',4500) * getNum('ac-units',2);
+    if(getChecked('fans')) hvacAddon += getNum('fan-rate',500)  * getNum('fan-units',6);
+  }
+  addons += hvacAddon;
 
   // Security (multi-select)
   const secIds = ['sec-cctv','sec-alarm','sec-gate','sec-intercom','sec-motion','sec-efence','sec-smart','sec-access'];
@@ -1283,7 +1367,9 @@ window.duplicateFloor = function(fi){
     id:uid(), type:r.type, area:r.area, finish:r.finish,
     unit:r.unit, dimL:r.dimL, dimW:r.dimW,
     config:r.config ? JSON.parse(JSON.stringify(r.config)) : null,
-    cfgOpen:false
+    cfgOpen:false,
+    comfort:r.comfort ? JSON.parse(JSON.stringify(r.comfort)) : null,
+    comfortOpen:false
   }));
   const newIdx = floorPlan.length;
   floorPlan.push({name:FLOOR_NAMES[newIdx]||'Floor '+(newIdx+1), rooms:newRooms});
@@ -1298,61 +1384,171 @@ window.duplicateFloor = function(fi){
 
 // ── Full Estimate Modal ──
 window.showEstimateModal = function(){
-  calc(); // ensure fresh numbers
+  calc();
   const overlay = document.getElementById('estOverlay');
   if(!overlay) return;
 
-  // Header
+  /* ─ Header ─ */
   const totalEl = document.getElementById('total-val');
-  document.getElementById('em-total').textContent = totalEl ? totalEl.textContent : '—';
+  document.getElementById('em-total').textContent = totalEl?totalEl.textContent:'—';
   const cfgEl = document.getElementById('res-config');
-  document.getElementById('em-config').textContent = cfgEl ? cfgEl.textContent : '';
+  document.getElementById('em-config').textContent = cfgEl?cfgEl.textContent:'';
 
-  // Breakdown
-  const bkItems = [
-    ['Base Construction', 'bk-base'],
-    ['Labour (included in base)', 'bk-labour'],
-    ['Finishes & Add-ons', 'bk-addons'],
-    ['Material Adjustment', 'bk-mats'],
-    ['Security Systems', 'bk-sec'],
-  ];
-  const total = totalEl ? totalEl.textContent : '—';
-  let bdHTML = bkItems.map(([label, id]) => {
-    const val = document.getElementById(id)?.textContent || '—';
-    return `<div class="est-breakdown-row"><span class="est-bd-label">${label}</span><span class="est-bd-val">${val}</span></div>`;
-  }).join('');
-  bdHTML += `<div class="est-breakdown-row total-row"><span class="est-bd-label" style="font-size:14px;color:var(--txt);font-weight:700;">Total Estimate</span><span class="est-bd-val cr" style="font-size:16px;">GHS ${total}</span></div>`;
-  document.getElementById('em-breakdown').innerHTML = bdHTML;
+  const ghsFmt = n=>('GHS '+(Math.round(n)||0).toLocaleString('en-GH'));
+  const region = document.getElementById('region');
+  const regionLabel = region ? region.options[region.selectedIndex].text : '—';
+  const storeys = parseInt(document.getElementById('storeys')?.value)||1;
+  const finEl   = document.querySelector('input[name="finish"]:checked');
+  const finLabel = finEl ? finEl.closest('.opt-card').querySelector('.opt-name').textContent : '—';
+  const totalArea = getTotalArea();
 
-  // Quantities
-  const qtyCells = [
-    [document.getElementById('q-blocks')?.textContent||'—', 'Blocks (6″)'],
-    [document.getElementById('q-cement')?.textContent||'—', 'Cement (bags)'],
-    [document.getElementById('q-steel')?.textContent||'—', 'Iron Rods Y12'],
-    [document.getElementById('q-baths')?.textContent||'—', 'Bathrooms'],
-  ];
-  document.getElementById('em-qty').innerHTML = qtyCells.map(([num, lbl]) =>
-    `<div class="est-qty-cell"><div class="est-qty-num">${num}</div><div class="est-qty-lbl">${lbl}</div></div>`
-  ).join('');
+  /* ─ 1. Project Overview ─ */
+  document.getElementById('em-breakdown').innerHTML = `
+    <div class="est-sec-title" style="margin-top:0">Project Overview</div>
+    <table class="est-tbl">
+      <tr><td>Region</td><td>${regionLabel}</td></tr>
+      <tr><td>Number of Storeys</td><td>${storeys}</td></tr>
+      <tr><td>Total Built Area</td><td>${totalArea.toFixed(0)} m²</td></tr>
+      <tr><td>Baseline Finish</td><td>${finLabel}</td></tr>
+      <tr><td>Cement price</td><td>GHS ${document.getElementById('cement-price')?.value||90}/bag</td></tr>
+      <tr><td>Block price</td><td>GHS ${document.getElementById('block-price')?.value||11}/block</td></tr>
+      <tr><td>Y12 Rod price</td><td>GHS ${document.getElementById('steel-price')?.value||65}/piece</td></tr>
+    </table>
 
-  // Floor plan
-  let fpHTML = '';
-  if(floorPlan.length === 0){
-    fpHTML = '<p style="font-size:13px;color:var(--txt3);">No floor plan configured.</p>';
-  } else {
-    fpHTML = floorPlan.map(f=>{
-      const a = f.rooms.reduce((s,r)=>s+(parseFloat(r.area)||0),0);
-      const roomList = f.rooms.map(r=>{
-        const t = ROOM_TYPES.find(t=>t.key===r.type);
-        return (t?t.label:r.type)+' ('+r.area.toFixed(0)+' m²)';
-      }).join(' · ');
-      return `<div class="est-floor-row">
-        <div><div class="est-floor-name">${f.name}</div><div class="est-room-list">${roomList}</div></div>
-        <div class="est-floor-stat">${a.toFixed(0)} m²<br><span style="font-size:10px;color:var(--txt3);">${f.rooms.length} rooms</span></div>
-      </div>`;
+    <div class="est-sec-title">Cost Breakdown</div>
+    <table class="est-tbl">
+      ${[['Base Construction','bk-base'],['Labour (included in base)','bk-labour'],['Finishes & Add-ons','bk-addons'],['Material Price Adjustment','bk-mats'],['Security Systems','bk-sec']]
+        .map(([l,id])=>`<tr><td>${l}</td><td class="est-right">${document.getElementById(id)?.textContent||'—'}</td></tr>`).join('')}
+      <tr class="est-total-row"><td>TOTAL ESTIMATE</td><td class="est-right" style="color:var(--cr);font-size:15px;">GHS ${totalEl?totalEl.textContent:'—'}</td></tr>
+    </table>`;
+
+  /* ─ 2. Floor Plan Detail ─ */
+  let fpHTML = '<div class="est-sec-title">Floor Plan — Room Detail</div>';
+  floorPlan.forEach(floor=>{
+    const floorArea = floor.rooms.reduce((s,r)=>s+(parseFloat(r.area)||0),0);
+    let roomRows = floor.rooms.map(r=>{
+      const tObj = ROOM_TYPES.find(t=>t.key===r.type);
+      const rLabel = tObj?tObj.label:r.type;
+      const finish = r.finish==='inherit'?'↑ Global':r.finish.charAt(0).toUpperCase()+r.finish.slice(1);
+      // Comfort
+      let comfortStr = '—';
+      if(r.comfort){
+        const parts=[];
+        if(r.comfort.ac>0) parts.push(r.comfort.ac+' AC unit'+(r.comfort.ac>1?'s':'')+' (GHS '+((r.comfort.ac*(+(r.comfort.acRate||4500))).toLocaleString())+')');
+        if(r.comfort.fan>0) parts.push(r.comfort.fan+' fan'+(r.comfort.fan>1?'s':'')+' (GHS '+((r.comfort.fan*(+(r.comfort.fanRate||500))).toLocaleString())+')');
+        comfortStr = parts.length?parts.join(', '):'None';
+      } else { comfortStr = 'Global'; }
+      // Bathroom config
+      let specStr = '';
+      if(r.type==='bathroom'&&r.config){
+        const c=r.config;
+        const items=[];
+        BATH_COMPS.forEach(comp=>{ if(c[comp.key]>0){ const o=comp.opts.find(o=>String(o[0])===String(c[comp.key])); if(o) items.push(comp.label+': '+o[1]); }});
+        specStr = '<div class="est-room-spec">'+items.join(' · ')+'<br>Total: GHS '+(getBathCostFromCfg(c)).toLocaleString()+'/bath</div>';
+      } else if(r.type==='bathroom'){
+        specStr = '<div class="est-room-spec">Using global bathroom spec</div>';
+      }
+      if(r.type==='kitchen'&&r.config){
+        const c=r.config;
+        const cabTypes={'0':'None','3500':'Economy MDF','5000':'Standard','7000':'Luxury Solid Wood','12000':'Custom Premium'};
+        const cabLabel = cabTypes[String(c.cabType)]||c.cabType;
+        specStr = '<div class="est-room-spec">Cabinets: '+cabLabel+' × '+c.cabM+'m run — GHS '+((+(c.cabType||0))*(+(c.cabM||0))).toLocaleString()+'</div>';
+      } else if(r.type==='kitchen'){
+        specStr = '<div class="est-room-spec">Using global kitchen cabinets</div>';
+      }
+      return `<tr>
+        <td>${rLabel}${specStr}</td>
+        <td class="est-right">${r.area.toFixed(1)} m²</td>
+        <td>${finish}</td>
+        <td>${comfortStr}</td>
+      </tr>`;
     }).join('');
-  }
+    fpHTML += `<div style="margin-bottom:18px;">
+      <div style="font-family:var(--fd);font-size:13px;font-weight:700;color:var(--cr);margin-bottom:6px;">${floor.name} — ${floorArea.toFixed(0)} m² · ${floor.rooms.length} rooms</div>
+      <table class="est-tbl">
+        <thead><tr><th>Room</th><th class="est-right">Area</th><th>Finish</th><th>Comfort</th></tr></thead>
+        <tbody>${roomRows}</tbody>
+      </table>
+    </div>`;
+  });
   document.getElementById('em-floors').innerHTML = fpHTML;
+
+  /* ─ 3. Finishes & Systems ─ */
+  const radioLabel = (name,def)=>{
+    const el=document.querySelector('input[name="'+name+'"]:checked');
+    if(!el) return def;
+    const card = el.closest('.opt-card');
+    return card ? card.querySelector('.opt-name').textContent : el.value;
+  };
+  const checkLabel = (id, subLines=[])=>{
+    const el=document.getElementById(id);
+    if(!el||!el.checked) return null;
+    return [document.querySelector('[for="'+id+'"] .feat-name, label[for="'+id+'"] .feat-name')?.textContent||id, ...subLines];
+  };
+
+  // Collect HVAC info
+  let hvacLines = '';
+  let hasPerRoomComfort2 = false;
+  floorPlan.forEach(f=>f.rooms.forEach(r=>{ if(r.comfort) hasPerRoomComfort2=true; }));
+  if(hasPerRoomComfort2){
+    hvacLines = '<tr><td>AC &amp; Fans</td><td class="est-right">Configured per room (see Floor Plan above)</td></tr>';
+  } else {
+    if(getChecked('ac')) hvacLines += `<tr><td>Air Conditioning</td><td class="est-right">${getNum('ac-units',2)} units × GHS ${getNum('ac-rate',4500).toLocaleString()}</td></tr>`;
+    if(getChecked('fans')) hvacLines += `<tr><td>Ceiling Fans</td><td class="est-right">${getNum('fan-units',6)} fans × GHS ${getNum('fan-rate',500).toLocaleString()}</td></tr>`;
+    if(!getChecked('ac')&&!getChecked('fans')) hvacLines = '<tr><td>HVAC</td><td class="est-right">None selected</td></tr>';
+  }
+
+  // Collect security items
+  const secItems = [
+    ['sec-cctv','CCTV System'],['sec-alarm','Alarm System'],['sec-gate','Automated Gate'],
+    ['sec-intercom','Video Intercom'],['sec-motion','Motion Sensors'],['sec-efence','Electric Fence'],
+    ['sec-smart','Smart Home Panel'],['sec-access','Access Control / Biometrics']
+  ];
+  let secRows = secItems.filter(([id])=>getChecked(id))
+    .map(([id,label])=>`<tr><td>${label}</td><td class="est-right">GHS ${getNum(id+'-rate',0).toLocaleString()}</td></tr>`).join('');
+  if(!secRows) secRows='<tr><td colspan="2" style="color:var(--txt3)">None selected</td></tr>';
+
+  // Exterior items
+  const extRows = [
+    getChecked('fence') ? `<tr><td>Compound Wall / Fence</td><td class="est-right">${getNum('fence-m',55)} m × GHS ${getNum('fence-rate',600).toLocaleString()}/m</td></tr>` : '',
+    `<tr><td>Site Preparation</td><td class="est-right">${radioLabel('site-type','—')}</td></tr>`,
+    `<tr><td>Gutters &amp; Drainage</td><td class="est-right">${radioLabel('gutter-type','None')}</td></tr>`,
+    `<tr><td>Roofing</td><td class="est-right">${radioLabel('roof-type','Standard Aluminium')}</td></tr>`,
+    `<tr><td>Water Heating</td><td class="est-right">${radioLabel('wh-type','None')}</td></tr>`,
+    getChecked('solar')    ? `<tr><td>Solar PV</td><td class="est-right">${getNum('solar-kw',5)} kWp × GHS ${getNum('solar-rate',8000).toLocaleString()}/kWp</td></tr>` : '',
+    getChecked('borehole') ? `<tr><td>Borehole / Well</td><td class="est-right">GHS ${getNum('borehole-cost',30000).toLocaleString()}</td></tr>` : '',
+    getChecked('septic')   ? `<tr><td>Septic Tank</td><td class="est-right">GHS ${getNum('septic-cost',42000).toLocaleString()}</td></tr>` : '',
+    getChecked('soil')     ? `<tr><td>Soil / Geotechnical Test</td><td class="est-right">GHS ${getNum('soil-cost',2500).toLocaleString()}</td></tr>` : '',
+  ].join('');
+
+  document.getElementById('em-qty').innerHTML = `
+    <div class="est-sec-title">Finishes</div>
+    <table class="est-tbl">
+      <tr><td>Floor Tiles</td><td class="est-right">${radioLabel('tile-type','Ceramic')}</td></tr>
+      <tr><td>Wall Finishing</td><td class="est-right">${radioLabel('wall-fin','Emulsion Paint')}</td></tr>
+      <tr><td>Insect Screens</td><td class="est-right">${radioLabel('screen-type','None')}</td></tr>
+      <tr><td>Ceiling Treatment</td><td class="est-right">${radioLabel('ceil-type','None')}</td></tr>
+      <tr><td>Kitchen Cabinets</td><td class="est-right">${radioLabel('cab-type','None')}</td></tr>
+    </table>
+
+    <div class="est-sec-title">HVAC &amp; Comfort</div>
+    <table class="est-tbl">${hvacLines}</table>
+
+    <div class="est-sec-title">Security &amp; Home Automation</div>
+    <table class="est-tbl">${secRows}</table>
+
+    <div class="est-sec-title">Exterior, Roofing &amp; Utilities</div>
+    <table class="est-tbl">${extRows}</table>
+
+    <div class="est-sec-title">Estimated Material Quantities</div>
+    <div class="est-qty-grid">
+      ${[
+        [document.getElementById('q-blocks')?.textContent||'—','Blocks (6″)'],
+        [document.getElementById('q-cement')?.textContent||'—','Cement (bags)'],
+        [document.getElementById('q-steel')?.textContent||'—','Iron Rods Y12'],
+        [document.getElementById('q-baths')?.textContent||'—','Bathrooms'],
+      ].map(([num,lbl])=>`<div class="est-qty-cell"><div class="est-qty-num">${num}</div><div class="est-qty-lbl">${lbl}</div></div>`).join('')}
+    </div>`;
 
   overlay.classList.add('open');
   document.body.style.overflow='hidden';
