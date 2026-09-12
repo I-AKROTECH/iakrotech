@@ -288,6 +288,51 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
 .room-comfort-btn{background:none;border:1px solid var(--bdr);border-radius:5px;padding:3px 7px;font-size:11px;color:var(--txt2);cursor:pointer;flex-shrink:0;transition:background .15s;}
 .room-comfort-btn:hover,.room-comfort-btn.open{background:#e8f4fd;border-color:#3b82f6;color:#1d4ed8;}
 
+
+/* ── Construction Phase Cards (Step 3) ── */
+.phase-presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+.phase-preset-btn{padding:7px 15px;border:1.5px solid var(--bdr);border-radius:20px;background:var(--surf);color:var(--txt2);font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;}
+.phase-preset-btn:hover,.phase-preset-btn.active{border-color:var(--cr);background:var(--cr-pale);color:var(--cr);}
+.phase-card{border:1.5px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:10px;transition:opacity .2s;}
+.phase-card.disabled{opacity:.45;}
+.phase-card-hdr{display:flex;align-items:center;gap:9px;padding:11px 13px;background:var(--surf2);cursor:pointer;user-select:none;}
+.phase-card-hdr:hover{background:var(--bdr);}
+.ph-toggle{width:36px;height:20px;border-radius:10px;background:var(--cr);border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .18s;}
+.ph-toggle::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .18s;}
+.ph-toggle.off{background:var(--bdr);}
+.ph-toggle.off::after{left:19px;}
+.phase-icon{font-size:15px;flex-shrink:0;}
+.phase-name{font-family:var(--fd);font-size:13px;font-weight:700;flex:1;color:var(--txt);line-height:1.3;}
+.phase-subtotal{font-family:var(--fm);font-size:12px;font-weight:600;color:var(--cr);white-space:nowrap;min-width:70px;text-align:right;}
+.phase-expand{font-size:9px;color:var(--txt3);flex-shrink:0;transition:transform .2s;margin-left:2px;}
+.phase-expand.open{transform:rotate(90deg);}
+.phase-body{display:none;padding:12px 13px 14px;background:var(--surf);}
+.phase-body.open{display:block;}
+.phase-desc{font-size:11px;color:var(--txt3);margin-bottom:10px;line-height:1.5;}
+.phase-tbl{width:100%;border-collapse:collapse;font-size:12px;}
+.phase-tbl th{font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--txt3);text-align:left;padding:4px 5px 7px;border-bottom:1px solid var(--bdr);}
+.phase-tbl th.r{text-align:right;}
+.phase-tbl td{padding:6px 5px;vertical-align:middle;border-bottom:1px solid rgba(0,0,0,.04);}
+@media(prefers-color-scheme:dark){.phase-tbl td{border-bottom-color:rgba(255,255,255,.04);}}
+.phase-tbl tr:last-child td{border-bottom:none;}
+.pi-check{width:15px;height:15px;cursor:pointer;accent-color:var(--cr);flex-shrink:0;}
+.pi-label{color:var(--txt);line-height:1.3;}
+.pi-qty-cell{text-align:right;white-space:nowrap;font-family:var(--fm);color:var(--txt2);}
+.pi-unit{text-align:left;color:var(--txt3);white-space:nowrap;padding-left:3px;}
+.pi-rate-wrap{display:flex;align-items:center;gap:3px;justify-content:flex-end;}
+.pi-rate-lbl{font-size:10px;color:var(--txt3);}
+.pi-rate{width:78px;padding:4px 6px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--surf2);color:var(--txt);font-family:var(--fm);font-size:12px;text-align:right;transition:border-color .15s;}
+.pi-rate:focus{outline:none;border-color:var(--cr);}
+.pi-cost{font-family:var(--fm);font-size:12px;font-weight:600;color:var(--txt);text-align:right;white-space:nowrap;}
+.pi-qty-inp{width:58px;padding:4px 6px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--surf2);color:var(--txt);font-family:var(--fm);font-size:12px;text-align:right;transition:border-color .15s;}
+.pi-qty-inp:focus{outline:none;border-color:var(--cr);}
+/* ── type selector in phase/fixture tables ── */
+.pi-type-sel{font-size:11px;padding:2px 4px;border:1px solid var(--bdr);border-radius:4px;background:var(--surf2);color:var(--txt);max-width:160px;cursor:pointer;}
+.pi-type-sel:focus{outline:2px solid var(--cr);outline-offset:-1px;}
+/* ── fixture cards (reuse phase-card palette) ── */
+.fix-section-hdr{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);padding:18px 0 8px;border-top:1px solid var(--bdr);margin-top:18px;}
+.fix-basis-badge{font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--txt3);margin-left:8px;background:var(--surf2);padding:1px 6px;border-radius:10px;border:1px solid var(--bdr);}
+
 </style>
 </head>
 <body>
@@ -309,7 +354,7 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
       <div class="wiz-node active" data-step="1"><div class="wiz-dot">1</div><span class="wiz-lbl">Basics</span></div>
       <div class="wiz-node" data-step="2"><div class="wiz-dot">2</div><span class="wiz-lbl">Floor Plan</span></div>
       <div class="wiz-node" data-step="3"><div class="wiz-dot">3</div><span class="wiz-lbl">Flooring</span></div>
-      <div class="wiz-node" data-step="4"><div class="wiz-dot">4</div><span class="wiz-lbl">Interiors</span></div>
+      <div class="wiz-node" data-step="4"><div class="wiz-dot">4</div><span class="wiz-lbl">Fixtures</span></div>
       <div class="wiz-node" data-step="5"><div class="wiz-dot">5</div><span class="wiz-lbl">Systems</span></div>
       <div class="wiz-node" data-step="6"><div class="wiz-dot">6</div><span class="wiz-lbl">Exterior</span></div>
     </div>
@@ -410,69 +455,25 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
     <!-- ── STEP 3: FLOORING & WALLS ── -->
     <div class="wizard-step" id="step-3">
       <div class="step-hdr">
-        <div class="step-title">Flooring &amp; Walls</div>
-        <div class="step-sub">Global defaults — rooms with a finish override use their own tier.</div>
+        <div class="step-title">Construction Scope</div>
+        <div class="step-sub">Toggle phases, expand each card to see and adjust individual line items and their rates. Quantities are auto-calculated from your floor plan.</div>
       </div>
-
-      <span class="opt-label">Floor Tile Type</span>
-      <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="tile-type" id="tile-ceramic" value="80" checked><label for="tile-ceramic"><span class="opt-name">Ceramic</span><span class="opt-price">GHS 80/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="tile-type" id="tile-porcelain" value="120"><label for="tile-porcelain"><span class="opt-name">Porcelain</span><span class="opt-price">GHS 120/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="tile-type" id="tile-granite" value="200"><label for="tile-granite"><span class="opt-name">Granite</span><span class="opt-price">GHS 200/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="tile-type" id="tile-marble" value="320"><label for="tile-marble"><span class="opt-name">Marble</span><span class="opt-price">GHS 320/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="tile-type" id="tile-vinyl" value="65"><label for="tile-vinyl"><span class="opt-name">Vinyl / LVT</span><span class="opt-price">GHS 65/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="tile-type" id="tile-screed" value="40"><label for="tile-screed"><span class="opt-name">Plain Screed</span><span class="opt-price">GHS 40/m²</span></label></div>
+      <div class="phase-presets">
+        <button class="phase-preset-btn" onclick="applyPreset('shell')">🏗 Shell Only</button>
+        <button class="phase-preset-btn" onclick="applyPreset('shell-roof')">🏠 Shell + Roof</button>
+        <button class="phase-preset-btn" onclick="applyPreset('to-paint')">🖌️ Up to Paint</button>
+        <button class="phase-preset-btn active" onclick="applyPreset('full')">✅ Full Finish</button>
       </div>
+      <div id="phase-cards"></div>
+        </div>
 
-      <span class="opt-label">Wall Finishing</span>
-      <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-paint" value="0" checked><label for="wf-paint"><span class="opt-name">Emulsion Paint</span><span class="opt-price">Included in base</span></label></div>
-        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-tex" value="18"><label for="wf-tex"><span class="opt-name">Textured Paint</span><span class="opt-price">+GHS 18/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-panel" value="45"><label for="wf-panel"><span class="opt-name">Wall Panels (POP)</span><span class="opt-price">+GHS 45/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-tile" value="75"><label for="wf-tile"><span class="opt-name">Wall Tile (feature)</span><span class="opt-price">+GHS 75/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="wall-fin" id="wf-stone" value="120"><label for="wf-stone"><span class="opt-name">Stone Cladding</span><span class="opt-price">+GHS 120/m²</span></label></div>
-      </div>
-
-      <span class="opt-label">Insect / Mosquito Screens</span>
-      <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="screen-type" id="scr-none" value="0"><label for="scr-none"><span class="opt-name">None</span><span class="opt-price">–</span></label></div>
-        <div class="opt-card"><input type="radio" name="screen-type" id="scr-fix" value="55"><label for="scr-fix"><span class="opt-name">Fixed Frame</span><span class="opt-price">GHS 55/m² openings</span></label></div>
-        <div class="opt-card"><input type="radio" name="screen-type" id="scr-ret" value="85" checked><label for="scr-ret"><span class="opt-name">Retractable</span><span class="opt-price">GHS 85/m² openings</span></label></div>
-        <div class="opt-card"><input type="radio" name="screen-type" id="scr-mot" value="150"><label for="scr-mot"><span class="opt-name">Motorized</span><span class="opt-price">GHS 150/m² openings</span></label></div>
-      </div>
-    </div>
-
-    <!-- ── STEP 4: INTERIOR FINISHES ── -->
+    <!-- ── STEP 4: FIXTURES & FITTINGS ── -->
     <div class="wizard-step" id="step-4">
       <div class="step-hdr">
-        <div class="step-title">Interior Finishes</div>
-        <div class="step-sub">Ceiling treatment and kitchen cabinets. Configure bathrooms per room in the Floor Plan step.</div>
+        <div class="step-title">Fixtures &amp; Fittings</div>
+        <div class="step-sub">Bathrooms, kitchen, living and bedroom furniture — each item has a type selector and an editable rate. Quantities auto-scale with your room count. Expand any group to see line items.</div>
       </div>
-
-      <span class="opt-label">Ceiling Treatment</span>
-      <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-none" value="0"><label for="ceil-none"><span class="opt-name">None / Painted slab</span><span class="opt-price">–</span></label></div>
-        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-board" value="35"><label for="ceil-board"><span class="opt-name">Plasterboard</span><span class="opt-price">GHS 35/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-pop" value="45" checked><label for="ceil-pop"><span class="opt-name">POP / Gypsum</span><span class="opt-price">GHS 45/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-pop2" value="65"><label for="ceil-pop2"><span class="opt-name">Decorative POP</span><span class="opt-price">GHS 65/m²</span></label></div>
-        <div class="opt-card"><input type="radio" name="ceil-type" id="ceil-wood" value="95"><label for="ceil-wood"><span class="opt-name">Timber Coffered</span><span class="opt-price">GHS 95/m²</span></label></div>
-      </div>
-
-      <span class="opt-label">Kitchen Cabinets</span>
-      <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="cab-type" id="cab-none" value="0"><label for="cab-none"><span class="opt-name">None</span><span class="opt-price">Open shelving</span></label></div>
-        <div class="opt-card"><input type="radio" name="cab-type" id="cab-mdf" value="3500"><label for="cab-mdf"><span class="opt-name">Economy MDF</span><span class="opt-price">GHS 3,500/m run</span></label></div>
-        <div class="opt-card"><input type="radio" name="cab-type" id="cab-std" value="5000"><label for="cab-std"><span class="opt-name">Standard</span><span class="opt-price">GHS 5,000/m run</span></label></div>
-        <div class="opt-card"><input type="radio" name="cab-type" id="cab-lux" value="7000" checked><label for="cab-lux"><span class="opt-name">Luxury Solid Wood</span><span class="opt-price">GHS 7,000/m run</span></label></div>
-        <div class="opt-card"><input type="radio" name="cab-type" id="cab-cust" value="12000"><label for="cab-cust"><span class="opt-name">Custom Premium</span><span class="opt-price">GHS 12,000/m run</span></label></div>
-      </div>
-      <div class="field-row" style="margin-top:10px;margin-bottom:0;">
-        <div class="field">
-          <label for="cab-m">Cabinet run (metres per kitchen)</label>
-          <input type="number" id="cab-m" value="3" min="1" max="12" oninput="calc()">
-        </div>
-      </div>
-
+      <div id="fixture-cards"></div>
     </div>
 
     <!-- ── STEP 5: SYSTEMS & SECURITY ── -->
@@ -720,25 +721,22 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
     <div class="res-rule"></div>
     <div class="res-sub-title">Cost Breakdown</div>
     <div class="bk-item">
-      <div class="bk-row"><span class="bk-name">Base Construction</span><span class="bk-val" id="bk-base">—</span></div>
+      <div class="bk-row"><span class="bk-name">Construction Phases</span><span class="bk-val" id="bk-base">—</span></div>
       <div class="bk-track"><div class="bk-fill hi" id="bar-base" style="width:0%"></div></div>
     </div>
     <div class="bk-item">
-      <div class="bk-row"><span class="bk-name">Labour (included)</span><span class="bk-val" id="bk-labour">—</span></div>
+      <div class="bk-row"><span class="bk-name">Fixtures &amp; Fittings</span><span class="bk-val" id="bk-labour">—</span></div>
       <div class="bk-track"><div class="bk-fill" id="bar-labour" style="width:0%"></div></div>
     </div>
     <div class="bk-item">
-      <div class="bk-row"><span class="bk-name">Finishes &amp; Add-ons</span><span class="bk-val" id="bk-addons">—</span></div>
+      <div class="bk-row"><span class="bk-name">Security Systems</span><span class="bk-val" id="bk-addons">—</span></div>
       <div class="bk-track"><div class="bk-fill" id="bar-addons" style="width:0%"></div></div>
     </div>
     <div class="bk-item">
-      <div class="bk-row"><span class="bk-name">Material Adjustment</span><span class="bk-val" id="bk-mats">—</span></div>
+      <div class="bk-row"><span class="bk-name">Exterior &amp; Utilities</span><span class="bk-val" id="bk-mats">—</span></div>
       <div class="bk-track"><div class="bk-fill" id="bar-mats" style="width:0%"></div></div>
     </div>
-    <div class="bk-item">
-      <div class="bk-row"><span class="bk-name">Security Systems</span><span class="bk-val" id="bk-sec">—</span></div>
-      <div class="bk-track"><div class="bk-fill" id="bar-sec" style="width:0%"></div></div>
-    </div>
+    <div class="bk-item" style="display:none"><div class="bk-row"><span class="bk-name">hidden</span><span class="bk-val" id="bk-sec">—</span></div><div class="bk-track"><div class="bk-fill" id="bar-sec" style="width:0%"></div></div></div>
     <div class="res-rule"></div>
     <div class="res-sub-title">Estimated Quantities</div>
     <div class="qty-grid">
@@ -793,9 +791,505 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
 (function(){
 'use strict';
 
-// ── Constants ──
-const BASE_RATE = 2350;
-const LABOUR_RATIO = 0.112;
+// ── Construction Phase Definitions ──
+// All rates are in GHS per unit (m², no., month, or % of running total).
+// Regional multiplier is applied at calculation time.
+const PHASE_DEFS = [
+  { id:'foundation', label:'Foundation & Substructure', icon:'🏗',
+    desc:'Excavation, hardcore fill, and foundation concrete including reinforcement.',
+    items:[
+      {id:'excav',    label:'Excavation & earthworks',              basis:'floor',     unit:'m²',    defRate:180},
+      {id:'hardcore', label:'Hardcore fill & blinding concrete',    basis:'floor',     unit:'m²',    defRate:100},
+      {id:'fdnConc',  label:'Foundation concrete & reinforcement',  basis:'floor',     unit:'m²',    defRate:360},
+    ]
+  },
+  { id:'superstructure', label:'Superstructure / Shell', icon:'🧱',
+    desc:'9-inch hollow block masonry walls, RC columns, ring-beams, and lintels over all openings.',
+    items:[
+      {id:'blockwork', label:'9" hollow block masonry walls',       basis:'floor',     unit:'m²',    defRate:420},
+      {id:'rcFrame',   label:'RC columns, ring-beams & lintels',   basis:'floor',     unit:'m²',    defRate:330},
+    ]
+  },
+  { id:'upperSlab', label:'Upper Floor Concrete Slab', icon:'⬛',
+    desc:'Reinforced concrete suspended slab for upper storeys only — zero cost for a single-storey.',
+    items:[
+      {id:'slabConc', label:'RC suspended slab & formwork (per upper storey)', basis:'upper', unit:'m²', defRate:370},
+    ]
+  },
+  { id:'roofing', label:'Roofing', icon:'🏠',
+    desc:'Timber truss structure, 0.55mm aluminium roofing sheets, gutters, fascia board, and soffit.',
+    items:[
+      {id:'roofTruss', label:'Timber roof truss / rafter structure', basis:'roof',    unit:'m²',    defRate:320},
+      {id:'roofSheet', label:'0.55mm aluminium roofing sheet',       basis:'roof',    unit:'m²',    defRate:275},
+      {id:'gutterFas', label:'Gutters, fascia board & soffit',       basis:'roof',    unit:'m²',    defRate:90},
+    ]
+  },
+  { id:'extFinish', label:'External Finishes', icon:'🎨',
+    desc:'External cement render, scratch coat, and two-coat masonry paint.',
+    items:[
+      {id:'extPlaster', label:'External cement render & plaster',   basis:'ext-wall', unit:'m²',   defRate:140},
+      {id:'extPaint',   label:'External masonry paint (2 coats)',   basis:'ext-wall', unit:'m²',   defRate:88},
+    ]
+  },
+  { id:'internalWorks', label:'Internal Plastering & Screeding', icon:'🔧',
+    desc:'Internal wall plaster, skim coat, and 40mm floor screed — the substrate for tiling and painting.',
+    items:[
+      {id:'intPlaster', label:'Internal cement plaster & skim',    basis:'floor',    unit:'m²',    defRate:150},
+      {id:'floorScreed',label:'Floor screed 40mm',                 basis:'floor',    unit:'m²',    defRate:115},
+    ]
+  },
+  { id:'painting', label:'Internal Painting', icon:'🖌️',
+    desc:'Interior emulsion paint applied to internal walls (2 coats). Adjust for textured or specialty paint.',
+    items:[
+      {id:'intPaint',   label:'Interior emulsion paint (2 coats)', basis:'floor',    unit:'m²',    defRate:95},
+    ]
+  },
+  { id:'floorTiling', label:'Floor Tiling', icon:'🟦',
+    desc:'Floor tile supply and laying. Adjust the supply rate to match your tile grade (ceramic → porcelain → marble).',
+    items:[
+      {id:'floorTileS', label:'Floor tiles — supply (ceramic/porcelain)', basis:'floor', unit:'m²', defRate:270},
+      {id:'floorTileL', label:'Floor tile laying & grouting (labour)',    basis:'floor', unit:'m²', defRate:88},
+    ]
+  },
+  { id:'wallTiling', label:'Wall Tiling — Wet Areas', icon:'🚿',
+    desc:'Ceramic wall tiles in bathrooms and kitchen splash-back. Qty auto-estimated from bathroom & kitchen count.',
+    items:[
+      {id:'wallTileS',  label:'Wall tiles — supply (bathrooms / kitchen)', basis:'wet-wall', unit:'m²', defRate:240},
+      {id:'wallTileL',  label:'Wall tile laying & grouting (labour)',      basis:'wet-wall', unit:'m²', defRate:95},
+    ]
+  },
+  { id:'ceiling', label:'Ceiling', icon:'⬜',
+    desc:'POP gypsum board ceiling supply and installation. Change rate for plasterboard (lower) or timber coffered (higher).',
+    items:[
+      {id:'ceilMat',    label:'POP / gypsum board ceiling — supply',  basis:'floor',   unit:'m²',  defRate:120},
+      {id:'ceilLab',    label:'Ceiling installation (labour)',         basis:'floor',   unit:'m²',  defRate:55},
+    ]
+  },
+  { id:'openings', label:'Doors & Windows', icon:'🚪',
+    desc:'Supply and installation of external doors, internal doors, and aluminium-frame windows. Edit quantity fields to match your actual door/window count.',
+    items:[
+      {id:'extDoor', label:'External doors',  basis:'ext-doors', unit:'leaf', defRate:3200,
+        types:[{l:'Wooden panel',r:2800},{l:'Steel security',r:3200},{l:'Aluminium framed',r:3800},{l:'Solid mahogany',r:5500}]},
+      {id:'intDoor', label:'Internal doors',  basis:'int-doors', unit:'leaf', defRate:1150,
+        types:[{l:'Hollow-core flush',r:850},{l:'Solid-core flush',r:1150},{l:'Moulded panel',r:1500},{l:'Bi-fold',r:2200}]},
+      {id:'windows', label:'Windows',          basis:'windows',   unit:'window', defRate:1700,
+        types:[{l:'Aluminium louvre',r:900},{l:'Aluminium casement',r:1700},{l:'Sliding aluminium',r:2200},{l:'UPVC casement',r:2800}]},
+    ]
+  },
+  { id:'electrical', label:'Electrical Works', icon:'⚡',
+    desc:'Conduit rough-in, wiring, distribution board, outlets, switches, and light fittings.',
+    items:[
+      {id:'elecRough',  label:'Electrical rough-in (conduit & wiring)', basis:'floor', unit:'m²',  defRate:185},
+      {id:'elecFit',    label:'Outlets, switches, DB & light fittings', basis:'floor', unit:'m²',  defRate:150},
+    ]
+  },
+  { id:'plumbing', label:'Plumbing & Drainage', icon:'🔩',
+    desc:'Water supply pipes, valves and fittings; drainage pipes, manholes, and sewerage connection.',
+    items:[
+      {id:'plumbPipe',   label:'Water supply pipes & fittings',        basis:'floor',   unit:'m²',  defRate:175},
+      {id:'drainSewer',  label:'Drainage, manholes & sewerage',        basis:'floor',   unit:'m²',  defRate:120},
+    ]
+  },
+  { id:'labour', label:'Labour & Site Overhead', icon:'👷',
+    desc:'Site foreman/clerk of works (duration auto-estimated from project size) plus general site overhead as a % of all construction above.',
+    items:[
+      {id:'siteForeman',  label:'Site foreman / clerk of works',       basis:'months',  unit:'mo.',  defRate:3500},
+      {id:'siteOverhead', label:'General labour & site overhead',      basis:'pct',     unit:'%',    defRate:8},
+    ]
+  },
+];
+
+// ── Runtime phase state ──
+let userPhases = initUserPhases();
+
+function initUserPhases(){
+  return PHASE_DEFS.map(ph=>({
+    ...ph, enabled:true, expanded:false,
+    items:ph.items.map(it=>({...it, enabled:true, rate:it.defRate, qtyOverride:null,
+      typeIdx:it.types?0:undefined}))
+  }));
+}
+
+// ════════════════════════════════════════════════════════════════
+// FIXTURE_DEFS — bathroom, kitchen, living, bedroom fixtures
+// basis: 'per-bath' | 'per-kitchen' | 'per-bed' | 'flat'
+// ════════════════════════════════════════════════════════════════
+const FIXTURE_DEFS = [
+  { id:'bathroom', label:'Bathroom Fixtures', icon:'🚿',
+    basis:'per-bath', desc:'Per bathroom — WC, basin, shower, bath, mirror, and accessories.',
+    items:[
+      {id:'wc',      label:'WC / Toilet',        unit:'set', defRate:850,  enabled:true,
+       types:[{l:'Close-coupled (standard)',r:850},{l:'Back-to-wall',r:1200},{l:'Wall-hung premium',r:1800}]},
+      {id:'basin',   label:'Basin / Sink',        unit:'set', defRate:650,  enabled:true,
+       types:[{l:'Pedestal',r:650},{l:'Wall-hung',r:850},{l:'Vanity unit',r:1500}]},
+      {id:'shower',  label:'Shower',              unit:'set', defRate:1200, enabled:true,
+       types:[{l:'Standard enclosure',r:1200},{l:'Walk-in shower',r:2500},{l:'Power shower',r:3500}]},
+      {id:'bath',    label:'Jacuzzi / Bath',      unit:'set', defRate:1800, enabled:false,
+       types:[{l:'Standard bathtub',r:1800},{l:'Freestanding tub',r:4500},{l:'Jacuzzi',r:6500}]},
+      {id:'mirror',  label:'Bathroom mirror',     unit:'set', defRate:350,  enabled:true,
+       types:[{l:'Standard',r:350},{l:'Illuminated LED',r:850}]},
+      {id:'bth-acc', label:'Accessories set (towel rail, TP holder, soap dish)', unit:'set', defRate:450, enabled:true},
+    ]
+  },
+  { id:'kitchen', label:'Kitchen Fittings', icon:'🍳',
+    basis:'per-kitchen', desc:'Per kitchen — cabinets, worktop, and sink.',
+    items:[
+      {id:'base-cab',  label:'Base cabinets',     unit:'LM',  defRate:1200, enabled:true, qtyDef:3,
+       types:[{l:'Laminate finish',r:1200},{l:'MDF painted',r:1800},{l:'Solid wood',r:3200}]},
+      {id:'wall-cab',  label:'Wall cabinets',     unit:'LM',  defRate:900,  enabled:true, qtyDef:3,
+       types:[{l:'Laminate finish',r:900},{l:'MDF painted',r:1350},{l:'Solid wood',r:2500}]},
+      {id:'island',    label:'Kitchen island',    unit:'set', defRate:3500, enabled:false, qtyDef:1},
+      {id:'worktop',   label:'Worktop / counter', unit:'LM',  defRate:450,  enabled:true, qtyDef:3,
+       types:[{l:'Laminate',r:450},{l:'Granite',r:850},{l:'Quartz / engineered stone',r:1100}]},
+      {id:'k-sink',    label:'Kitchen sink',      unit:'set', defRate:750,  enabled:true, qtyDef:1,
+       types:[{l:'Single bowl',r:750},{l:'Double bowl',r:1100},{l:'Undermount',r:1500}]},
+    ]
+  },
+  { id:'living', label:'Living & Dining Furniture', icon:'🛋',
+    basis:'flat', desc:'One-off for the whole house.',
+    items:[
+      {id:'sofa',       label:'Sofa set',         unit:'set', defRate:8500,  enabled:true, qtyDef:1,
+       types:[{l:'3-seater fabric',r:8500},{l:'L-shape fabric',r:12000},{l:'Leather set',r:18000}]},
+      {id:'dining-tbl', label:'Dining table',     unit:'set', defRate:4500,  enabled:true, qtyDef:1,
+       types:[{l:'4-seater',r:4500},{l:'6-seater',r:7000},{l:'8-seater',r:10000}]},
+      {id:'dining-ch',  label:'Dining chairs',    unit:'no.', defRate:650,   enabled:true, qtyDef:4,
+       types:[{l:'Standard upholstered',r:650},{l:'Solid wood',r:950},{l:'Designer',r:1800}]},
+      {id:'tv-unit',    label:'TV / media unit',  unit:'set', defRate:3500,  enabled:true, qtyDef:1,
+       types:[{l:'Standard unit',r:3500},{l:'Built-in wall unit',r:7500}]},
+      {id:'coffee-tbl', label:'Coffee table',     unit:'set', defRate:1500,  enabled:true, qtyDef:1},
+    ]
+  },
+  { id:'bedroom', label:'Bedroom Furniture', icon:'🛏',
+    basis:'per-bed', desc:'Per bedroom — bed, wardrobe, and accessories.',
+    items:[
+      {id:'bed',        label:'Bed frame',         unit:'set', defRate:3500, enabled:true,
+       types:[{l:'Standard double',r:3500},{l:'King-size',r:5500},{l:'Master with storage',r:8500}]},
+      {id:'wardrobe',   label:'Wardrobe',          unit:'set', defRate:4500, enabled:true,
+       types:[{l:'2-door sliding',r:4500},{l:'3-door',r:6500},{l:'Walk-in fitment',r:15000}]},
+      {id:'dressing',   label:'Dressing table',    unit:'set', defRate:1800, enabled:false,
+       types:[{l:'Standard',r:1800},{l:'With mirror',r:2500}]},
+      {id:'bedside',    label:'Bedside tables (pair)', unit:'set', defRate:850, enabled:true},
+    ]
+  },
+];
+
+let userFixtures = initUserFixtures();
+
+function initUserFixtures(){
+  return FIXTURE_DEFS.map(grp=>({
+    ...grp, expanded:false,
+    items:grp.items.map(it=>({
+      ...it,
+      rate: it.defRate,
+      typeIdx: it.types ? 0 : undefined,
+      qtyOverride: it.qtyDef !== undefined ? it.qtyDef : null,
+    }))
+  }));
+}
+
+function getNumBeds(){
+  let n=0;
+  floorPlan.forEach(f=>f.rooms.forEach(r=>{ if(r.type==='bedroom') n++; }));
+  return n>0?n:2;
+}
+
+function getFixQty(grp, it){
+  const nb=getNumBaths(), nk=getNumKitchens(), nbd=getNumBeds();
+  const baseQty = grp.basis==='per-bath'?nb : grp.basis==='per-kitchen'?nk : grp.basis==='per-bed'?nbd : 1;
+  return it.qtyOverride!=null ? it.qtyOverride : baseQty;
+}
+
+function calcFixturesTotal(){
+  let total=0;
+  const groups=userFixtures.map(grp=>{
+    let grpTotal=0;
+    const items=grp.items.map(it=>{
+      if(!it.enabled) return {it, qty:0, cost:0};
+      const qty=getFixQty(grp, it);
+      const cost=qty*it.rate;
+      grpTotal+=cost;
+      return {it, qty, cost};
+    });
+    total+=grpTotal;
+    return {grp, grpTotal, items};
+  });
+  return {total, groups};
+}
+
+function renderFixtures(){
+  const container=document.getElementById('fixture-cards');
+  if(!container) return;
+  container.innerHTML=userFixtures.map((grp,gi)=>`
+    <div class="phase-card${grp.expanded?'':''}" id="fxcard-${gi}">
+      <div class="phase-card-hdr" onclick="toggleFixtureExpand(${gi})">
+        <button class="ph-toggle" style="visibility:hidden"></button>
+        <span class="phase-icon">${grp.icon}</span>
+        <span class="phase-name">${grp.label}</span>
+        <span class="fix-basis-badge">${grp.basis==='per-bath'?'× bathrooms':grp.basis==='per-kitchen'?'× kitchens':grp.basis==='per-bed'?'× bedrooms':'flat rate'}</span>
+        <span class="phase-subtotal" id="fx-sub-${gi}">…</span>
+        <span class="phase-expand${grp.expanded?' open':''}">▶</span>
+      </div>
+      <div class="phase-body${grp.expanded?' open':''}">
+        <div class="phase-desc">${grp.desc}</div>
+        <table class="phase-tbl">
+          <thead><tr><th></th><th>Item</th><th class="r">Qty</th><th>Unit</th><th>Type / Spec</th><th class="r">Rate (GHS)</th><th class="r">Cost (GHS)</th></tr></thead>
+          <tbody>${grp.items.map((it,ii)=>{
+            const qty=getFixQty(grp,it);
+            const typeCell=it.types
+              ? `<select class="pi-type-sel" onchange="setFixtureType(${gi},${ii},+this.value)">${it.types.map((t,ti)=>`<option value="${ti}"${ti===it.typeIdx?' selected':''}>${t.l}</option>`).join('')}</select>`
+              : '—';
+            return `<tr id="fx-row-${gi}-${ii}"${it.enabled?'':' style="opacity:.42"'}>
+              <td><input type="checkbox" class="pi-check" ${it.enabled?'checked':''} onchange="toggleFixtureItem(${gi},${ii},this.checked)"></td>
+              <td class="pi-label">${it.label}</td>
+              <td class="pi-qty-cell"><input type="number" class="pi-qty-inp" min="0" step="1" value="${qty}" onchange="setFixtureQty(${gi},${ii},+this.value)"></td>
+              <td class="pi-unit">${it.unit}</td>
+              <td>${typeCell}</td>
+              <td><div class="pi-rate-wrap"><span class="pi-rate-lbl">GHS</span><input type="number" class="pi-rate" value="${it.rate}" min="0" step="1" onchange="setFixtureRate(${gi},${ii},+this.value)"></div></td>
+              <td class="pi-cost" id="fx-cost-${gi}-${ii}">—</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+      </div>
+    </div>`).join('');
+  updateFixtureCosts();
+}
+
+function updateFixtureCosts(){
+  userFixtures.forEach((grp,gi)=>{
+    let grpTotal=0;
+    grp.items.forEach((it,ii)=>{
+      const costEl=document.getElementById('fx-cost-'+gi+'-'+ii);
+      if(!it.enabled){if(costEl)costEl.textContent='—';return;}
+      const qty=getFixQty(grp,it);
+      const cost=qty*it.rate;
+      grpTotal+=cost;
+      if(costEl)costEl.textContent=fmt(cost);
+    });
+    const subEl=document.getElementById('fx-sub-'+gi);
+    if(subEl)subEl.textContent='GHS '+fmt(grpTotal);
+  });
+}
+
+function toggleFixtureExpand(gi){
+  userFixtures[gi].expanded=!userFixtures[gi].expanded;
+  const body=document.querySelector('#fxcard-'+gi+' .phase-body');
+  const exp =document.querySelector('#fxcard-'+gi+' .phase-expand');
+  if(body) body.classList.toggle('open',userFixtures[gi].expanded);
+  if(exp)  exp.classList.toggle('open',userFixtures[gi].expanded);
+}
+function toggleFixtureItem(gi,ii,v){
+  userFixtures[gi].items[ii].enabled=v;
+  const row=document.getElementById('fx-row-'+gi+'-'+ii);
+  if(row) row.style.opacity=v?'':'.42';
+  updateFixtureCosts(); calc();
+}
+function setFixtureRate(gi,ii,v){
+  userFixtures[gi].items[ii].rate=Math.max(0,v);
+  updateFixtureCosts(); calc();
+}
+function setFixtureType(gi,ii,tidx){
+  const it=userFixtures[gi].items[ii];
+  if(!it.types) return;
+  it.typeIdx=tidx;
+  it.rate=it.types[tidx].r;
+  const rateInp=document.querySelector('#fx-row-'+gi+'-'+ii+' .pi-rate');
+  if(rateInp) rateInp.value=it.rate;
+  updateFixtureCosts(); calc();
+}
+function setFixtureQty(gi,ii,v){
+  userFixtures[gi].items[ii].qtyOverride=Math.max(0,v);
+  updateFixtureCosts(); calc();
+}
+
+// ── Quantity calculators by basis type ──
+function getQty(basis){
+  const area    = getTotalArea();
+  const storeys = parseInt(document.getElementById('storeys')?.value)||1;
+  const upperFl = Math.max(0, storeys-1);
+  switch(basis){
+    case 'floor':     return area;
+    case 'upper':     return (area/storeys)*upperFl;
+    case 'roof':      return (area/storeys)*1.25;   // footprint × slope factor
+    case 'ext-wall':  { const fp=area/storeys; return parseFloat((4*Math.sqrt(fp)*2.7*storeys).toFixed(1)); }
+    case 'wet-wall':  return getNumBaths()*28 + getNumKitchens()*14;
+    case 'ext-doors': return 2;
+    case 'int-doors': {
+      let n=0;
+      floorPlan.forEach(f=>f.rooms.forEach(r=>{
+        if(['bedroom','master','bathroom','kitchen','study','store','laundry'].includes(r.type)) n++;
+      }));
+      return Math.max(n, 2);
+    }
+    case 'windows':   {
+      let n=0;
+      floorPlan.forEach(f=>f.rooms.forEach(r=>{
+        if(r.type==='bathroom') n+=0.5;
+        else if(r.type==='kitchen') n+=1;
+        else n+=1.5;
+      }));
+      return Math.round(Math.max(n, 2));
+    }
+    case 'months':    return Math.max(3, Math.round(area/30));
+    case 'pct':       return null;
+    default:          return area;
+  }
+}
+
+// ── Phase cost totals (for calc() and modal) ──
+function calcPhasesTotal(){
+  const region = parseFloat(document.getElementById('region')?.value)||1.0;
+  let running = 0;
+  const phases = userPhases.map((ph,pi)=>{
+    if(!ph.enabled) return {ph, phTotal:0, items:[]};
+    let phTotal=0;
+    const items = ph.items.map((it,ii)=>{
+      if(!it.enabled) return {it, qty:0, cost:0};
+      let qty, cost;
+      if(it.basis==='pct'){
+        qty=null; cost=running*(it.rate/100)*region;
+      } else {
+        qty=it.qtyOverride!=null?it.qtyOverride:getQty(it.basis);
+        cost=(qty||0)*it.rate*region;
+      }
+      phTotal+=cost;
+      return {it, qty, cost};
+    });
+    running+=phTotal;
+    return {ph, phTotal, items};
+  });
+  return {total:running, phases};
+}
+
+// ── Render phase cards (full rebuild — call on structural changes) ──
+function renderPhases(){
+  const container=document.getElementById('phase-cards');
+  if(!container) return;
+  container.innerHTML=userPhases.map((ph,pi)=>`
+    <div class="phase-card${ph.enabled?'':' disabled'}" id="phcard-${pi}">
+      <div class="phase-card-hdr" onclick="togglePhaseExpand(${pi})">
+        <button class="ph-toggle${ph.enabled?'':' off'}" onclick="event.stopPropagation();togglePhase(${pi})" title="${ph.enabled?'Disable':'Enable'} this phase"></button>
+        <span class="phase-icon">${ph.icon}</span>
+        <span class="phase-name">${ph.label}</span>
+        <span class="phase-subtotal" id="ph-sub-${pi}">${ph.enabled?'…':'—'}</span>
+        <span class="phase-expand${ph.expanded?' open':''}">▶</span>
+      </div>
+      <div class="phase-body${ph.expanded?' open':''}">
+        <div class="phase-desc">${ph.desc}</div>
+        <table class="phase-tbl">
+          <thead><tr><th></th><th>Item</th><th class="r">Qty</th><th>Unit</th><th>Type / Spec</th><th class="r">Rate (GHS)</th><th class="r">Cost (GHS)</th></tr></thead>
+          <tbody>${ph.items.map((it,ii)=>{
+            const isPct  = it.basis==='pct';
+            const isUnit = ['ext-doors','int-doors','windows','months'].includes(it.basis);
+            const qty = isPct?null:(it.qtyOverride!=null?it.qtyOverride:getQty(it.basis));
+            const qtyCell = isPct?'<td class="pi-qty-cell">—</td>'
+              : isUnit?`<td class="pi-qty-cell"><input type="number" class="pi-qty-inp" min="0" step="1" value="${qty}" onchange="setPhaseQtyOverride(${pi},${ii},+this.value)"></td>`
+              : `<td class="pi-qty-cell" id="ph-qty-${pi}-${ii}">${qty!=null?qty.toFixed(1):'—'}</td>`;
+            const typeCell = it.types
+              ? `<td><select class="pi-type-sel" onchange="setPhaseType(${pi},${ii},+this.value)">${it.types.map((t,ti)=>`<option value="${ti}"${ti===it.typeIdx?' selected':''}>${t.l}</option>`).join('')}</select></td>`
+              : '<td style="color:var(--txt3);font-size:11px">—</td>';
+            return `<tr id="ph-row-${pi}-${ii}"${it.enabled?'':' style="opacity:.42"'}>
+              <td><input type="checkbox" class="pi-check" ${it.enabled?'checked':''} onchange="togglePhaseItem(${pi},${ii},this.checked)"></td>
+              <td class="pi-label">${it.label}</td>
+              ${qtyCell}
+              <td class="pi-unit">${isPct?'%':it.unit}</td>
+              ${typeCell}
+              <td><div class="pi-rate-wrap"><span class="pi-rate-lbl">GHS</span><input type="number" class="pi-rate" value="${it.rate}" min="0" step="1" onchange="setPhaseRate(${pi},${ii},+this.value)"></div></td>
+              <td class="pi-cost" id="ph-cost-${pi}-${ii}">—</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+      </div>
+    </div>`).join('');
+  updatePhaseCosts();
+}
+
+// ── Update only cost/qty display spans — no HTML rebuild ──
+function updatePhaseCosts(){
+  const region=parseFloat(document.getElementById('region')?.value)||1.0;
+  let running=0;
+  userPhases.forEach((ph,pi)=>{
+    const subEl=document.getElementById('ph-sub-'+pi);
+    if(!ph.enabled){if(subEl)subEl.textContent='—';return;}
+    let phTotal=0;
+    ph.items.forEach((it,ii)=>{
+      const costEl=document.getElementById('ph-cost-'+pi+'-'+ii);
+      const qtyEl =document.getElementById('ph-qty-'+pi+'-'+ii);
+      if(!it.enabled){if(costEl)costEl.textContent='—';return;}
+      let cost;
+      if(it.basis==='pct'){
+        cost=running*(it.rate/100)*region;
+        if(costEl)costEl.textContent=fmt(cost);
+      } else {
+        const qty=it.qtyOverride!=null?it.qtyOverride:getQty(it.basis);
+        cost=(qty||0)*it.rate*region;
+        if(costEl)costEl.textContent=fmt(cost);
+        if(qtyEl){
+          const isUnit=['ext-doors','int-doors','windows','months'].includes(it.basis);
+          if(!isUnit)qtyEl.textContent=qty!=null?qty.toFixed(1):'—';
+        }
+      }
+      phTotal+=cost;
+    });
+    running+=phTotal;
+    if(subEl)subEl.textContent='GHS '+fmt(phTotal);
+  });
+}
+
+// ── Phase interaction handlers ──
+function togglePhase(pi){
+  userPhases[pi].enabled=!userPhases[pi].enabled;
+  const card=document.getElementById('phcard-'+pi);
+  if(card) card.classList.toggle('disabled',!userPhases[pi].enabled);
+  const btn=card?.querySelector('.ph-toggle');
+  if(btn) btn.classList.toggle('off',!userPhases[pi].enabled);
+  updatePhaseCosts(); calc();
+}
+function togglePhaseExpand(pi){
+  userPhases[pi].expanded=!userPhases[pi].expanded;
+  const body=document.querySelector('#phcard-'+pi+' .phase-body');
+  const exp =document.querySelector('#phcard-'+pi+' .phase-expand');
+  if(body) body.classList.toggle('open',userPhases[pi].expanded);
+  if(exp)  exp.classList.toggle('open',userPhases[pi].expanded);
+}
+function togglePhaseItem(pi,ii,v){
+  userPhases[pi].items[ii].enabled=v;
+  const row=document.getElementById('ph-row-'+pi+'-'+ii);
+  if(row) row.style.opacity=v?'':'.42';
+  updatePhaseCosts(); calc();
+}
+function setPhaseRate(pi,ii,v){
+  userPhases[pi].items[ii].rate=Math.max(0,v);
+  updatePhaseCosts(); calc();
+}
+function setPhaseQtyOverride(pi,ii,v){
+  userPhases[pi].items[ii].qtyOverride=Math.max(0,v);
+  updatePhaseCosts(); calc();
+}
+function setPhaseType(pi,ii,tidx){
+  const it=userPhases[pi].items[ii];
+  if(!it.types) return;
+  it.typeIdx=tidx;
+  it.rate=it.types[tidx].r;
+  // Also update the rate input value so it stays in sync
+  const rateInp=document.querySelector('#ph-row-'+pi+'-'+ii+' .pi-rate');
+  if(rateInp) rateInp.value=it.rate;
+  updatePhaseCosts(); calc();
+}
+
+// ── Scope presets ──
+function applyPreset(preset){
+  const ALL=userPhases.map(p=>p.id);
+  const SHELL=['foundation','superstructure','upperSlab'];
+  const SHELL_ROOF=[...SHELL,'roofing'];
+  const TO_PAINT=[...SHELL_ROOF,'extFinish','internalWorks','painting','openings','electrical','plumbing','labour'];
+  const enabled=preset==='shell'?SHELL:preset==='shell-roof'?SHELL_ROOF:preset==='to-paint'?TO_PAINT:ALL;
+  userPhases.forEach(ph=>{ph.enabled=enabled.includes(ph.id);});
+  document.querySelectorAll('.phase-preset-btn').forEach(btn=>{
+    const oc=btn.getAttribute('onclick')||'';
+    btn.classList.toggle('active',oc.includes("'"+preset+"'"));
+  });
+  renderPhases(); calc();
+}
 
 const ROOM_TYPES = [
   {key:'living',   label:'Living Room',     area:25},
@@ -1100,6 +1594,8 @@ function renderFloors(){
     </div>`;
   }).join('');
   updateAreaTotal();
+  renderPhases();
+  renderFixtures();
   calc();
 }
 
@@ -1220,137 +1716,82 @@ function getBathCostPerRoom(){
 
 // ── Main calc ──
 window.calc = function(){
-  const region      = parseFloat(document.getElementById('region')?.value)||1.0;
+  const area        = getTotalArea();
   const storeys     = parseInt(document.getElementById('storeys')?.value)||1;
-  const cementPx    = getNum('cement-price',90);
-  const blockPx     = getNum('block-price',11);
-
-  const area        = getTotalArea();               // total built area (all floors)
-  const totalArea   = area;                          // floor plan already sums all floors
-  const wallArea    = area * 4.5;                   // estimated from total built area
-  const storeyFact  = 1 + (storeys-1)*0.14;
-  const finMul      = getWeightedFinishMul();
   const numBaths    = getNumBaths();
   const numKitchens = getNumKitchens();
 
-  // Base + labour
-  const baseConst   = totalArea * BASE_RATE * finMul * region * storeyFact;
-  const labour      = baseConst * LABOUR_RATIO;
+  // Quantities (material estimation)
+  const totalArea = area;
+  const blocks    = Math.round(totalArea * 25.5);
+  const cement    = Math.round(totalArea * 1.49);
+  const steelY12  = Math.round(totalArea * 8.4);
 
-  // Quantities
-  const blocks      = Math.round(totalArea * 25.5);
-  const cement      = Math.round(totalArea * 1.49);
-  const steelY12    = Math.round(totalArea * 8.4);
+  // ── 1. Construction phases ──
+  const {total:phasesTotal} = calcPhasesTotal();
+  updatePhaseCosts();
 
-  // Material price adjustment vs baseline
-  const blockBase=11, cementBase=90;
-  const matAdj = (blocks*(blockPx-blockBase)) + (cement*(cementPx-cementBase));
+  // ── 2. Fixtures & fittings ──
+  const {total:fixtureTotal} = calcFixturesTotal();
+  updateFixtureCosts();
 
-  let addons = 0;
-
-  // Flooring
-  addons += getRadioVal('tile-type',80) * totalArea;
-
-  // Wall finish
-  addons += getRadioVal('wall-fin',0) * wallArea;
-
-  // Screens (~30% of wall area = openings)
-  addons += getRadioVal('screen-type',85) * wallArea * 0.3;
-
-  // Ceiling
-  addons += getRadioVal('ceil-type',45) * totalArea;
-
-  // Kitchen cabinets — per room (or global if no room override)
-  let kitchenAddon = 0;
+  // HVAC — per room first; fall back to global (counted separately in Systems step)
+  let hvacAddon = 0, hasPerRoomComfort = false;
   floorPlan.forEach(f=>f.rooms.forEach(r=>{
-    if(r.type==='kitchen') kitchenAddon += getKitchenCostFromCfg(r.config);
-  }));
-  if(kitchenAddon===0){
-    const cabPerM = getRadioVal('cab-type',7000);
-    if(cabPerM>0) kitchenAddon = cabPerM * getNum('cab-m',3) * numKitchens;
-  }
-  addons += kitchenAddon;
-
-  // Bathrooms — per room (or global if no room override)
-  let bathAddon = 0;
-  floorPlan.forEach(f=>f.rooms.forEach(r=>{
-    if(r.type==='bathroom') bathAddon += getBathCostFromCfg(r.config);
-  }));
-  if(bathAddon===0) bathAddon = getBathCostPerRoom() * numBaths;
-  addons += bathAddon;
-  const bathEl = document.getElementById('bath-per-cost');
-  if(bathEl) bathEl.textContent = 'GHS '+fmt(bathAddon/Math.max(numBaths,1));
-
-  // HVAC — per room first; fall back to global if no rooms configured
-  let hvacAddon = 0;
-  let hasPerRoomComfort = false;
-  floorPlan.forEach(f=>f.rooms.forEach(r=>{
-    if(r.comfort){ hasPerRoomComfort=true; hvacAddon += r.comfort.ac*(+(r.comfort.acRate||4500)) + r.comfort.fan*(+(r.comfort.fanRate||500)); }
+    if(r.comfort){ hasPerRoomComfort=true; hvacAddon+=r.comfort.ac*(+(r.comfort.acRate||4500))+r.comfort.fan*(+(r.comfort.fanRate||500)); }
   }));
   if(!hasPerRoomComfort){
-    if(getChecked('ac'))   hvacAddon += getNum('ac-rate',4500) * getNum('ac-units',2);
-    if(getChecked('fans')) hvacAddon += getNum('fan-rate',500)  * getNum('fan-units',6);
+    if(getChecked('ac'))   hvacAddon += getNum('ac-rate',4500)*getNum('ac-units',2);
+    if(getChecked('fans')) hvacAddon += getNum('fan-rate',500)*getNum('fan-units',6);
   }
-  addons += hvacAddon;
+  const fixturePlusHvac = fixtureTotal + hvacAddon;
 
-  // Security (multi-select)
-  const secIds = ['sec-cctv','sec-alarm','sec-gate','sec-intercom','sec-motion','sec-efence','sec-smart','sec-access'];
-  let secTotal = 0;
-  secIds.forEach(id=>{ if(getChecked(id)) secTotal += getNum(id+'-rate',0); });
+  // ── 3. Security systems ──
+  const secIds=['sec-cctv','sec-alarm','sec-gate','sec-intercom','sec-motion','sec-efence','sec-smart','sec-access'];
+  let secTotal=0;
+  secIds.forEach(id=>{ if(getChecked(id)) secTotal+=getNum(id+'-rate',0); });
 
-  // Fence
-  if(getChecked('fence')) addons += getNum('fence-rate',600)*getNum('fence-m',55);
+  // ── 4. Exterior & utilities ──
+  let extTotal=0;
+  if(getChecked('fence'))    extTotal+=getNum('fence-rate',600)*getNum('fence-m',55);
+  extTotal += getRadioVal('site-type',20000);
+  extTotal += getRadioVal('wh-type',6500);
+  if(getChecked('solar'))    extTotal+=getNum('solar-rate',8000)*getNum('solar-kw',5);
+  if(getChecked('borehole')) extTotal+=getNum('borehole-cost',30000);
+  if(getChecked('septic'))   extTotal+=getNum('septic-cost',42000);
+  if(getChecked('soil'))     extTotal+=getNum('soil-cost',2500);
+  if(getChecked('generator'))extTotal+=getNum('gen-cost',45000);
 
-  // Site prep + gutters
-  addons += getRadioVal('site-type',20000);
-  const gutterRate = getRadioVal('gutter-type',35);
-  addons += gutterRate * Math.sqrt(area) * 4 * 1.1;
+  // ── Total ──
+  const total = phasesTotal + fixturePlusHvac + secTotal + extTotal;
 
-  // Roofing + water heater
-  addons += getRadioVal('roof-type',0);
-  addons += getRadioVal('wh-type',6500);
-
-  // Solar
-  if(getChecked('solar')) addons += getNum('solar-rate',8000)*getNum('solar-kw',5);
-
-  // Utilities
-  if(getChecked('borehole')) addons += getNum('borehole-cost',30000);
-  if(getChecked('septic'))   addons += getNum('septic-cost',42000);
-  if(getChecked('soil'))     addons += getNum('soil-cost',2500);
-
-  // Total
-  const total = baseConst + addons + matAdj + secTotal;
-
-  // ── Update UI ──
+  // ── Update sidebar ──
   document.getElementById('total-val').textContent = fmt(total);
   document.getElementById('res-config').textContent =
-    area.toFixed(0)+' m² · '+storeys+' storey'+( storeys>1?'s':'')+' · '+numBaths+' bath'+( numBaths!==1?'s':'');
+    area.toFixed(0)+' m² · '+storeys+' storey'+(storeys>1?'s':'')+' · '+numBaths+' bath'+(numBaths!==1?'s':'');
 
-  document.getElementById('bk-base').textContent    = 'GHS '+fmt(baseConst);
-  document.getElementById('bk-labour').textContent  = 'GHS '+fmt(labour);
-  document.getElementById('bk-addons').textContent  = 'GHS '+fmt(addons);
-  document.getElementById('bk-mats').textContent    = (matAdj>=0?'+':'')+'GHS '+fmt(Math.abs(matAdj));
-  document.getElementById('bk-sec').textContent     = secTotal>0?'GHS '+fmt(secTotal):'—';
+  document.getElementById('bk-base').textContent   = 'GHS '+fmt(phasesTotal);
+  document.getElementById('bk-labour').textContent = fixturePlusHvac>0?'GHS '+fmt(fixturePlusHvac):'—';
+  document.getElementById('bk-addons').textContent = secTotal>0?'GHS '+fmt(secTotal):'—';
+  document.getElementById('bk-mats').textContent   = extTotal>0?'GHS '+fmt(extTotal):'—';
 
-  const pct = (v)=>Math.min(100,Math.round(v/total*100))+'%';
-  document.getElementById('bar-base').style.width   = pct(baseConst);
-  document.getElementById('bar-labour').style.width = pct(labour);
-  document.getElementById('bar-addons').style.width = pct(addons);
-  document.getElementById('bar-mats').style.width   = pct(Math.abs(matAdj));
-  document.getElementById('bar-sec').style.width    = pct(secTotal);
+  const pct=(v)=>Math.min(100,Math.round(v/Math.max(total,1)*100))+'%';
+  document.getElementById('bar-base').style.width   = pct(phasesTotal);
+  document.getElementById('bar-labour').style.width = pct(fixturePlusHvac);
+  document.getElementById('bar-addons').style.width = pct(secTotal);
+  document.getElementById('bar-mats').style.width   = pct(extTotal);
 
-  document.getElementById('q-blocks').textContent  = fmt(blocks);
-  document.getElementById('q-cement').textContent  = fmt(cement);
-  document.getElementById('q-steel').textContent   = fmt(steelY12);
-  document.getElementById('q-baths').textContent   = numBaths;
+  document.getElementById('q-blocks').textContent = fmt(blocks);
+  document.getElementById('q-cement').textContent = fmt(cement);
+  document.getElementById('q-steel').textContent  = fmt(steelY12);
+  document.getElementById('q-baths').textContent  = numBaths;
 
   // Floor plan summary
-  const fpSumEl = document.getElementById('fp-summary');
+  const fpSumEl=document.getElementById('fp-summary');
   if(fpSumEl){
-    if(floorPlan.length===0){
-      fpSumEl.textContent='Configure rooms in Step 2';
-    } else {
-      fpSumEl.innerHTML = floorPlan.map(f=>{
+    if(floorPlan.length===0){ fpSumEl.textContent='Configure rooms in Step 2'; }
+    else {
+      fpSumEl.innerHTML=floorPlan.map(f=>{
         const a=f.rooms.reduce((s,r)=>s+(parseFloat(r.area)||0),0);
         return `<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.06);">
           <span>${f.name}</span><span style="font-family:var(--fm);color:#fff;">${a.toFixed(0)} m² · ${f.rooms.length} rooms</span></div>`;
@@ -1398,8 +1839,7 @@ window.showEstimateModal = function(){
   const region = document.getElementById('region');
   const regionLabel = region ? region.options[region.selectedIndex].text : '—';
   const storeys = parseInt(document.getElementById('storeys')?.value)||1;
-  const finEl   = document.querySelector('input[name="finish"]:checked');
-  const finLabel = finEl ? finEl.closest('.opt-card').querySelector('.opt-name').textContent : '—';
+  const finLabel = 'Per construction scope (Step 3)';
   const totalArea = getTotalArea();
 
   /* ─ 1. Project Overview ─ */
@@ -1409,17 +1849,63 @@ window.showEstimateModal = function(){
       <tr><td>Region</td><td>${regionLabel}</td></tr>
       <tr><td>Number of Storeys</td><td>${storeys}</td></tr>
       <tr><td>Total Built Area</td><td>${totalArea.toFixed(0)} m²</td></tr>
-      <tr><td>Baseline Finish</td><td>${finLabel}</td></tr>
+      <tr><td>Cost Basis</td><td>${finLabel}</td></tr>
       <tr><td>Cement price</td><td>GHS ${document.getElementById('cement-price')?.value||90}/bag</td></tr>
       <tr><td>Block price</td><td>GHS ${document.getElementById('block-price')?.value||11}/block</td></tr>
       <tr><td>Y12 Rod price</td><td>GHS ${document.getElementById('steel-price')?.value||65}/piece</td></tr>
     </table>
 
-    <div class="est-sec-title">Cost Breakdown</div>
+    <div class="est-sec-title">Cost Summary</div>
     <table class="est-tbl">
-      ${[['Base Construction','bk-base'],['Labour (included in base)','bk-labour'],['Finishes & Add-ons','bk-addons'],['Material Price Adjustment','bk-mats'],['Security Systems','bk-sec']]
-        .map(([l,id])=>`<tr><td>${l}</td><td class="est-right">${document.getElementById(id)?.textContent||'—'}</td></tr>`).join('')}
+      <tr><td>Construction Phases</td><td class="est-right">${document.getElementById('bk-base')?.textContent||'—'}</td></tr>
+      <tr><td>Fixtures &amp; Fittings</td><td class="est-right">${document.getElementById('bk-labour')?.textContent||'—'}</td></tr>
+      <tr><td>Security Systems</td><td class="est-right">${document.getElementById('bk-addons')?.textContent||'—'}</td></tr>
+      <tr><td>Exterior &amp; Utilities</td><td class="est-right">${document.getElementById('bk-mats')?.textContent||'—'}</td></tr>
       <tr class="est-total-row"><td>TOTAL ESTIMATE</td><td class="est-right" style="color:var(--cr);font-size:15px;">GHS ${totalEl?totalEl.textContent:'—'}</td></tr>
+    </table>
+
+    <div class="est-sec-title">Construction Scope — Itemised Bill</div>
+    <table class="est-tbl" style="font-size:12px;">
+      <thead style="background:var(--surf2)"><tr><th style="text-align:left;padding:7px 8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3)">Item</th><th style="text-align:right;padding:7px 8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3)">Qty</th><th style="text-align:right;padding:7px 8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3)">Unit</th><th style="text-align:right;padding:7px 8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3)">Rate</th><th style="text-align:right;padding:7px 8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3)">Cost (GHS)</th></tr></thead>
+      <tbody>${(()=>{
+        const {phases}=calcPhasesTotal();
+        let rows='';
+        phases.forEach(({ph,phTotal,items})=>{
+          if(!ph.enabled) return;
+          rows+=`<tr><td colspan="5" style="background:var(--surf2);font-weight:700;padding:7px 8px;font-size:12px;color:var(--txt)">${ph.icon} ${ph.label}</td></tr>`;
+          items.forEach(({it,qty,cost})=>{
+            if(!it.enabled) return;
+            const qtyStr=it.basis==='pct'?`${it.rate}% of above`:qty!=null?qty.toFixed(1):'—';
+            rows+=`<tr><td style="padding:5px 8px 5px 18px;color:var(--txt2)">${it.label}</td><td style="text-align:right;font-family:var(--fm);padding:5px 8px">${qtyStr}</td><td style="text-align:right;padding:5px 8px;color:var(--txt3)">${it.unit}</td><td style="text-align:right;font-family:var(--fm);padding:5px 8px;color:var(--txt3)">${it.basis==='pct'?'':('GHS '+it.rate.toLocaleString())}</td><td style="text-align:right;font-family:var(--fm);font-weight:600;padding:5px 8px">GHS ${fmt(cost)}</td></tr>`;
+          });
+          rows+=`<tr style="border-top:1px solid var(--bdr)"><td colspan="4" style="padding:5px 8px;font-weight:700;text-align:right;color:var(--txt2)">Phase subtotal</td><td style="text-align:right;font-family:var(--fm);font-weight:700;padding:5px 8px;color:var(--cr)">GHS ${fmt(phTotal)}</td></tr>`;
+        });
+        return rows;
+      })()}</tbody>
+    </table>
+
+    <div class="est-sec-title" style="margin-top:18px">Fixtures &amp; Fittings — Itemised Bill</div>
+    <table class="est-tbl" style="font-size:12px;">
+      <thead style="background:var(--surf2)"><tr>
+        <th style="text-align:left;padding:7px 8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3)">Item</th>
+        <th style="text-align:right;padding:7px 8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3)">Qty</th>
+        <th style="text-align:right;padding:7px 8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3)">Unit</th>
+        <th style="text-align:right;padding:7px 8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3)">Rate</th>
+        <th style="text-align:right;padding:7px 8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3)">Cost (GHS)</th>
+      </tr></thead>
+      <tbody>${(()=>{
+        const {groups}=calcFixturesTotal();
+        let rows='';
+        groups.forEach(({grp,grpTotal,items})=>{
+          rows+=`<tr><td colspan="5" style="background:var(--surf2);font-weight:700;padding:7px 8px;font-size:12px;color:var(--txt)">${grp.icon} ${grp.label}</td></tr>`;
+          items.forEach(({it,qty,cost})=>{
+            if(!it.enabled) return;
+            rows+=`<tr><td style="padding:5px 8px 5px 18px;color:var(--txt2)">${it.label}</td><td style="text-align:right;font-family:var(--fm);padding:5px 8px">${qty}</td><td style="text-align:right;padding:5px 8px;color:var(--txt3)">${it.unit}</td><td style="text-align:right;font-family:var(--fm);padding:5px 8px;color:var(--txt3)">GHS ${it.rate.toLocaleString()}</td><td style="text-align:right;font-family:var(--fm);font-weight:600;padding:5px 8px">GHS ${fmt(cost)}</td></tr>`;
+          });
+          rows+=`<tr style="border-top:1px solid var(--bdr)"><td colspan="4" style="padding:5px 8px;font-weight:700;text-align:right;color:var(--txt2)">Group subtotal</td><td style="text-align:right;font-family:var(--fm);font-weight:700;padding:5px 8px;color:var(--cr)">GHS ${fmt(grpTotal)}</td></tr>`;
+        });
+        return rows;
+      })()}</tbody>
     </table>`;
 
   /* ─ 2. Floor Plan Detail ─ */
@@ -1594,6 +2080,8 @@ window.wizNav = function(dir){
 // ── Init ──
 syncFloors(1);   // start with 1 storey = 1 floor
 updateProgress();
+renderPhases();
+renderFixtures();
 calc();
 
 })();
