@@ -407,7 +407,7 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
         <div class="field-row">
           <div class="field">
             <label for="cement-price">Cement (GHS / bag)</label>
-            <input type="number" id="cement-price" value="90" min="50" max="300" step="1" oninput="calc()">
+            <input type="number" id="cement-price" value="126" min="50" max="300" step="1" oninput="calc()">
           </div>
           <div class="field">
             <label for="block-price">6″ Sandcrete Block (GHS / block)</label>
@@ -417,11 +417,11 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
         <div class="field-row">
           <div class="field">
             <label for="steel-price">Y12 Iron Rod (GHS / piece)</label>
-            <input type="number" id="steel-price" value="65" min="20" max="300" step="1" oninput="calc()">
+            <input type="number" id="steel-price" value="88" min="20" max="300" step="1" oninput="calc()">
           </div>
           <div class="field">
-            <label for="sand-price">Sharp Sand (GHS / tipper)</label>
-            <input type="number" id="sand-price" value="1200" min="200" max="5000" step="50" oninput="calc()">
+            <label for="sand-price">River Sand (GHS / tipper)</label>
+            <input type="number" id="sand-price" value="750" min="200" max="5000" step="50" oninput="calc()">
           </div>
         </div>
       </div>
@@ -634,18 +634,22 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
 
       <span class="opt-label">Roofing Type</span>
       <div class="opt-group">
-        <div class="opt-card"><input type="radio" name="roof-type" id="roof-std" value="0" checked><label for="roof-std"><span class="opt-name">Standard Aluminium</span><span class="opt-price">Included in base</span></label></div>
-        <div class="opt-card"><input type="radio" name="roof-type" id="roof-ls" value="2000"><label for="roof-ls"><span class="opt-name">Long-Span Aluminium</span><span class="opt-price">+GHS 2,000</span></label></div>
-        <div class="opt-card"><input type="radio" name="roof-type" id="roof-sc" value="3500"><label for="roof-sc"><span class="opt-name">Stone-Coated Steel</span><span class="opt-price">+GHS 3,500</span></label></div>
-        <div class="opt-card"><input type="radio" name="roof-type" id="roof-clay" value="8000"><label for="roof-clay"><span class="opt-name">Clay / Concrete Tiles</span><span class="opt-price">+GHS 8,000</span></label></div>
-        <div class="opt-card"><input type="radio" name="roof-type" id="roof-dec" value="15000"><label for="roof-dec"><span class="opt-name">Decra Premium</span><span class="opt-price">+GHS 15,000</span></label></div>
+        <div class="opt-card"><input type="radio" name="roof-type" id="roof-std" value="0" checked onchange="calc()"><label for="roof-std"><span class="opt-name">Standard Aluminium</span><span class="opt-price">Included in base</span></label></div>
+        <div class="opt-card"><input type="radio" name="roof-type" id="roof-ls" value="2000" onchange="calc()"><label for="roof-ls"><span class="opt-name">Long-Span Aluminium</span><span class="opt-price">+GHS 2,000</span></label></div>
+        <div class="opt-card"><input type="radio" name="roof-type" id="roof-sc" value="3500" onchange="calc()"><label for="roof-sc"><span class="opt-name">Stone-Coated Steel</span><span class="opt-price">+GHS 3,500</span></label></div>
+        <div class="opt-card"><input type="radio" name="roof-type" id="roof-clay" value="8000" onchange="calc()"><label for="roof-clay"><span class="opt-name">Clay / Concrete Tiles</span><span class="opt-price">+GHS 8,000</span></label></div>
+        <div class="opt-card"><input type="radio" name="roof-type" id="roof-dec" value="15000" onchange="calc()"><label for="roof-dec"><span class="opt-name">Decra Premium</span><span class="opt-price">+GHS 15,000</span></label></div>
+        <div class="opt-card"><input type="radio" name="roof-type" id="roof-rc" value="5000" onchange="calc()"><label for="roof-rc"><span class="opt-name">RC Flat Slab</span><span class="opt-price">+GHS 5,000 (membrane &amp; parapet)</span></label></div>
+      </div>
+      <div id="rc-roof-note" style="display:none;font-size:11.5px;padding:8px 12px;background:#eff6ff;color:#1d4ed8;border-radius:6px;margin-top:-4px;border-left:3px solid #3b82f6;">
+        ℹ️ RC Flat Slab: Disable the <strong>Roofing</strong> phase truss/sheet items in Step 3 and replace with RC slab concrete (use the Superstructure phase rate ~GHS 920/m³). The +GHS 5,000 here covers the SBS waterproofing membrane, parapet coping, and concealed downpipes. Accra market rate: ~GHS 130/m² for 4mm torch-on membrane + GHS 655/m² all-in for full RC flat roof system.
       </div>
 
       <span class="opt-label">Water Heating</span>
       <div class="opt-group">
         <div class="opt-card"><input type="radio" name="wh-type" id="wh-none" value="0"><label for="wh-none"><span class="opt-name">None / Local</span><span class="opt-price">–</span></label></div>
         <div class="opt-card"><input type="radio" name="wh-type" id="wh-elec" value="2500"><label for="wh-elec"><span class="opt-name">Electric Storage</span><span class="opt-price">GHS 2,500</span></label></div>
-        <div class="opt-card"><input type="radio" name="wh-type" id="wh-solar" value="6500" checked><label for="wh-solar"><span class="opt-name">Solar Water Heater</span><span class="opt-price">GHS 6,500</span></label></div>
+        <div class="opt-card"><input type="radio" name="wh-type" id="wh-solar" value="8500" checked><label for="wh-solar"><span class="opt-name">Solar Water Heater (150L)</span><span class="opt-price">GHS 8,500</span></label></div>
         <div class="opt-card"><input type="radio" name="wh-type" id="wh-gas" value="3500"><label for="wh-gas"><span class="opt-name">Gas (LPG)</span><span class="opt-price">GHS 3,500</span></label></div>
         <div class="opt-card"><input type="radio" name="wh-type" id="wh-hp" value="12000"><label for="wh-hp"><span class="opt-name">Heat Pump</span><span class="opt-price">GHS 12,000</span></label></div>
       </div>
@@ -661,7 +665,7 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
               <label>kWp capacity:</label>
               <input type="number" id="solar-kw" value="5" min="1" max="50" oninput="calc()">
               <label>GHS/kWp:</label>
-              <input type="number" id="solar-rate" value="8000" min="2000" max="20000" step="500" oninput="calc()">
+              <input type="number" id="solar-rate" value="6000" min="2000" max="20000" step="500" oninput="calc()">
             </div>
           </div>
         </label>
@@ -672,7 +676,7 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
             <div class="feat-amt">Drilling + pump + header tank</div>
             <div class="sub-inp" id="borehole-sub">
               <label>Total cost (GHS):</label>
-              <input type="number" id="borehole-cost" value="30000" min="5000" max="200000" step="1000" oninput="calc()">
+              <input type="number" id="borehole-cost" value="16200" min="5000" max="200000" step="1000" oninput="calc()">
             </div>
           </div>
         </label>
@@ -683,7 +687,7 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
             <div class="feat-amt">Concrete septic + soak-away</div>
             <div class="sub-inp" id="septic-sub">
               <label>Total cost (GHS):</label>
-              <input type="number" id="septic-cost" value="42000" min="5000" max="150000" step="1000" oninput="calc()">
+              <input type="number" id="septic-cost" value="28700" min="5000" max="150000" step="1000" oninput="calc()">
             </div>
           </div>
         </label>
@@ -806,8 +810,8 @@ const PHASE_DEFS = [
   { id:'superstructure', label:'Superstructure / Shell', icon:'🧱',
     desc:'9-inch hollow block masonry walls, RC columns, ring-beams, and lintels over all openings.',
     items:[
-      {id:'blockwork', label:'9" hollow block masonry walls',       basis:'floor',     unit:'m²',    defRate:420},
-      {id:'rcFrame',   label:'RC columns, ring-beams & lintels',   basis:'floor',     unit:'m²',    defRate:330},
+      {id:'blockwork', label:'6" sandcrete block masonry walls',     basis:'floor',     unit:'m²',    defRate:475},
+      {id:'rcFrame',   label:'RC columns, ring-beams & lintels',   basis:'floor',     unit:'m²',    defRate:380},
     ]
   },
   { id:'upperSlab', label:'Upper Floor Concrete Slab', icon:'⬛',
@@ -1755,7 +1759,10 @@ window.calc = function(){
   let extTotal=0;
   if(getChecked('fence'))    extTotal+=getNum('fence-rate',600)*getNum('fence-m',55);
   extTotal += getRadioVal('site-type',20000);
-  extTotal += getRadioVal('wh-type',6500);
+  extTotal += getRadioVal('wh-type',8500);
+  // Show/hide RC flat roof note
+  const rcNote=document.getElementById('rc-roof-note');
+  if(rcNote) rcNote.style.display=(document.querySelector('input[name="roof-type"]:checked')?.id==='roof-rc')?'block':'none';
   if(getChecked('solar'))    extTotal+=getNum('solar-rate',8000)*getNum('solar-kw',5);
   if(getChecked('borehole')) extTotal+=getNum('borehole-cost',30000);
   if(getChecked('septic'))   extTotal+=getNum('septic-cost',42000);

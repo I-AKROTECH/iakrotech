@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgage & Loan Calculator — I-AKROTECH</title>
+<link rel="shortcut icon" href="assets/img/favicon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<style>
+:root {
+  --cr:#A50034;--cr-dk:#6B0020;--cr-dp:#3D0012;
+  --cr-pale:#FFF0F4;--cr-glow:#FF8FA8;
+  --bg:#F5EFED;--surf:#FFFFFF;--surf2:#EDE6E3;
+  --bdr:#DDD4CF;--txt:#1A1014;--txt2:#5E4E55;--txt3:#9A8790;
+  --green:#16a34a;--green-pale:#f0fdf4;
+  --blue:#2563eb;--blue-pale:#eff6ff;
+  --purple:#7c3aed;--purple-pale:#f5f3ff;
+  --amber:#d97706;--amber-pale:#fffbeb;
+  --fd:'Syne',system-ui,sans-serif;
+  --fb:'DM Sans',system-ui,sans-serif;
+  --fm:'DM Mono','Courier New',monospace;
+  --r:9px;--rs:5px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#110810;--surf:#1C1017;--surf2:#251620;--bdr:#3A2430;
+  --txt:#F0E8EE;--txt2:#A88E98;--txt3:#6E5A63;--cr-pale:#2B0A15;
+  --green-pale:#0a1f13;--blue-pale:#0c1a35;--purple-pale:#1a0a2e;--amber-pale:#1c1700;
+}}
+:root[data-theme="dark"]{
+  --bg:#110810;--surf:#1C1017;--surf2:#251620;--bdr:#3A2430;
+  --txt:#F0E8EE;--txt2:#A88E98;--txt3:#6E5A63;--cr-pale:#2B0A15;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--fb);background:var(--bg);color:var(--txt);font-size:14px;line-height:1.6;}
+
+/* ── Header ── */
+.hdr{background:var(--cr-dk);display:flex;align-items:center;justify-content:space-between;padding:13px 24px;position:sticky;top:0;z-index:50;}
+.hdr-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.hdr-logo{font-family:var(--fd);font-weight:800;font-size:15px;color:#fff;letter-spacing:.03em;}
+.hdr-logo span{color:var(--cr-glow);}
+.hdr-sep{width:1px;height:18px;background:rgba(255,255,255,.2);}
+.hdr-tool{font-family:var(--fd);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);}
+.hdr-back{font-size:12px;color:rgba(255,255,255,.55);text-decoration:none;padding:5px 12px;border:1px solid rgba(255,255,255,.2);border-radius:20px;transition:color .2s,border-color .2s;}
+.hdr-back:hover{color:#fff;border-color:rgba(255,255,255,.5);}
+
+/* ── Page ── */
+.page{max-width:1160px;margin:0 auto;padding:28px 18px 60px;}
+.page-title{font-family:var(--fd);font-size:1.6rem;font-weight:800;color:var(--txt);margin-bottom:4px;}
+.page-sub{font-size:13px;color:var(--txt2);margin-bottom:24px;}
+
+/* ── Grid layout ── */
+.calc-grid{display:grid;grid-template-columns:340px 1fr;gap:22px;align-items:start;}
+@media(max-width:840px){.calc-grid{grid-template-columns:1fr;}}
+
+/* ── Panel ── */
+.panel{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:22px 20px;}
+.panel-title{font-family:var(--fd);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--bdr);}
+
+/* ── Form controls ── */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+label{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--txt2);}
+input[type=number],select{width:100%;padding:9px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--surf);color:var(--txt);font-family:var(--fb);font-size:14px;transition:border-color .2s;}
+input[type=number]:focus,select:focus{outline:none;border-color:var(--cr);}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:500px){.field-row{grid-template-columns:1fr;}}
+
+.divider{height:1px;background:var(--bdr);margin:18px 0;}
+
+/* ── Calc button ── */
+.btn-calc{width:100%;background:var(--cr);color:#fff;border:none;border-radius:var(--r);padding:12px 20px;font-family:var(--fd);font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:6px;}
+.btn-calc:hover{background:var(--cr-dk);}
+
+/* ── Summary cards ── */
+.summary-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+@media(max-width:640px){.summary-cards{grid-template-columns:1fr 1fr;}}
+.scard{border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr);}
+.scard .sc-lbl{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px;}
+.scard .sc-val{font-family:var(--fm);font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;}
+.scard.blue{background:var(--blue-pale);}.scard.blue .sc-lbl{color:var(--blue);}.scard.blue .sc-val{color:var(--blue);}
+.scard.green{background:var(--green-pale);}.scard.green .sc-lbl{color:var(--green);}.scard.green .sc-val{color:var(--green);}
+.scard.purple{background:var(--purple-pale);}.scard.purple .sc-lbl{color:var(--purple);}.scard.purple .sc-val{color:var(--purple);}
+.scard.amber{background:var(--amber-pale);}.scard.amber .sc-lbl{color:var(--amber);}.scard.amber .sc-val{color:var(--amber);}
+.scard.red{background:var(--cr-pale);}.scard.red .sc-lbl{color:var(--cr);}.scard.red .sc-val{color:var(--cr);}
+
+/* ── Savings banner ── */
+.savings-banner{display:none;padding:12px 16px;background:var(--green-pale);border:1px solid #bbf7d0;border-radius:var(--r);font-size:13px;color:#15803d;font-weight:500;margin-bottom:14px;}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .savings-banner{background:#0a1f13;border-color:#166534;color:#4ade80;}}
+
+/* ── Chart container ── */
+.chart-wrap{background:var(--surf2);border-radius:var(--r);border:1px solid var(--bdr);padding:16px;height:280px;position:relative;margin-bottom:18px;}
+
+/* ── Export buttons ── */
+.export-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
+.btn-export{flex:1;min-width:160px;padding:10px 14px;border:none;border-radius:var(--r);font-family:var(--fd);font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn-export.xlsx{background:#16a34a;color:#fff;}.btn-export.xlsx:hover{background:#15803d;}
+.btn-export.pdf{background:var(--cr);color:#fff;}.btn-export.pdf:hover{background:var(--cr-dk);}
+
+/* ── Amortization table ── */
+.tbl-wrap{border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;}
+.tbl-scroll{max-height:400px;overflow-y:auto;}
+.amt-tbl{width:100%;border-collapse:collapse;font-size:12.5px;}
+.amt-tbl thead{position:sticky;top:0;background:var(--surf2);z-index:1;}
+.amt-tbl th{padding:9px 10px;text-align:right;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--txt3);border-bottom:2px solid var(--bdr);}
+.amt-tbl th:first-child,.amt-tbl td:first-child{text-align:left;}
+.amt-tbl td{padding:7px 10px;text-align:right;font-family:var(--fm);font-size:12px;color:var(--txt);border-bottom:1px solid var(--bdr);font-variant-numeric:tabular-nums;}
+.amt-tbl tr:nth-child(even) td{background:var(--surf2);}
+.amt-tbl tr:hover td{background:var(--cr-pale);}
+.amt-tbl td.extra{color:var(--green);font-weight:600;}
+.amt-tbl td.empty-extra{color:var(--txt3);}
+.tbl-header{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr);}
+.tbl-header-title{font-family:var(--fd);font-size:13px;font-weight:700;color:var(--txt);}
+.tbl-row-count{font-size:11px;color:var(--txt3);}
+
+/* ── Placeholder ── */
+.placeholder{text-align:center;padding:48px 24px;color:var(--txt3);}
+.placeholder .icon{font-size:48px;margin-bottom:12px;}
+.placeholder p{font-size:13px;}
+
+@media print{
+  .hdr,.export-row,.btn-calc,.panel:first-child{display:none!important;}
+  .calc-grid{grid-template-columns:1fr!important;}
+  body{background:#fff!important;}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <a class="hdr-brand" href="index.html">
+    <div class="hdr-logo">I-<span>AKRO</span>TECH</div>
+    <div class="hdr-sep"></div>
+    <div class="hdr-tool">Mortgage &amp; Loan Calculator</div>
+  </a>
+  <a class="hdr-back" href="index.html">← Company Site</a>
+</header>
+
+<div class="page">
+  <div class="page-title">Mortgage &amp; Loan Calculator</div>
+  <div class="page-sub">Calculate repayments, visualise your amortisation schedule, and model the impact of extra prepayments. Export to Excel or PDF.</div>
+
+  <div class="calc-grid">
+
+    <!-- ── Left: Inputs ── -->
+    <div>
+      <div class="panel">
+        <div class="panel-title">Loan Parameters</div>
+        <div class="field">
+          <label for="loanAmount">Loan Amount (GHS)</label>
+          <input type="number" id="loanAmount" value="1000000" min="1000" step="1000">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="interestRate">Annual Interest Rate (%)</label>
+            <input type="number" id="interestRate" value="15" min="0.1" max="100" step="0.1">
+          </div>
+          <div class="field">
+            <label for="loanTerm">Term (Years)</label>
+            <input type="number" id="loanTerm" value="25" min="1" max="50" step="1">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="panel-title" style="margin-top:0">Extra Prepayments</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="extraAmount">Extra Allowance (GHS)</label>
+            <input type="number" id="extraAmount" value="0" min="0" step="100">
+          </div>
+          <div class="field">
+            <label for="extraFrequency">Frequency</label>
+            <select id="extraFrequency">
+              <option value="12">Monthly</option>
+              <option value="4">Quarterly</option>
+              <option value="1">Yearly</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="lumpSumAmount">Lump Sum (GHS)</label>
+            <input type="number" id="lumpSumAmount" value="0" min="0" step="1000">
+          </div>
+          <div class="field">
+            <label for="lumpSumFrequency">Every N Years</label>
+            <select id="lumpSumFrequency">
+              <option value="1">Every Year</option>
+              <option value="2">Every 2 Years</option>
+              <option value="5">Every 5 Years</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-calc" onclick="runCalc()">Calculate Repayments</button>
+      </div>
+
+      <!-- Quick reference: Accra market rates -->
+      <div class="panel" style="margin-top:16px;">
+        <div class="panel-title">Ghana Mortgage Context</div>
+        <div style="font-size:12px;color:var(--txt2);line-height:1.7;">
+          <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--bdr);"><span>Typical GH bank rate</span><span style="font-family:var(--fm);color:var(--txt);">28–35%</span></div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--bdr);"><span>HFC / GHL mortgage rate</span><span style="font-family:var(--fm);color:var(--txt);">~28–32%</span></div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--bdr);"><span>SSNIT employer-backed</span><span style="font-family:var(--fm);color:var(--txt);">~14–18%</span></div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--bdr);"><span>Diaspora / private lender</span><span style="font-family:var(--fm);color:var(--txt);">10–20%</span></div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>Owner-financed build cost</span><span style="font-family:var(--fm);color:var(--cr);">GHS 1.4M+</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Right: Results ── -->
+    <div>
+      <div id="results-area">
+        <div class="placeholder">
+          <div class="icon">🏦</div>
+          <p>Enter your loan details and press <strong>Calculate Repayments</strong> to see your amortisation schedule.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+let myChart = null;
+let exportData = [];
+
+function fmt(v){
+  return new Intl.NumberFormat('en-GH',{style:'currency',currency:'GHS',maximumFractionDigits:2}).format(+v||0);
+}
+function fmtN(v){ return (Math.round(v)||0).toLocaleString('en-GH'); }
+
+window.runCalc = function(){
+  const principal    = parseFloat(document.getElementById('loanAmount').value)||0;
+  const annualRate   = parseFloat(document.getElementById('interestRate').value)||0;
+  const baseYears    = parseFloat(document.getElementById('loanTerm').value)||0;
+  const extraAmt     = parseFloat(document.getElementById('extraAmount').value)||0;
+  const extraFreq    = parseInt(document.getElementById('extraFrequency').value);
+  const lumpSum      = parseFloat(document.getElementById('lumpSumAmount').value)||0;
+  const lumpSumFreq  = parseInt(document.getElementById('lumpSumFrequency').value);
+
+  const monthlyRate   = (annualRate/100)/12;
+  const totalBaseMo   = baseYears*12;
+
+  let basePayment = 0;
+  if(monthlyRate > 0){
+    basePayment = (principal*monthlyRate)/(1-Math.pow(1+monthlyRate,-totalBaseMo));
+  } else {
+    basePayment = principal/totalBaseMo;
+  }
+
+  // ── Simulate with prepayments ──
+  let balance = principal;
+  let totalInterest = 0, totalExtraPaid = 0;
+  let month = 0;
+  exportData = [];
+  let chartLabels = [], chartBalances = [], chartPrincipalCumulative = [], chartInterestCumulative = [];
+  let cumulPrinc = 0, cumulInterest = 0;
+  let tableRows = '';
+
+  while(balance > 0.01 && month < 600){
+    month++;
+    const interest  = balance * monthlyRate;
+    let   scheduled = basePayment - interest;
+    if(scheduled > balance) scheduled = balance;
+    balance -= scheduled;
+
+    let extra = 0;
+    if(balance > 0.01){
+      if(extraFreq===12 || (extraFreq===4 && month%3===0) || (extraFreq===1 && month%12===0)){
+        extra += extraAmt;
+      }
+      if(month%(lumpSumFreq*12)===0) extra += lumpSum;
+      if(extra > balance) extra = balance;
+      balance -= extra;
+      totalExtraPaid += extra;
+    }
+
+    totalInterest += interest;
+    cumulPrinc    += scheduled + extra;
+    cumulInterest += interest;
+
+    exportData.push({
+      Month: month,
+      'Principal Paid': scheduled.toFixed(2),
+      'Interest Paid':  interest.toFixed(2),
+      'Extra Paid':     extra.toFixed(2),
+      'Total Paid':     (scheduled+interest+extra).toFixed(2),
+      'Remaining Balance': Math.max(0,balance).toFixed(2)
+    });
+
+    chartLabels.push('Mo '+month);
+    chartBalances.push(Math.max(0,balance).toFixed(2));
+    chartPrincipalCumulative.push(cumulPrinc.toFixed(2));
+    chartInterestCumulative.push(cumulInterest.toFixed(2));
+
+    const extraClass = extra > 0 ? 'extra' : 'empty-extra';
+    tableRows += `<tr>
+      <td>${month}</td>
+      <td>${fmt(scheduled)}</td>
+      <td>${fmt(interest)}</td>
+      <td class="${extraClass}">${extra>0?fmt(extra):'—'}</td>
+      <td>${fmt(scheduled+interest+extra)}</td>
+      <td><strong>${fmt(Math.max(0,balance))}</strong></td>
+    </tr>`;
+  }
+
+  // ── Standard scenario (no extra) for comparison ──
+  let stdInterest = 0, stdBal = principal;
+  for(let m=1;m<=totalBaseMo;m++){
+    const i=stdBal*monthlyRate;
+    const p=basePayment-i;
+    stdInterest+=i;
+    stdBal-=p;
+    if(stdBal<=0) break;
+  }
+
+  const dynamicYears  = Math.floor(month/12);
+  const dynamicMonths = month%12;
+
+  // ── Build results HTML ──
+  const hasSaving = totalExtraPaid > 0 && month < totalBaseMo;
+  const savedMo   = totalBaseMo - month;
+  const savedYr   = Math.floor(savedMo/12);
+  const savedMoR  = savedMo%12;
+  const savedInt  = stdInterest - totalInterest;
+
+  let savingsBanner = '';
+  if(hasSaving){
+    savingsBanner = `<div class="savings-banner">
+      🎉 Prepayments save you <strong>${savedYr} yr${savedYr!==1?'s':''} ${savedMoR} mo</strong> and <strong>${fmt(savedInt)}</strong> in interest!
+    </div>`;
+  }
+
+  document.getElementById('results-area').innerHTML = `
+    <div class="summary-cards">
+      <div class="scard blue"><div class="sc-lbl">Base Monthly Payment</div><div class="sc-val">${fmt(basePayment)}</div></div>
+      <div class="scard green"><div class="sc-lbl">Actual Duration</div><div class="sc-val">${dynamicYears}y ${dynamicMonths}m</div></div>
+      <div class="scard purple"><div class="sc-lbl">Total Interest</div><div class="sc-val">${fmt(totalInterest)}</div></div>
+      <div class="scard amber"><div class="sc-lbl">Total Repaid</div><div class="sc-val">${fmt(principal+totalInterest)}</div></div>
+      <div class="scard red"><div class="sc-lbl">Extra Paid</div><div class="sc-val">${totalExtraPaid>0?fmt(totalExtraPaid):'—'}</div></div>
+    </div>
+    ${savingsBanner}
+    <div class="chart-wrap"><canvas id="loanChart"></canvas></div>
+    <div class="export-row">
+      <button class="btn-export xlsx" onclick="doExcelExport()">📁 Export Excel (.xlsx)</button>
+      <button class="btn-export pdf"  onclick="doPdfExport()">📄 Export PDF</button>
+    </div>
+    <div class="tbl-wrap">
+      <div class="tbl-header">
+        <span class="tbl-header-title">Amortisation Schedule</span>
+        <span class="tbl-row-count">${month} months</span>
+      </div>
+      <div class="tbl-scroll">
+        <table class="amt-tbl">
+          <thead><tr>
+            <th>Month</th><th>Principal</th><th>Interest</th><th>Extra</th><th>Total Paid</th><th>Balance</th>
+          </tr></thead>
+          <tbody>${tableRows}</tbody>
+        </table>
+      </div>
+    </div>`;
+
+  // ── Chart ──
+  if(myChart){ myChart.destroy(); }
+  const ctx = document.getElementById('loanChart').getContext('2d');
+
+  // Sample every N months for readability when term is long
+  const step = Math.max(1, Math.floor(month/120));
+  const sampledLabels    = chartLabels.filter((_,i)=>i%step===0);
+  const sampledBalances  = chartBalances.filter((_,i)=>i%step===0);
+
+  myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: sampledLabels,
+      datasets:[{
+        label: 'Remaining Balance (GHS)',
+        data: sampledBalances,
+        borderColor: '#A50034',
+        backgroundColor: 'rgba(165,0,52,0.1)',
+        borderWidth: 2,
+        fill: true,
+        pointRadius: 0,
+        tension: 0.3,
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ labels:{ font:{family:'DM Mono',size:11}, color:'#5E4E55' }}},
+      scales:{
+        y:{ beginAtZero:true, title:{display:true,text:'Balance (GHS)',font:{size:11}},
+            ticks:{ callback:v=>fmtN(v) }},
+        x:{ title:{display:true,text:'Month',font:{size:11}}, grid:{display:false} }
+      }
+    }
+  });
+};
+
+window.doExcelExport = function(){
+  if(!exportData.length){ alert('Run a calculation first.'); return; }
+  const ws = XLSX.utils.json_to_sheet(exportData);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Amortisation');
+  XLSX.writeFile(wb, 'Loan_Amortisation_Schedule.xlsx');
+};
+
+window.doPdfExport = function(){
+  if(!exportData.length){ alert('Run a calculation first.'); return; }
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF('p','pt','a4');
+  doc.setFontSize(18);
+  doc.setTextColor(165,0,52);
+  doc.text('I-AKROTECH · Loan Amortisation Report', 40, 45);
+  doc.setFontSize(10);
+  doc.setTextColor(94,78,85);
+  const loanAmt  = document.getElementById('loanAmount').value;
+  const rate     = document.getElementById('interestRate').value;
+  const term     = document.getElementById('loanTerm').value;
+  doc.text(`Loan: GHS ${(+loanAmt).toLocaleString('en-GH')}   Rate: ${rate}%   Term: ${term} years`, 40, 65);
+  const rows = exportData.map(r=>[
+    r.Month, fmt(r['Principal Paid']), fmt(r['Interest Paid']),
+    +r['Extra Paid']>0?fmt(r['Extra Paid']):'—', fmt(r['Total Paid']), fmt(r['Remaining Balance'])
+  ]);
+  doc.autoTable({
+    head:[['Month','Principal','Interest','Extra','Total Paid','Balance']],
+    body: rows, startY:85,
+    theme:'striped',
+    headStyles:{fillColor:[165,0,52]},
+    styles:{fontSize:8},
+    margin:{left:40,right:40}
+  });
+  doc.save('I-AKROTECH_Loan_Report.pdf');
+};
+
+// Auto-run on load
+document.addEventListener('DOMContentLoaded', runCalc);
+})();
+</script>
+</body>
+</html>
