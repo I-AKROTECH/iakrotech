@@ -28,26 +28,48 @@
 body{font-family:var(--fb);background:var(--bg);color:var(--txt);font-size:14px;line-height:1.6;}
 
 /* ── Header ── */
-.hdr{background:var(--cr-dk);display:flex;align-items:center;justify-content:space-between;padding:13px 24px;position:sticky;top:0;z-index:50;}
-.hdr-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.hdr-logo{font-family:var(--fd);font-weight:800;font-size:15px;color:#fff;letter-spacing:.03em;}
+.hdr{background:var(--cr-dk);display:flex;align-items:center;justify-content:space-between;padding:11px 16px;position:sticky;top:0;z-index:50;gap:8px;}
+.hdr-brand{display:flex;align-items:center;gap:8px;text-decoration:none;min-width:0;overflow:hidden;}
+.hdr-logo{font-family:var(--fd);font-weight:800;font-size:15px;color:#fff;letter-spacing:.03em;white-space:nowrap;flex-shrink:0;}
 .hdr-logo span{color:var(--cr-glow);}
-.hdr-sep{width:1px;height:18px;background:rgba(255,255,255,.2);}
-.hdr-tool{font-family:var(--fd);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);}
-.hdr-back{font-size:12px;color:rgba(255,255,255,.55);text-decoration:none;padding:5px 12px;border:1px solid rgba(255,255,255,.2);border-radius:20px;transition:color .2s,border-color .2s;}
-.hdr-back:hover{color:#fff;border-color:rgba(255,255,255,.5);}
+.hdr-sep{width:1px;height:18px;background:rgba(255,255,255,.2);flex-shrink:0;}
+.hdr-tool{font-family:var(--fd);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hdr-back{font-size:12px;color:rgba(255,255,255,.7);text-decoration:none;padding:6px 12px;border:1px solid rgba(255,255,255,.25);border-radius:20px;transition:color .2s,border-color .2s,background .2s;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:5px;}
+.hdr-back:hover{color:#fff;border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.1);}
+.hdr-back-txt{display:inline;}
+@media(max-width:520px){
+  .hdr{padding:10px 12px;}
+  .hdr-sep,.hdr-tool{display:none;}
+  .hdr-back{padding:6px 10px;border-radius:8px;}
+  .hdr-back-txt{display:none;}
+  .hdr-back-arrow{font-size:15px;line-height:1;}
+}
 
 /* ── Layout ── */
 .wrap{display:grid;grid-template-columns:1fr 370px;min-height:calc(100vh - 46px);}
 @media(max-width:860px){
   .wrap{grid-template-columns:1fr;}
   .results{position:static;height:auto;}
-  .wizard-panel{padding:18px 14px 32px;}
-  .step-title{font-size:1.2rem;}
+  .wizard-panel{padding:16px 12px 32px;}
+  .step-title{font-size:1.15rem;}
   .wiz-node span{display:none;}
   .opt-group{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));}
   .bath-spec .bath-opts{flex-wrap:wrap;}
   .field-row{grid-template-columns:1fr;}
+  .phase-tbl{font-size:11px;}
+  .phase-body{padding:10px 10px 12px;overflow-x:auto;}
+  .pi-rate{width:64px;}
+  .pi-qty-inp{width:50px;}
+  .room-row{gap:5px;}
+  .room-type-sel,.room-finish-sel{min-width:0;font-size:12px;}
+  .room-area{width:56px;}
+  .qty-grid{grid-template-columns:1fr 1fr;}
+  .results{padding:20px 14px;}
+  .res-total{font-size:1.8rem;}
+}
+@media(max-width:400px){
+  .opt-group{grid-template-columns:1fr 1fr;}
+  .hdr-logo{font-size:13px;}
 }
 
 /* ── Wizard panel ── */
@@ -343,7 +365,7 @@ select:focus,input:focus{outline:none;border-color:var(--cr);}
     <div class="hdr-sep"></div>
     <div class="hdr-tool">Build Cost Estimator</div>
   </a>
-  <a class="hdr-back" href="index.html">← Company Site</a>
+  <a class="hdr-back" href="index.html"><span class="hdr-back-arrow">←</span><span class="hdr-back-txt"> Company Site</span></a>
 </header>
 
 <div class="wrap">

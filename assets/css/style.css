@@ -3213,7 +3213,39 @@ body.brand-theme a:hover {
 
 @media (max-width: 768px) {
   .ft-preview-materials {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .ft-mat {
+    flex: 1 1 calc(33% - 8px);
+    min-width: 90px;
+  }
+  .featured-tool {
+    padding: 48px 0;
+  }
+  .ft-total-amount {
+    font-size: 1.2rem;
+  }
+  .ft-preview-card {
+    margin-top: 16px;
+  }
+}
+@media (max-width: 480px) {
+  .featured-tool {
+    padding: 36px 0;
+  }
+  .ft-heading {
+    font-size: 1.4rem;
+  }
+  .ft-total-amount {
+    font-size: 1.05rem;
+  }
+  .ft-preview-badge {
+    font-size: 0.75rem;
+  }
+  .btn-ft-launch {
+    width: 100%;
+    justify-content: center;
   }
 }
 
