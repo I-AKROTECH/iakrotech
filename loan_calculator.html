@@ -38,35 +38,48 @@
 body{font-family:var(--fb);background:var(--bg);color:var(--txt);font-size:14px;line-height:1.6;}
 
 /* ── Header ── */
-.hdr{background:var(--cr-dk);display:flex;align-items:center;justify-content:space-between;padding:13px 24px;position:sticky;top:0;z-index:50;}
-.hdr-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.hdr-logo{font-family:var(--fd);font-weight:800;font-size:15px;color:#fff;letter-spacing:.03em;}
+.hdr{background:var(--cr-dk);display:flex;align-items:center;justify-content:space-between;padding:11px 16px;position:sticky;top:0;z-index:50;gap:8px;}
+.hdr-brand{display:flex;align-items:center;gap:8px;text-decoration:none;min-width:0;overflow:hidden;}
+.hdr-logo{font-family:var(--fd);font-weight:800;font-size:15px;color:#fff;letter-spacing:.03em;white-space:nowrap;flex-shrink:0;}
 .hdr-logo span{color:var(--cr-glow);}
-.hdr-sep{width:1px;height:18px;background:rgba(255,255,255,.2);}
-.hdr-tool{font-family:var(--fd);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);}
-.hdr-back{font-size:12px;color:rgba(255,255,255,.55);text-decoration:none;padding:5px 12px;border:1px solid rgba(255,255,255,.2);border-radius:20px;transition:color .2s,border-color .2s;}
-.hdr-back:hover{color:#fff;border-color:rgba(255,255,255,.5);}
+.hdr-sep{width:1px;height:18px;background:rgba(255,255,255,.2);flex-shrink:0;}
+.hdr-tool{font-family:var(--fd);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hdr-back{font-size:12px;color:rgba(255,255,255,.7);text-decoration:none;padding:6px 12px;border:1px solid rgba(255,255,255,.25);border-radius:20px;transition:color .2s,border-color .2s,background .2s;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:5px;}
+.hdr-back:hover{color:#fff;border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.1);}
+.hdr-back-txt{display:inline;}
+@media(max-width:520px){
+  .hdr{padding:10px 12px;}
+  .hdr-sep,.hdr-tool{display:none;}
+  .hdr-back{padding:6px 10px;border-radius:8px;}
+  .hdr-back-txt{display:none;}
+  .hdr-back-arrow{font-size:15px;line-height:1;}
+}
 
 /* ── Page ── */
-.page{max-width:1160px;margin:0 auto;padding:28px 18px 60px;}
-.page-title{font-family:var(--fd);font-size:1.6rem;font-weight:800;color:var(--txt);margin-bottom:4px;}
-.page-sub{font-size:13px;color:var(--txt2);margin-bottom:24px;}
+.page{max-width:1160px;margin:0 auto;padding:22px 14px 60px;}
+.page-title{font-family:var(--fd);font-size:1.4rem;font-weight:800;color:var(--txt);margin-bottom:4px;}
+.page-sub{font-size:13px;color:var(--txt2);margin-bottom:22px;}
+@media(max-width:520px){
+  .page{padding:16px 12px 48px;}
+  .page-title{font-size:1.15rem;}
+  .page-sub{font-size:12px;margin-bottom:16px;}
+}
 
 /* ── Grid layout ── */
 .calc-grid{display:grid;grid-template-columns:340px 1fr;gap:22px;align-items:start;}
 @media(max-width:840px){.calc-grid{grid-template-columns:1fr;}}
 
 /* ── Panel ── */
-.panel{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:22px 20px;}
-.panel-title{font-family:var(--fd);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--bdr);}
+.panel{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:18px 16px;}
+.panel-title{font-family:var(--fd);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--bdr);}
 
 /* ── Form controls ── */
-.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
 label{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--txt2);}
-input[type=number],select{width:100%;padding:9px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--surf);color:var(--txt);font-family:var(--fb);font-size:14px;transition:border-color .2s;}
+input[type=number],select{width:100%;padding:8px 10px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--surf);color:var(--txt);font-family:var(--fb);font-size:14px;transition:border-color .2s;}
 input[type=number]:focus,select:focus{outline:none;border-color:var(--cr);}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:500px){.field-row{grid-template-columns:1fr;}}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:480px){.field-row{grid-template-columns:1fr;}}
 
 .divider{height:1px;background:var(--bdr);margin:18px 0;}
 
@@ -75,8 +88,9 @@ input[type=number]:focus,select:focus{outline:none;border-color:var(--cr);}
 .btn-calc:hover{background:var(--cr-dk);}
 
 /* ── Summary cards ── */
-.summary-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+.summary-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
 @media(max-width:640px){.summary-cards{grid-template-columns:1fr 1fr;}}
+@media(max-width:360px){.summary-cards{grid-template-columns:1fr;}}
 .scard{border-radius:var(--r);padding:14px 16px;border:1px solid var(--bdr);}
 .scard .sc-lbl{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px;}
 .scard .sc-val{font-family:var(--fm);font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;}
@@ -94,26 +108,32 @@ input[type=number]:focus,select:focus{outline:none;border-color:var(--cr);}
 .chart-wrap{background:var(--surf2);border-radius:var(--r);border:1px solid var(--bdr);padding:16px;height:280px;position:relative;margin-bottom:18px;}
 
 /* ── Export buttons ── */
-.export-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
-.btn-export{flex:1;min-width:160px;padding:10px 14px;border:none;border-radius:var(--r);font-family:var(--fd);font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.export-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+.btn-export{flex:1;min-width:140px;padding:10px 12px;border:none;border-radius:var(--r);font-family:var(--fd);font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:6px;}
 .btn-export.xlsx{background:#16a34a;color:#fff;}.btn-export.xlsx:hover{background:#15803d;}
 .btn-export.pdf{background:var(--cr);color:#fff;}.btn-export.pdf:hover{background:var(--cr-dk);}
+@media(max-width:400px){
+  .btn-export{font-size:12px;padding:9px 10px;min-width:120px;}
+  .scard .sc-val{font-size:14px;}
+}
 
 /* ── Amortization table ── */
 .tbl-wrap{border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;}
-.tbl-scroll{max-height:400px;overflow-y:auto;}
-.amt-tbl{width:100%;border-collapse:collapse;font-size:12.5px;}
+.tbl-scroll{max-height:420px;overflow-y:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.amt-tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:12.5px;}
 .amt-tbl thead{position:sticky;top:0;background:var(--surf2);z-index:1;}
-.amt-tbl th{padding:9px 10px;text-align:right;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--txt3);border-bottom:2px solid var(--bdr);}
+.amt-tbl th{padding:9px 8px;text-align:right;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--txt3);border-bottom:2px solid var(--bdr);white-space:nowrap;}
 .amt-tbl th:first-child,.amt-tbl td:first-child{text-align:left;}
-.amt-tbl td{padding:7px 10px;text-align:right;font-family:var(--fm);font-size:12px;color:var(--txt);border-bottom:1px solid var(--bdr);font-variant-numeric:tabular-nums;}
+.amt-tbl td{padding:7px 8px;text-align:right;font-family:var(--fm);font-size:12px;color:var(--txt);border-bottom:1px solid var(--bdr);font-variant-numeric:tabular-nums;white-space:nowrap;}
 .amt-tbl tr:nth-child(even) td{background:var(--surf2);}
 .amt-tbl tr:hover td{background:var(--cr-pale);}
 .amt-tbl td.extra{color:var(--green);font-weight:600;}
 .amt-tbl td.empty-extra{color:var(--txt3);}
-.tbl-header{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr);}
+.tbl-header{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr);}
 .tbl-header-title{font-family:var(--fd);font-size:13px;font-weight:700;color:var(--txt);}
 .tbl-row-count{font-size:11px;color:var(--txt3);}
+.tbl-mobile-hint{display:none;font-size:11px;color:var(--txt3);padding:6px 14px;background:var(--surf2);border-bottom:1px solid var(--bdr);}
+@media(max-width:540px){.tbl-mobile-hint{display:block;}}
 
 /* ── Placeholder ── */
 .placeholder{text-align:center;padding:48px 24px;color:var(--txt3);}
@@ -135,7 +155,7 @@ input[type=number]:focus,select:focus{outline:none;border-color:var(--cr);}
     <div class="hdr-sep"></div>
     <div class="hdr-tool">Mortgage &amp; Loan Calculator</div>
   </a>
-  <a class="hdr-back" href="index.html">← Company Site</a>
+  <a class="hdr-back" href="index.html"><span class="hdr-back-arrow">←</span><span class="hdr-back-txt"> Company Site</span></a>
 </header>
 
 <div class="page">
@@ -357,6 +377,7 @@ window.runCalc = function(){
         <span class="tbl-header-title">Amortisation Schedule</span>
         <span class="tbl-row-count">${month} months</span>
       </div>
+      <div class="tbl-mobile-hint">← Scroll horizontally to see all columns</div>
       <div class="tbl-scroll">
         <table class="amt-tbl">
           <thead><tr>
